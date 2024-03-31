@@ -4,7 +4,7 @@
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = userSettings.username;
-  home.homeDirectory = "/home/keshav";
+  home.homeDirectory = "/home/${userSettings.username}";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -783,33 +783,39 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
     userEmail = userSettings.useremail;
   };
 
-  services.mako = {
-    enable = true;
-    sort = "-time";
-    layer = "overlay";
-    backgroundColor = "#1e1e1e";
-    textColor = "#d4d4d4";
-    width = 300;
-    height = 110;
-    borderSize = 2;
-    borderColor = "#88c0d0";
-    borderRadius = 15;
-    icons = false;
-    maxIconSize = 64;
-    defaultTimeout = 5000;
-    ignoreTimeout = true;
-    font = "JetBrainsMono Nerd Font 14";
-    extraConfig = ''
-    [urgency=low]
-    border-color=#f0c674
-    
-    [urgency=normal]
-    border-color=#569cd6
-    
-    [urgency=high]
-    border-color=#f44747
-    default-timeout=59000
+  services = {
+    mako = {
+      enable = true;
+      sort = "-time";
+      layer = "overlay";
+      backgroundColor = "#1e1e1e";
+      textColor = "#d4d4d4";
+      width = 300;
+      height = 110;
+      borderSize = 2;
+      borderColor = "#88c0d0";
+      borderRadius = 15;
+      icons = false;
+      maxIconSize = 64;
+      defaultTimeout = 5000;
+      ignoreTimeout = true;
+      font = "JetBrainsMono Nerd Font 14";
+      extraConfig = ''
+      [urgency=low]
+      border-color=#f0c674
+      
+      [urgency=normal]
+      border-color=#569cd6
+      
+      [urgency=high]
+      border-color=#f44747
+      default-timeout=59000
     '';
+    };
+
+    syncthing = {
+      enable = true;
+    };
   };
 
   programs.yazi = {
