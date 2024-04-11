@@ -37,7 +37,7 @@
     bat htop neofetch eza direnv
     tofi rofi-wayland waybar networkmanager_dmenu
     foot firefox brave lxqt.pcmanfm-qt
-    onlyoffice-bin lxqt.lxqt-archiver nomacs gimp emacs signal-desktop xournalpp
+    onlyoffice-bin lxqt.lxqt-archiver nomacs gimp emacs-gtk signal-desktop xournalpp
     unzip pulseaudio lxqt.pavucontrol-qt jq 
     python311Packages.python-lsp-server python311Packages.ipython 
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "CascadiaCode" ]; })
