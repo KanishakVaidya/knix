@@ -70,7 +70,7 @@
   programs.foot = {
     enable = true;
     settings = {
-      main = {font = "FiraCode Nerd Font :size=16";};
+      main = {font = "JetBrainsMono Nerd Font :size=16";};
       colors = {
         alpha = "0.9";
         background = "1e1e1e";
