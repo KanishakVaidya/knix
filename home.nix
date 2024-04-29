@@ -40,7 +40,7 @@
     onlyoffice-bin lxqt.lxqt-archiver nomacs gimp emacs-gtk signal-desktop xournalpp
     unzip pulseaudio lxqt.pavucontrol-qt jq 
     python311Packages.python-lsp-server python311Packages.ipython 
-    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "CascadiaCode" ]; })
+    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "CascadiaCode" "FiraCode" ]; })
     texliveFull texlab
     libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct libnotify wl-clipboard swaybg hyprlock
     # Screenshot
@@ -70,7 +70,7 @@
   programs.foot = {
     enable = true;
     settings = {
-      main = {font = "JetBrainsMono Nerd Font :size=16";};
+      main = {font = "FiraCode Nerd Font :size=16";};
       colors = {
         alpha = "0.9";
         background = "1e1e1e";
