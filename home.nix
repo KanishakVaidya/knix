@@ -1,4 +1,4 @@
-{ config, pkgs, userSettings, ... }:
+{ self, config, pkgs, userSettings, inputs, system, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -17,7 +17,7 @@
   
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
+  home.packages = (with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -46,7 +46,7 @@
     # Screenshot
     grim slurp swappy
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
-  ];
+  ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]);
 
   programs.btop = {
     enable = true;

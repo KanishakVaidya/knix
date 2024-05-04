@@ -8,12 +8,13 @@
       url = "github:nix-community/home-manager/";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-alien.url = "github:thiagokokada/nix-alien";
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = inputs@{self, ...}:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = inputs.nixpkgs.legacyPackages.${system};
       systemSettings = {
         hostname = "knix";
       };
@@ -23,7 +24,7 @@
       };
     in {
       nixosConfigurations = {
-        knix = nixpkgs.lib.nixosSystem {
+        knix = inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [ ./configuration.nix ];
           specialArgs = {
@@ -31,11 +32,11 @@
           };
         };
       };
-      homeConfigurations.keshav = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.keshav = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [./home.nix];
         extraSpecialArgs = {
-          inherit userSettings;
+          inherit self userSettings inputs system;
         };
       };
     };
