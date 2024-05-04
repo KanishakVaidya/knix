@@ -34,7 +34,7 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    bat htop neofetch eza direnv
+    bat htop freshfetch eza direnv
     tofi rofi-wayland waybar networkmanager_dmenu
     foot firefox brave lxqt.pcmanfm-qt
     onlyoffice-bin lxqt.lxqt-archiver nomacs gimp emacs-gtk signal-desktop xournalpp
