@@ -97,7 +97,7 @@
     isNormalUser = true;
     description = "keshav";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "video" "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
 
