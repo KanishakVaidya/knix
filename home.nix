@@ -267,7 +267,7 @@
 
   qt = {
     enable = true;
-    platformTheme = "qtct";
+    platformTheme.name = "qtct";
     style.package = pkgs.materia-kde-theme;
     style.name = "kvantum";
   };
