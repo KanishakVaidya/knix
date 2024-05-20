@@ -269,7 +269,7 @@
     enable = true;
     platformTheme.name = "qtct";
     style = "kvantum";
-    style.package = pkgs.materia-kde-theme;
+    # style.package = pkgs.materia-kde-theme;
   };
 
   wayland.windowManager.hyprland = {
