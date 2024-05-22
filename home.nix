@@ -42,7 +42,8 @@
     python311Packages.python-lsp-server python311Packages.ipython 
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "CascadiaCode" "FiraCode" ]; })
     texliveFull texlab
-    libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct libnotify wl-clipboard swaybg hyprlock
+    libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct qt6Packages.qtstyleplugin-kvantum qt6Packages.qt6ct
+    libnotify wl-clipboard swaybg hyprlock
     # Screenshot
     grim slurp swappy
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
@@ -101,8 +102,6 @@
     target = ".config/doom";
     recursive = true;
   };
-
-  # programs.swaylock.enable = true;
 
   programs.mpv = {
     enable = true;
@@ -267,10 +266,10 @@
 
   qt = {
     enable = true;
-    platformTheme.name = "qt5ct";
+    platformTheme.name = "qtct";
     style = {
-      name = "kvantum";
       package = pkgs.materia-kde-theme;
+      name = "kvantum";
     };
   };
 
@@ -664,13 +663,13 @@ submap=reset
 
 
 # FREQUENT APPS
-bind=$mainMod,o,submap,(1)Signal, (2)SMPlayer, (3)OBS, (4) Virt Manager
+bind=$mainMod,o,submap,(1)Signal, (2)MPV, (3)OBS, (4) ReVolt
 
-submap=(1)Signal, (2)SMPlayer, (3)OBS, (4) Virt Manager
+submap=(1)Signal, (2)MPV, (3)OBS, (4) ReVolt
 bind=,1,exec,signal-desktop
-bind=,2,exec,smplayer
+bind=,2,exec,mpv
 bind=,3,exec,obs
-bind=,4,exec,virt-manager
+bind=,4,exec,(cd ~/pc/games/rvgl_full_linux_original; NIX_LD_LIBRARY_PATH=./lib/lib64 nix-alien-ld ./rvgl.64)
 
 bind=,1,submap,reset
 bind=,2,submap,reset
@@ -943,7 +942,7 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    QT_QPA_PLATFORMTHEME = "qt5ct";
+    # QT_QPA_PLATFORMTHEME = "qt5ct";
   };
 
   # Let Home Manager install and manage itself.
