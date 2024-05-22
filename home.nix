@@ -273,6 +273,35 @@
     };
   };
 
+  xdg.configFile = {
+    kvantum = {
+      target = "Kvantum/kvantum.kvconfig";
+      text = lib.generators.toINI { } {
+        General.theme = "MateriaDark";
+      };
+    };
+
+    qt5ct = {
+      target = "qt5ct/qt5ct.conf";
+      text = lib.generators.toINI { } {
+        Appearance = {
+          icon_theme = "Papirus-Dark";
+          style = "kvantum";
+        };
+      };
+    };
+
+    qt6ct = {
+      target = "qt6ct/qt6ct.conf";
+      text = lib.generators.toINI { } {
+        Appearance = {
+          icon_theme = "Papirus-Dark";
+          style = "kvantum";
+        };
+      };
+    };
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
