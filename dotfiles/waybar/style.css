@@ -1,0 +1,266 @@
+* {
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: JetBrainsMono Nerd Font, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+
+window#waybar {
+    background-color: rgba(0 , 0 , 0 , 1.0);
+    /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
+    color: #ffffff;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/*
+window#waybar.empty {
+    background-color: transparent;
+}
+window#waybar.solo {
+    background-color: #FFFFFF;
+}
+*/
+
+window#waybar.termite {
+    background-color: #3F3F3F;
+}
+
+window#waybar.chromium {
+    background-color: #000000;
+    border: none;
+}
+
+button {
+    box-shadow: inset 0 -3px transparent;
+    border: none;
+    border-radius: 0;
+}
+
+button:hover {
+    background: inherit;
+    box-shadow: inset 0 -3px #ffffff;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#mpd {
+    padding: 0 10px;
+    margin: 0 3px;
+    color: #ffffff;
+}
+
+#window,
+#workspaces {
+    margin: 0 4px;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0;
+}
+
+@define-color myBackground #1e1e1e;
+@define-color myInactiveBG #404040;
+@define-color myCyan #9cdcfe;
+@define-color myRed  #f44747;
+@define-color myYellow  #d7ba7d;
+@define-color myBYellow  #f0c676;
+@define-color myMagenta  #c586c0;
+@define-color myGreen  #8fbcbb;
+
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: #fff;
+}
+
+/* #workspaces button.focused { */
+/*     background-color: #64727D; */
+/*     box-shadow: inset 0 -3px #ffffff; */
+/* } */
+
+#workspaces button:hover {
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: none;
+}
+
+#workspaces button.urgent {
+    border-radius: 15px;
+    background-color: @myRed;
+    color: #000;
+}
+
+#workspaces button.visible {
+    border-radius: 15px;
+    background-color: @myInactiveBG;
+}
+
+#workspaces button.active {
+    border-radius: 15px;
+    background-color: @myCyan;
+    color: #000;
+}
+
+/* #workspaces button.empty { */
+/*     background-color: #444444; */
+/* } */
+
+#submap {
+    color: @myBackground;
+    background-color: @myYellow;
+    border-radius: 15px;
+    padding: 0px 10px 0px 10px;
+}
+
+#window {
+    border-radius: 15px;
+    color: @myGreen;
+    background-color: @myBackground;
+    padding: 0px 10px 0px 10px;
+}
+
+window#waybar.empty #window {
+    padding: 0px 0px 0px 0px;
+}
+
+#custom-myLang {
+    padding: 0px 5px;
+    color: @myRed;
+    border-bottom: 3px solid @myRed;
+}
+
+#custom-myLang.capson {
+    color: @myBackground;
+    background: @myRed;
+}
+
+#custom-myVolume {
+    color: @myMagenta;
+    border-bottom: 3px solid @myMagenta;
+}
+
+#custom-myBrightness {
+    color: @myBYellow;
+    border-bottom: 3px solid @myBYellow;
+}
+
+#custom-myBattery {
+    color: #d4d4d4;
+    border-bottom: 3px solid #d4d4d4;
+}
+
+#custom-myBattery.charging {
+    color: #569cd6;
+    border-bottom: 3px solid #569cd6;
+}
+
+
+#custom-myBattery.gt0 {
+    color: #608b4e;
+    border-bottom: 3px solid #608b4e;
+}
+
+#custom-myBattery.gt9 {
+    color: #608b4e;
+    border-bottom: 3px solid #608b4e;
+}
+
+#custom-myBattery.gt8 {
+    color: #7d9756;
+    border-bottom: 3px solid #7d9756;
+}
+
+#custom-myBattery.gt7 {
+    color: #9ca45e;
+    border-bottom: 3px solid #9ca45e;
+}
+
+#custom-myBattery.gt6 {
+    color: #bab066;
+    border-bottom: 3px solid #bab066;
+}
+
+#custom-myBattery.gt5 {
+    color: #d7bc6d;
+    border-bottom: 3px solid #d7bc6d;
+}
+
+#custom-myBattery.gt4 {
+    color: #f0c172;
+    border-bottom: 3px solid #f0c172;
+}
+
+#custom-myBattery.gt3 {
+    color: #f19663;
+    border-bottom: 3px solid #f19663;
+}
+
+#custom-myBattery.gt2 {
+    color: #f37055;
+    border-bottom: 3px solid #f37055;
+}
+
+#custom-myBattery.gt1 {
+    color: #f37055;
+    border-bottom: 3px solid #f37055;
+}
+
+@keyframes blink {
+    to {
+        background-color: #f53c3c;
+        color: #000;
+    }
+}
+
+#custom-myBattery.critical {
+    color: #f53c3c;
+    border-bottom: 3px solid #f53c3c;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#clock {
+    color: @myCyan;
+    border-bottom: 3px solid @myCyan;
+}
+
+#custom-myinternet.disconnected {
+    color: #666666;
+}
+
+#tray {
+    background-color: @myBackground;
+}
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: @myRed;
+}

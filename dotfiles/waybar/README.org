@@ -1,0 +1,1103 @@
+#+title: Waybar config and scripts
+#+startup: showall
+#+options: toc:1
+
+* Table of Content :TOC:
+- [[#installation][Installation]]
+- [[#top-level-configuration][Top level Configuration]]
+  - [[#basic-config][Basic config]]
+  - [[#definig-the-modules][Definig the modules]]
+- [[#workspace-module][Workspace Module]]
+  - [[#the-configuration][The Configuration]]
+  - [[#the-css][The CSS]]
+- [[#submap-module][Submap Module]]
+- [[#window-module][Window Module]]
+  - [[#config][config]]
+  - [[#css][CSS]]
+- [[#custom-language][Custom Language]]
+  - [[#config-1][config]]
+  - [[#script][Script]]
+  - [[#css-1][CSS]]
+- [[#custom-volume][Custom Volume]]
+  - [[#config-2][config]]
+  - [[#script-1][script]]
+  - [[#css-2][CSS]]
+- [[#custom-backlight][Custom Backlight]]
+  - [[#config-3][config]]
+  - [[#script-2][script]]
+  - [[#css-3][CSS]]
+- [[#custom-battery][Custom Battery]]
+  - [[#config-4][Config]]
+  - [[#script-3][Script]]
+  - [[#css-4][CSS]]
+- [[#clock][Clock]]
+  - [[#config-5][Config]]
+  - [[#css-5][CSS]]
+- [[#custom-network][Custom Network]]
+  - [[#config-6][config]]
+  - [[#script-4][Script]]
+  - [[#css-6][CSS]]
+- [[#tray][Tray]]
+  - [[#config-7][Config]]
+  - [[#css-7][CSS]]
+- [[#other-modules][Other Modules]]
+  - [[#networking-module][Networking Module]]
+  - [[#battery][Battery]]
+  - [[#pulseaudio-module][Pulseaudio Module]]
+  - [[#backlight][Backlight]]
+  - [[#these-ive-never-used][These I've never used]]
+
+* Installation
+For using waybar with hyprland, usual ~waybar~ package is not working. ~waybar-hyprland-git~ from AUR is required.
+* Top level Configuration
+To configure waybar, 2 files are required,
++ ~~/.config/waybar/config~: We define all modules and their outputs
++ ~~/.config/waybar/style.css~: The modules are formatted (colors, borders etc.)
+** Basic config
+*** Basic bar parameters
+These options are default, so not putting in the config:
+#+begin_src js
+    "position": "bottom", // Waybar position (top|bottom|left|right)
+    "width": 1280, // Waybar width
+#+end_src
+Describing the height and spacing of modules
+#+begin_src js :tangle config
+{
+    "height": 30, // Waybar height (to be removed for auto height)
+    "spacing": 8, // Gaps between modules (4px)
+    "layer": "top", // Waybar at top layer
+#+end_src
+*** Basic CSS for the bar
+Here we define the basic CSS of waybar:
+#+begin_src css :tangle style.css
+,* {
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: JetBrainsMono Nerd Font, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+
+window#waybar {
+    background-color: rgba(0 , 0 , 0 , 1.0);
+    /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
+    color: #ffffff;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/*
+window#waybar.empty {
+    background-color: transparent;
+}
+window#waybar.solo {
+    background-color: #FFFFFF;
+}
+,*/
+
+window#waybar.termite {
+    background-color: #3F3F3F;
+}
+
+window#waybar.chromium {
+    background-color: #000000;
+    border: none;
+}
+
+#+end_src
+** Definig the modules
+*** Modules arrangement
+#+begin_src js :tangle config
+    "modules-left": ["hyprland/window", "hyprland/submap"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["custom/myLang" , "custom/myBrightness", "custom/myVolume", "custom/myBattery", "clock", "custom/myinternet", "tray"],
+#+end_src
+*** Common CSS for all the modules
++ Use box-shadow instead of border so the text isn't offset.
++ Avoid rounded borders under each button name
++ [[https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect][Workspace button have strange hover effect]]
+#+begin_src js :tangle style.css
+button {
+    box-shadow: inset 0 -3px transparent;
+    border: none;
+    border-radius: 0;
+}
+
+button:hover {
+    background: inherit;
+    box-shadow: inset 0 -3px #ffffff;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#mpd {
+    padding: 0 10px;
+    margin: 0 3px;
+    color: #ffffff;
+}
+
+#window,
+#workspaces {
+    margin: 0 4px;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0;
+}
+#+end_src
+*** Defining colors
+#+begin_src css :tangle style.css
+@define-color myBackground #1e1e1e;
+@define-color myInactiveBG #404040;
+@define-color myCyan #9cdcfe;
+@define-color myRed  #f44747;
+@define-color myYellow  #d7ba7d;
+@define-color myBYellow  #f0c676;
+@define-color myMagenta  #c586c0;
+@define-color myGreen  #8fbcbb;
+#+end_src
+Everforest scheme
+#+begin_src css
+@define-color myBackground #2b3836;
+@define-color myForeground #d8dee9;
+@define-color myCyan #a3be8c;
+@define-color myRed #bf616a;
+@define-color myBYellow #d08770;
+@define-color myYellow #ebcb8b;
+@define-color myGreen #a3be8c;
+@define-color myBlue #8fbcbb;
+@define-color myInactiveBG #81a1c1;
+@define-color myMagenta #b48ead;
+#+end_src
+
+* Workspace Module
+** The Configuration
++ To use the workspaces module, replace all the references to ~sway/workspaces~ with ~wlr/workspaces~.
++ Clicking and scrolling still not working. Might need to follow the [[https://wiki.hyprland.org/hyprland-wiki/pages/Useful-Utilities/Status-Bars/][following steps]] (will do later maybe)
+  #+begin_src shell
+sed -i -e 's/zext_workspace_handle_v1_activate(workspace_handle_);/const std::string command = "hyprctl dispatch workspace " + name_;\n\tsystem(command.c_str());/g' src/modules/wlr/workspace_manager.cpp
+meson --prefix=/usr --buildtype=plain --auto-features=enabled --wrap-mode=nodownload build
+meson configure -Dexperimental=true build
+sudo ninja -C build install
+  #+end_src
+
+  The workspace module config:
+#+begin_src js
+  "wlr/workspaces": {
+      "disable-scroll": false,
+      "all-outputs": false,
+      "format": " {name} : {icon} ",
+      "format-icons": {
+          "1": "",
+          "2": "",
+          "3": "",
+          "4": "",
+          "5": "",
+          "6": "",
+          "7": "",
+          "8": "",
+          "9": "",
+          "urgent": "",
+          "focused": "",
+          "default": ""
+      },
+      "on-click": "activate",
+      "on-scroll-up": "hyprctl dispatch workspace e+1",
+      "on-scroll-down": "hyprctl dispatch workspace e-1",
+      "sort-by-number": true,
+  },
+#+end_src
+
+Seeing new hyprland workspace in waybar wiki
+#+begin_src js :tangle config
+  "hyprland/workspaces": {
+      "all-outputs": false,
+      "format": "{name}",
+      "format-icons": {
+          "1": "",
+          "2": "",
+          "3": "",
+          "4": "",
+          "5": "",
+          "6": "",
+          "7": "",
+          "8": "",
+          "9": "󰇮",
+          "urgent": "",
+          "focused": "",
+          "default": ""
+      },
+      "on-click": "activate",
+      "on-scroll-up": "hyprctl dispatch workspace e+1",
+      "on-scroll-down": "hyprctl dispatch workspace e-1",
+  },
+#+end_src
+** The CSS
++ The default CSS have ~#workspaces button.focused~ class. We need to change it to ~#workspaces button.active~
++ Also button.visible property is not working. Because of [[https://github.com/Alexays/Waybar/issues/2121#issuecomment-1514969693][this issue.]]
+  #+begin_src css :tangle style.css
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: #fff;
+}
+
+/* #workspaces button.focused { */
+/*     background-color: #64727D; */
+/*     box-shadow: inset 0 -3px #ffffff; */
+/* } */
+
+#workspaces button:hover {
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: none;
+}
+
+#workspaces button.urgent {
+    border-radius: 15px;
+    background-color: @myRed;
+    color: #000;
+}
+
+#workspaces button.visible {
+    border-radius: 15px;
+    background-color: @myInactiveBG;
+}
+
+#workspaces button.active {
+    border-radius: 15px;
+    background-color: @myCyan;
+    color: #000;
+}
+
+/* #workspaces button.empty { */
+/*     background-color: #444444; */
+/* } */
+
+  #+end_src
+
+* Submap Module
+No particular configuration is required. Just The CSS
+#+begin_src css :tangle style.css
+#submap {
+    color: @myBackground;
+    background-color: @myYellow;
+    border-radius: 15px;
+    padding: 0px 10px 0px 10px;
+}
+#+end_src
+
+* Window Module
+** config
+Window name is very long. Lets clip it to max 50 letters
+#+begin_src js :tangle config
+"hyprland/window": {
+    "format": "{title}",
+    "max-length": 50
+},
+#+end_src
+** CSS
+Lets add some colors to this
+#+begin_src css :tangle style.css
+#window {
+    border-radius: 15px;
+    color: @myGreen;
+    background-color: @myBackground;
+    padding: 0px 10px 0px 10px;
+}
+
+window#waybar.empty #window {
+    padding: 0px 0px 0px 0px;
+}
+#+end_src
+
+* Custom Language
+** config
+#+begin_src js :tangle config
+    "custom/myLang": {
+        "exec": "~/.config/waybar/scripts/lang.sh",
+        "exec-on-event": true,
+        "signal": 13,
+        "return-type": "json",
+        "interval": "once",
+        "on-click": "~/.config/waybar/scripts/lang.sh 1 > /dev/null"
+    },
+#+end_src
+** Script
+#+begin_src shell :tangle ./scripts/lang.sh
+#!/usr/bin/env bash
+
+toggle_lang () {
+    hyprctl switchxkblayout liteon-dell-wireless-device next
+}
+
+if [ -z ${BLOCK_BUTTON+x} ]; then
+    BLOCK_BUTTON=$1
+fi
+
+case $BLOCK_BUTTON in
+	1) toggle_lang ;;
+    ,*) ;;
+esac
+
+lang=$(hyprctl -j devices | jq -r '.keyboards[] | select(.name == "liteon-dell-wireless-device") | .active_keymap')
+
+case $lang in
+    "English (US)") text="en" ;;
+    "Indian") text="in" ;;
+    ,*) text=$land
+esac
+
+# Employing a hack to get caps lock state in hyprland for now.
+# Reading the state of caps lock led to get caps lock state.
+[[ $(cat /sys/class/leds/input15\:\:capslock/brightness) == 1 ]] && capstate="capson"
+echo "{\"text\": \"$text\" , \"class\": \"$capstate\" }"
+#+end_src
+** CSS
+#+begin_src css :tangle style.css
+#custom-myLang {
+    padding: 0px 5px;
+    color: @myRed;
+    border-bottom: 3px solid @myRed;
+}
+
+#custom-myLang.capson {
+    color: @myBackground;
+    background: @myRed;
+}
+#+end_src
+* Custom Volume
+** config
+#+begin_src js :tangle config
+    "custom/myVolume": {
+        "exec": "~/.config/waybar/scripts/volume.sh",
+        "exec-on-event": true,
+        "signal": 11,
+        "interval": "once",
+        "on-click": "~/.config/waybar/scripts/volume.sh 1 > /dev/null",
+        "on-click-right": "~/.config/waybar/scripts/volume.sh 3 > /dev/null",
+        "on-scroll-up": "~/.config/waybar/scripts/volume.sh 4 > /dev/null",
+        "on-scroll-down": "~/.config/waybar/scripts/volume.sh 5 > /dev/null",
+        "separate-outputs": false,
+    },
+#+end_src
+** script
+#+begin_src shell :tangle ./scripts/volume.sh
+#!/usr/bin/env bash
+
+if [ -z ${BLOCK_BUTTON+x} ]; then
+    BLOCK_BUTTON=$1
+fi
+case $BLOCK_BUTTON in
+	1) changeto='mute' ;;
+    3) changeto='nothing' ; pavucontrol-qt ;;
+	4) changeto='increase' ;;
+	5) changeto='decrease' ;;
+esac
+case $changeto in
+	'increase')
+        pactl set-sink-volume @DEFAULT_SINK@ +1% ;;
+	'decrease')
+        pactl set-sink-volume @DEFAULT_SINK@ -1% ;;
+    'mute') pactl set-sink-mute @DEFAULT_SINK@ toggle ;;
+esac
+
+vol=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '/Volume/{print $5+0}')
+if [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
+	echo " 󰝟 Mute "
+elif [[ vol -lt 30  ]]; then
+	echo "  $vol% "
+elif [[ vol -lt 60  ]]; then
+	echo "  $vol% "
+elif [[ vol -lt 101  ]]; then
+	echo "  $vol% "
+else
+	echo "  $vol% "
+fi
+#+end_src
+** CSS
+#+begin_src css :tangle style.css
+#custom-myVolume {
+    color: @myMagenta;
+    border-bottom: 3px solid @myMagenta;
+}
+#+end_src
+* Custom Backlight
+** config
+#+begin_src js :tangle config
+    "custom/myBrightness": {
+        "exec": "~/.config/waybar/scripts/amd_bl.sh",
+        "exec-on-event": true,
+        "signal": 12,
+        "interval": "once",
+        "on-scroll-up": "~/.config/waybar/scripts/amd_bl.sh 4 > /dev/null",
+        "on-scroll-down": "~/.config/waybar/scripts/amd_bl.sh 5 > /dev/null",
+    },
+#+end_src
+** script
+#+begin_src shell :tangle ./scripts/amd_bl.sh
+#! /usr/bin/env bash
+
+# In case /sys/class/.../backlight file does not have proper permission
+# follow this link https://unix.stackexchange.com/a/593121
+# but add following udev rule
+# ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl0", RUN+="/bin/chmod a+w /sys/class/backlight/%k/brightness"
+
+if [ -z ${BLOCK_BUTTON+x} ]; then
+    BLOCK_BUTTON=$1
+fi
+
+brand=$(ls /sys/class/backlight/ | head -n 1)
+
+max_brightness=$(awk '{print}' /sys/class/backlight/$brand/max_brightness)
+min_brightness=$(expr $max_brightness \/ 12)
+brightness=$(awk '{print}' /sys/class/backlight/$brand/brightness)
+step=$(expr $max_brightness \/ 51)
+
+case $BLOCK_BUTTON in
+	4)
+		if [[ $brightness -lt $max_brightness ]]; then
+			echo $(awk "BEGIN {print $brightness + $step; exit}") > /sys/class/backlight/$brand/brightness ;
+		fi
+	;;
+	5)
+		if [[ $brightness -gt $min_brightness ]]; then
+			echo $(awk "BEGIN {print $brightness - $step; exit}") > /sys/class/backlight/$brand/brightness ;
+		fi
+	;;
+esac
+
+awk '{print "  " $1 " "}' /sys/class/backlight/$brand/brightness
+#+end_src
+** CSS
+#+begin_src css :tangle style.css
+#custom-myBrightness {
+    color: @myBYellow;
+    border-bottom: 3px solid @myBYellow;
+}
+#+end_src
+* Custom Battery
+** Config
+#+begin_src js :tangle config
+    "custom/myBattery": {
+        "exec": "~/.config/waybar/scripts/battery.sh",
+        "return-type": "json",
+        "interval": 60,
+        "on-click": "~/.config/waybar/scripts/battery.sh > /dev/null"
+    },
+#+end_src
+** Script
+#+begin_src shell :tangle ./scripts/battery.sh
+#!/usr/bin/env bash
+
+char_icon=("󱟧" "󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅")
+disc_icon=("󱃍" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
+
+classes=("critical" "gt1" "gt2" "gt3" "gt4" "gt5" "gt6" "gt7" "gt8" "gt9" "gt0")
+
+notification() {
+	lines=(
+		"Time to roll out the hamster wheel generator!"
+		"<whispering> Feed me or face the consequences!"
+		"Mayday! Mayday! We are experiencing turbulence."
+		"Time to panic or find the nearest outlet!"
+		"I'm on a diet, urgently needs a charge!"
+		"going on a strike until further notice."
+		"Houston, we have a problem!"
+		"Crisis mode: Send emergency electrons ASAP!"
+		"Time to power up or prepare for hibernation!"
+		"flirting with darkness. Send backup (or charger)."
+	)
+    len=${#lines[@]}
+    random_index=$((RANDOM % len))
+    random_line=${lines[$random_index]}
+    echo "$random_line"
+}
+
+
+stat=$(cat /sys/class/power_supply/BAT0/status)
+levl=$(cat /sys/class/power_supply/BAT0/capacity)
+
+case $stat in
+	Full) text="󰂄 $levl%" ;;
+	Charging)
+        text=" ${char_icon[0]} $levl% "
+		class="charging"
+		for i in {1..10}
+		do
+			if [[ $levl == $i? ]]
+			then
+				text=" ${char_icon[$i]} $levl% "
+			fi
+		done
+	;;
+	Discharging)
+		if [[ levl -lt 5 ]]; then
+            notify-send -u critical "󰄌 Battery $levl%" "Khud e utha jana ab mene ek minute ke andar. shutdown -c hi bcha skta tujhe ab" -a BATTERY -t 30000
+			shutdown now
+		elif [[ levl -lt 25  ]]; then
+			notify-send -u critical "󰄌 Battery $levl%" "$(notification)" -a BATTERY -t 30000
+		fi
+        text=" ${disc_icon[0]} $levl% "
+		class="${classes[0]}"
+		for i in {1..10}
+		do
+			if [[ $levl == $i? ]]
+			then
+				text=" ${disc_icon[$i]} $levl% "
+				class="${classes[$i]}"
+			fi
+		done
+	;;
+	"Not charging") text=" 󰂏 $levl% ";;
+    *) text="󰂑 ??? " ;;
+esac
+
+echo "{\"text\": \"$text\" , \"class\": \"$class\" }"
+#+end_src
+** CSS
+#+begin_src css :tangle style.css
+#custom-myBattery {
+    color: #d4d4d4;
+    border-bottom: 3px solid #d4d4d4;
+}
+
+#custom-myBattery.charging {
+    color: #569cd6;
+    border-bottom: 3px solid #569cd6;
+}
+
+
+#custom-myBattery.gt0 {
+    color: #608b4e;
+    border-bottom: 3px solid #608b4e;
+}
+
+#custom-myBattery.gt9 {
+    color: #608b4e;
+    border-bottom: 3px solid #608b4e;
+}
+
+#custom-myBattery.gt8 {
+    color: #7d9756;
+    border-bottom: 3px solid #7d9756;
+}
+
+#custom-myBattery.gt7 {
+    color: #9ca45e;
+    border-bottom: 3px solid #9ca45e;
+}
+
+#custom-myBattery.gt6 {
+    color: #bab066;
+    border-bottom: 3px solid #bab066;
+}
+
+#custom-myBattery.gt5 {
+    color: #d7bc6d;
+    border-bottom: 3px solid #d7bc6d;
+}
+
+#custom-myBattery.gt4 {
+    color: #f0c172;
+    border-bottom: 3px solid #f0c172;
+}
+
+#custom-myBattery.gt3 {
+    color: #f19663;
+    border-bottom: 3px solid #f19663;
+}
+
+#custom-myBattery.gt2 {
+    color: #f37055;
+    border-bottom: 3px solid #f37055;
+}
+
+#custom-myBattery.gt1 {
+    color: #f37055;
+    border-bottom: 3px solid #f37055;
+}
+
+@keyframes blink {
+    to {
+        background-color: #f53c3c;
+        color: #000;
+    }
+}
+
+#custom-myBattery.critical {
+    color: #f53c3c;
+    border-bottom: 3px solid #f53c3c;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+#+end_src
+* Clock
+** Config
+#+begin_src js :tangle config
+    "clock": {
+        "format": " {:%a %b %d  %H:%M}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+                    "mode"          : "year",
+                    "mode-mon-col"  : 3,
+                    "weeks-pos"     : "right",
+                    "on-scroll"     : 1,
+                    "on-click-right": "mode",
+                    "format": {
+                              "months":     "<span color='#ffead3'><b>{}</b></span>",
+                              "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                              "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                              "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                              "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+                              }
+                    },
+        "actions":  {
+                    "on-click-right": "mode",
+                    "on-click-forward": "tz_up",
+                    "on-click-backward": "tz_down",
+                    "on-scroll-up": "shift_up",
+                    "on-scroll-down": "shift_down"
+                    }
+    },
+#+end_src
+
+** CSS
+#+begin_src css :tangle style.css
+#clock {
+    color: @myCyan;
+    border-bottom: 3px solid @myCyan;
+}
+#+end_src
+
+* Custom Network
+** config
+#+begin_src js :tangle config
+    "custom/myinternet": {
+        "exec": "~/.config/waybar/scripts/network.sh | jq --unbuffered --compact-output",
+        "return-type": "json",
+        "on-click": "networkmanager_dmenu",
+        "on-click-right": "$TERMINAL -e -a myfloat nmtui",
+        "interval": 3,
+    },
+#+end_src
+** Script
+#+begin_src shell :tangle ./scripts/network.sh
+#!/usr/bin/env bash
+
+prev_state=$(cat /tmp/prev-connection-state)
+
+IF=$(ip route | awk '/^default/{print $5}')
+#echo $IF
+
+
+if [[ "$IF" = "" ]] || [[ "$(cat /sys/class/net/$IF/operstate)" = 'down' ]]; then
+    echo '{"text": " 󰌙 ", "class": "disconnected"}'
+
+    [[ $prev_state == connected  ]] && ( notify-send "Internet" "Disconnected" & echo "disconnected" > /tmp/prev-connection-state ) || true
+
+    exit
+elif [[ "$(cat /sys/class/net/$IF/operstate)" = 'up' ]]; then
+    [[ $IF == w* ]] && echo '{"text": " 󰤨 ", "class": "connected" }' || echo '{"text": " 󰈀 ", "class": "connected"}'
+
+    [[ $prev_state != connected  ]] && ( notify-send "Internet" "Connected to $(iwgetid -r || echo network)" & echo "connected" > /tmp/prev-connection-state ) || true
+
+    exit
+else
+    echo '{"text": " 󰛵 ", "class": "disconnected"}'
+fi
+#+end_src
+** CSS
+#+begin_src css :tangle style.css
+#custom-myinternet.disconnected {
+    color: #666666;
+}
+#+end_src
+
+* Tray
+** Config
+#+begin_src js :tangle config
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+}
+#+end_src
+** CSS
+#+begin_src css :tangle style.css
+#tray {
+    background-color: @myBackground;
+}
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: @myRed;
+}
+#+end_src
+
+* Other Modules
+** Networking Module
+*** Config
+#+begin_src js
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "  {signalStrength}%",
+        "format-ethernet": "{ipaddr}/{cidr} ",
+        "tooltip-format": "{ifname} via {gwaddr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "on-click": "networkmanager_dmenu",
+    },
+#+end_src
+For long form output with SSID use this:
+#+begin_src js
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ipaddr}/{cidr} ",
+        "tooltip-format": "{ifname} via {gwaddr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+#+end_src
+*** CSS
+#+begin_src css
+#network {
+    color: #569cd6;
+    border-bottom: 3px solid #569cd6;
+}
+
+#network.disconnected {
+    color: #1e1e1e;
+    background-color: #f53c3c;
+}
+#+end_src
+
+** Battery
+*** config
+#+begin_src js
+    "battery": {
+        "states": {
+            "best": 95,
+            "better": 85,
+            "good": 70,
+            "bad": 50,
+            "worse": 35,
+            "worst": 25
+        },
+        "format": "{capacity}% {icon}",
+
+        "format-charging-best": "{capacity}% ",
+        "format-charging-better": "{capacity}% ",
+        "format-charging-good": "{capacity}% ",
+        "format-charging-bad":  "{capacity}% ",
+        "format-charging-worse": "{capacity}% ",
+        "format-charging-worst": "{capacity}% ",
+
+        "format-discharging-best": "{capacity}% ",
+        "format-discharging-better": "{capacity}% ",
+        "format-discharging-good": "{capacity}% ",
+        "format-discharging-bad":  "{capacity}% ",
+        "format-discharging-worse": "{capacity}% ",
+        "format-discharging-worst": "{capacity}% ",
+
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        // "format-icons": ["", "", "", "", ""],
+        "format-icons": ["" , "" , "" , "" , "" , ""]
+    },
+
+#+end_src
+*** CSS
+#+begin_src css
+#battery {
+    color: #d4d4d4;
+    border-bottom: 3px solid #d4d4d4;
+}
+
+#battery.charging, #battery.plugged {
+    color: #569cd6;
+    border-bottom: 3px solid #569cd6;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+#battery.best:not(.charging) {
+    color: #fff;
+    border-bottom: 3px solid #fff;
+}
+#battery.better:not(.charging) {
+    color: #4ec9b0;
+    border-bottom: 3px solid #4ec9b0;
+}
+#battery.good:not(.charging) {
+    color: #608b4e;
+    border-bottom: 3px solid #608b4e;
+}
+#battery.bad:not(.charging) {
+    color: #f0c674;
+    border-bottom: 3px solid #f0c674;
+}
+#battery.worse:not(.charging) {
+    color: #de935f;
+    border-bottom: 3px solid #de935f;
+}
+#battery.worst:not(.charging) {
+    color: #f44747;
+    border-bottom: 3px solid #f44747;
+}
+
+/* #battery.critical:not(.charging) { */
+/*     background-color: #f53c3c; */
+/*     color: #ffffff; */
+/*     animation-name: blink; */
+/*     animation-duration: 0.5s; */
+/*     animation-timing-function: linear; */
+/*     animation-iteration-count: infinite; */
+/*     animation-direction: alternate; */
+/* } */
+
+#+end_src
+
+** Pulseaudio Module
+*** The config
+#+begin_src js
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{volume}% {icon} {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": "婢 {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "pavucontrol-qt"
+    },
+#+end_src
+*** The CSS
+#+begin_src css
+#pulseaudio {
+    color: #c586c0;
+    border-bottom: 3px solid #c586c0;
+}
+
+#pulseaudio.muted {
+    color: #c586c0;
+}
+#+end_src
+
+** Backlight
+*** Config
+#+begin_src js
+    "backlight": {
+        // "device": "acpi_video1",
+        // "format": "{percent}% {icon}",
+        "format": "{icon}",
+        "format-icons": ["", "", "", "", "", "", "", "", ""]
+    },
+
+#+end_src
+*** CSS
+#+begin_src css
+#backlight {
+    color: #d7ba7d;
+    padding: 0px 15px;
+    border-bottom: 3px solid #d7ba7d;
+}
+#+end_src
+
+** These I've never used
+I am not using these modules currently. 
+
+  #+begin_src js
+    // Modules configuration
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "cpu": {
+        "format": "{usage}% ",
+        "tooltip": false
+    },
+    "memory": {
+        "format": "{}% "
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": ["", "", ""]
+    },
+    "custom/media": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    },
+  #+end_src
+
+  #+begin_src css
+
+label:focus {
+    background-color: #000000;
+}
+
+#cpu {
+    background-color: #2ecc71;
+    color: #000000;
+}
+
+#memory {
+    background-color: #9b59b6;
+}
+
+#disk {
+    background-color: #964B00;
+}
+
+#wireplumber {
+    background-color: #fff0f5;
+    color: #000000;
+}
+
+#wireplumber.muted {
+    background-color: #f53c3c;
+}
+
+#custom-media {
+    background-color: #66cc99;
+    color: #2a5c45;
+    min-width: 100px;
+}
+
+#custom-media.custom-spotify {
+    background-color: #66cc99;
+}
+
+#custom-media.custom-vlc {
+    background-color: #ffa000;
+}
+
+#temperature {
+    background-color: #f0932b;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+#idle_inhibitor {
+    background-color: #2d3436;
+}
+
+#idle_inhibitor.activated {
+    background-color: #ecf0f1;
+    color: #2d3436;
+}
+
+#mpd {
+    background-color: #66cc99;
+    color: #2a5c45;
+}
+
+#mpd.disconnected {
+    background-color: #f53c3c;
+}
+
+#mpd.stopped {
+    background-color: #90b1b1;
+}
+
+#mpd.paused {
+    background-color: #51a37a;
+}
+
+#language {
+    background: #00b093;
+    color: #740864;
+    padding: 0 5px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+#keyboard-state {
+    background: #97e1ad;
+    color: #000000;
+    padding: 0 0px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+#keyboard-state > label {
+    padding: 0 5px;
+}
+
+#keyboard-state > label.locked {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad.empty {
+	background-color: transparent;
+}
+  #+end_src

@@ -103,6 +103,13 @@
     recursive = true;
   };
 
+  home.file."waybar" = {
+    enable = true;
+    source = ./dotfiles/waybar;
+    target = ".config/waybar";
+    recursive = true;
+  };
+
   programs.mpv = {
     enable = true;
     bindings = {
