@@ -653,7 +653,7 @@ submap=(1)RVGL (2)Quake3 (3)0AD (4)Lutris
 binde=,1,execr,(cd ~/pc/games/rvgl_full_linux_original; NIX_LD_LIBRARY_PATH=./lib/lib64 nix-alien-ld ./rvgl.64)
 binde=,2,exec,~/dwn/quake-iii-arena/ioquake3.x86_64
 binde=,3,exec,0ad
-binde=,4,exec,flatpak run net.lutris.Lutris
+binde=,4,exec,lutris
 
 # use reset to go back to the global submap
 binde=,1,submap,reset
