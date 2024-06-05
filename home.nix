@@ -1,4 +1,4 @@
-{ self, config, pkgs, userSettings, inputs, system, ... }:
+{ self, config, lib, pkgs, userSettings, inputs, system, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -42,10 +42,13 @@
     python311Packages.python-lsp-server python311Packages.ipython 
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "CascadiaCode" "FiraCode" ]; })
     texliveFull texlab
-    libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct libnotify wl-clipboard swaybg hyprlock
+    libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct qt6Packages.qtstyleplugin-kvantum qt6Packages.qt6ct
+    libnotify wl-clipboard swaybg hyprlock
     # Screenshot
     grim slurp swappy
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
+    # Games
+    lutris
   ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]);
 
   programs.btop = {
@@ -102,7 +105,12 @@
     recursive = true;
   };
 
-  # programs.swaylock.enable = true;
+  home.file."waybar" = {
+    enable = true;
+    source = ./dotfiles/waybar;
+    target = ".config/waybar";
+    recursive = true;
+  };
 
   programs.mpv = {
     enable = true;
@@ -258,19 +266,44 @@
       package = pkgs.papirus-icon-theme;
       name = "Papirus-Dark";
     };
-    # cursorTheme = {
-    #   name = "Quintom_Snow";
-    #   package = pkgs.quintom-cursor-theme;
-    # };
     gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
   };
 
   qt = {
     enable = true;
-    platformTheme = "qtct";
+    platformTheme.name = "qtct";
     style = {
       package = pkgs.materia-kde-theme;
       name = "kvantum";
+    };
+  };
+
+  xdg.configFile = {
+    kvantum = {
+      target = "Kvantum/kvantum.kvconfig";
+      text = lib.generators.toINI { } {
+        General.theme = "MateriaDark";
+      };
+    };
+
+    qt5ct = {
+      target = "qt5ct/qt5ct.conf";
+      text = lib.generators.toINI { } {
+        Appearance = {
+          icon_theme = "Papirus-Dark";
+          style = "kvantum";
+        };
+      };
+    };
+
+    qt6ct = {
+      target = "qt6ct/qt6ct.conf";
+      text = lib.generators.toINI { } {
+        Appearance = {
+          icon_theme = "Papirus-Dark";
+          style = "kvantum";
+        };
+      };
     };
   };
 
@@ -352,20 +385,8 @@
           )
           10)
       );
-      # exec-once = [
-      #   "~/.config/hypr/scripts/bg.sh &"
-      #   "mako &"
-      #   "waybar &"
-      #   "lxqt-policykit-agent &"
-      #   "hyprctl setcursor Quintom_Snow 24 &"
-      # ];
     };
     extraConfig = ''
-# exec-once = ~/.config/hypr/scripts/bg.sh &
-# exec-once = mako &
-# exec-once = waybar &
-# exec-once = lxqt-policykit-agent &
-# exec-once = hyprctl setcursor Quintom_Snow 24 &
 # ###########################
 # xdg-ninja specifications #
 # ###########################
@@ -629,10 +650,10 @@ bind=$mainMod,G,submap,(1)RVGL (2)Quake3 (3)0AD (4)Lutris
 submap=(1)RVGL (2)Quake3 (3)0AD (4)Lutris
 
 # sets binds for opening the games
-binde=,1,execr,(cd /opt/rvgl && /opt/rvgl/rvgl)
+binde=,1,execr,(cd ~/pc/games/rvgl_full_linux_original; NIX_LD_LIBRARY_PATH=./lib/lib64 nix-alien-ld ./rvgl.64)
 binde=,2,exec,~/dwn/quake-iii-arena/ioquake3.x86_64
 binde=,3,exec,0ad
-binde=,4,exec,flatpak run net.lutris.Lutris
+binde=,4,exec,lutris
 
 # use reset to go back to the global submap
 binde=,1,submap,reset
@@ -664,14 +685,13 @@ submap=reset
 
 
 # FREQUENT APPS
-bind=$mainMod,o,submap,(1)Signal, (2)SMPlayer, (3)OBS, (4) Virt Manager
+bind=$mainMod,o,submap,(1)Signal, (2)MPV, (3)OBS, (4) Virt Manager
 
-submap=(1)Signal, (2)SMPlayer, (3)OBS, (4) Virt Manager
+submap=(1)Signal, (2)MPV, (3)OBS, (4) Virt Manager
 bind=,1,exec,signal-desktop
-bind=,2,exec,smplayer
+bind=,2,exec,mpv
 bind=,3,exec,obs
 bind=,4,exec,virt-manager
-
 bind=,1,submap,reset
 bind=,2,submap,reset
 bind=,3,submap,reset
@@ -943,7 +963,6 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    QT_QPA_PLATFORMTHEME = "qt5ct";
   };
 
   # Let Home Manager install and manage itself.

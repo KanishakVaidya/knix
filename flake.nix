@@ -14,7 +14,8 @@
   outputs = inputs@{self, ...}:
     let
       system = "x86_64-linux";
-      pkgs = inputs.nixpkgs.legacyPackages.${system};
+      # pkgs = inputs.nixpkgs.legacyPackages.${system};
+      pkgs = import inputs.nixpkgs {system = "x86_64-linux"; config.allowUnfree = true;};
       systemSettings = {
         hostname = "knix";
       };
