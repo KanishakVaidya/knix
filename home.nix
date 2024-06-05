@@ -51,12 +51,57 @@
     lutris
   ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]);
 
+  stylix = {
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
+    base16Scheme = {
+      base00 = "151515";
+      base01 = "202020";
+      base02 = "404040";
+      base03 = "505050";
+      base04 = "a0a0a0";
+      base05 = "d4d4d4";
+      base06 = "e9e9e9";
+      base07 = "ffffff";
+      base08 = "f44747";
+      base09 = "9cdcfe";
+      base0A = "d7ba7d";
+      base0B = "608b4e";
+      base0C = "9cdcfe";
+      base0D = "569cd6";
+      base0E = "c586c0";
+      base0F = "d16969";
+    };
+    image = /home/keshav/.local/share/backgrounds/000.jpg;
+    targets = {
+      # gtk.enable = true;
+      # kde.enable = true; 
+      firefox.enable = true;
+    };
+    polarity = "dark";
+    fonts = {
+      monospace = {
+        name = "JetBrainsMono Nerd Font";
+        package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "CascadiaCode" "FiraCode" ]; };
+      };
+      sizes = {
+        terminal = 14;
+      };
+    };
+    cursor = {
+      name = "Quintom_Snow";
+      package = pkgs.quintom-cursor-theme;
+    };
+    opacity = {
+      terminal = 0.9;
+    };
+  };
+
   programs.btop = {
     enable = true;
     settings = {
-      color_theme = "TTY";
+      # color_theme = "TTY";
       theme_background = false;
-      truecolor = true;
+      truecolor = false;
       force_tty = false;
       proc_sorting = "memory";
       vim_keys = true;
@@ -72,30 +117,30 @@
 
   programs.foot = {
     enable = true;
-    settings = {
-      main = {font = "JetBrainsMono Nerd Font :size=16";};
-      colors = {
-        alpha = "0.9";
-        background = "1e1e1e";
-        foreground = "d4d4d4";
-        regular0 = "505050";  # black
-        regular1 = "f44747";  # red
-        regular2 = "608b4e";  # green
-        regular3 = "d7ba7d";  # yellow
-        regular4 = "569cd6";  # blue
-        regular5 = "c586c0";  # magenta
-        regular6 = "9cdcfe";  # cyan
-        regular7 = "e9e9e9";  # white
-        dim0 = "505050";   # bright black
-        dim1 = "d16969";   # bright red
-        dim2 = "b5c3a8";   # bright green
-        dim3 = "c39178";   # bright yellow
-        dim4 = "4ec9b0";   # bright blue
-        dim5 = "646695";   # bright magenta
-        dim6 = "9cdcfe";   # bright cyan
-        dim7 = "ffffff";   # bright white
-      };
-    };
+    # settings = {
+    #   main = {font = "JetBrainsMono Nerd Font :size=16";};
+    #   colors = {
+    #     alpha = "0.9";
+    #     background = "1e1e1e";
+    #     foreground = "d4d4d4";
+    #     regular0 = "505050";  # black
+    #     regular1 = "f44747";  # red
+    #     regular2 = "608b4e";  # green
+    #     regular3 = "d7ba7d";  # yellow
+    #     regular4 = "569cd6";  # blue
+    #     regular5 = "c586c0";  # magenta
+    #     regular6 = "9cdcfe";  # cyan
+    #     regular7 = "e9e9e9";  # white
+    #     dim0 = "505050";   # bright black
+    #     dim1 = "d16969";   # bright red
+    #     dim2 = "b5c3a8";   # bright green
+    #     dim3 = "c39178";   # bright yellow
+    #     dim4 = "4ec9b0";   # bright blue
+    #     dim5 = "646695";   # bright magenta
+    #     dim6 = "9cdcfe";   # bright cyan
+    #     dim7 = "ffffff";   # bright white
+    #   };
+    # };
   };
 
   home.file."doomEmacs" = {
@@ -251,17 +296,17 @@
 
   # GTK and QT
 
-  home.pointerCursor = {
-    name = "Quintom_Snow";
-    package = pkgs.quintom-cursor-theme;
-  };
+  # home.pointerCursor = {
+  #   name = "Quintom_Snow";
+  #   package = pkgs.quintom-cursor-theme;
+  # };
   
   gtk = {
     enable = true;
-    theme = {
-      package = pkgs.materia-theme;
-      name = "Materia-dark";
-    };
+    # theme = {
+    #   package = pkgs.materia-theme;
+    #   name = "Materia-dark";
+    # };
     iconTheme = {
       package = pkgs.papirus-icon-theme;
       name = "Papirus-Dark";
@@ -810,29 +855,29 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
       enable = true;
       sort = "-time";
       layer = "overlay";
-      backgroundColor = "#1e1e1e";
-      textColor = "#d4d4d4";
+      # backgroundColor = "#1e1e1e";
+      # textColor = "#d4d4d4";
       width = 300;
       height = 110;
       borderSize = 2;
-      borderColor = "#88c0d0";
+      # borderColor = "#88c0d0";
       borderRadius = 15;
       icons = false;
       maxIconSize = 64;
       defaultTimeout = 5000;
       ignoreTimeout = true;
-      font = "JetBrainsMono Nerd Font 14";
-      extraConfig = ''
-      [urgency=low]
-      border-color=#f0c674
-      
-      [urgency=normal]
-      border-color=#569cd6
-      
-      [urgency=high]
-      border-color=#f44747
-      default-timeout=59000
-    '';
+      # font = "JetBrainsMono Nerd Font 14";
+      # extraConfig = ''
+      # [urgency=low]
+      # border-color=#f0c674
+      # 
+      # [urgency=normal]
+      # border-color=#569cd6
+      # 
+      # [urgency=high]
+      # border-color=#f44747
+      # default-timeout=59000
+      # '';
     };
 
     syncthing = {
@@ -897,41 +942,41 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
 
   programs.zathura = {
     enable = true;
-    options = {
-      font = "JetBrainsMono Nerd Font 14";
-      first-page-column = 1;
-      notification-error-bg =   "#1e1e1e"; # bg
-      notification-error-fg =   "#f44747"; # bright:red
-      notification-warning-bg = "#1e1e1e"; # bg
-      notification-warning-fg = "#d7ba7d"; # bright:yellow
-      notification-bg =         "#1e1e1e"; # bg
-      notification-fg =         "#608b4e"; # bright:green
-      completion-bg =           "#0f1011"; # bg2
-      completion-fg =           "#e1e1e1"; # fg
-      completion-group-bg =     "#3c3836"; # bg1
-      completion-group-fg =     "#928374"; # gray
-      completion-highlight-bg = "#569cd6"; # bright:blue
-      completion-highlight-fg = "#0f1011"; # bg2
-      # Define the color in index mode
-      index-bg =                    "#0f1011"; # bg2
-      index-fg =                    "#e1e1e1"; # fg
-      index-active-bg =             "#569cd6"; # bright:blue
-      index-active-fg =             "#0f1011"; # bg2
-      inputbar-bg =                 "#282828"; # bg
-      inputbar-fg =                 "#e1e1e1"; # fg
-      statusbar-bg =                "#0f1011"; # bg2
-      statusbar-fg =                "#e1e1e1"; # fg
-      highlight-color =             "#00ff00"; # bright:yellow
-      highlight-active-color =      "#00fa9a"; # bright:orange
-      highlight-transparency =      "0.4";
-      default-bg =                  "#1e1e1e"; # bg
-      default-fg =                  "#e1e1e1"; # fg
-      render-loading =              true;
-      render-loading-bg =           "#1e1e1e"; # bg
-      render-loading-fg =           "#e1e1e1"; # fg
-      recolor-lightcolor =          "#1e1e1e"; # bg
-      recolor-darkcolor =           "#e1e1e1"; # fg
-    };
+  #   options = {
+  #     font = "JetBrainsMono Nerd Font 14";
+  #     first-page-column = 1;
+  #     notification-error-bg =   "#1e1e1e"; # bg
+  #     notification-error-fg =   "#f44747"; # bright:red
+  #     notification-warning-bg = "#1e1e1e"; # bg
+  #     notification-warning-fg = "#d7ba7d"; # bright:yellow
+  #     notification-bg =         "#1e1e1e"; # bg
+  #     notification-fg =         "#608b4e"; # bright:green
+  #     completion-bg =           "#0f1011"; # bg2
+  #     completion-fg =           "#e1e1e1"; # fg
+  #     completion-group-bg =     "#3c3836"; # bg1
+  #     completion-group-fg =     "#928374"; # gray
+  #     completion-highlight-bg = "#569cd6"; # bright:blue
+  #     completion-highlight-fg = "#0f1011"; # bg2
+  #     # Define the color in index mode
+  #     index-bg =                    "#0f1011"; # bg2
+  #     index-fg =                    "#e1e1e1"; # fg
+  #     index-active-bg =             "#569cd6"; # bright:blue
+  #     index-active-fg =             "#0f1011"; # bg2
+  #     inputbar-bg =                 "#282828"; # bg
+  #     inputbar-fg =                 "#e1e1e1"; # fg
+  #     statusbar-bg =                "#0f1011"; # bg2
+  #     statusbar-fg =                "#e1e1e1"; # fg
+  #     highlight-color =             "#00ff00"; # bright:yellow
+  #     highlight-active-color =      "#00fa9a"; # bright:orange
+  #     highlight-transparency =      "0.4";
+  #     default-bg =                  "#1e1e1e"; # bg
+  #     default-fg =                  "#e1e1e1"; # fg
+  #     render-loading =              true;
+  #     render-loading-bg =           "#1e1e1e"; # bg
+  #     render-loading-fg =           "#e1e1e1"; # fg
+  #     recolor-lightcolor =          "#1e1e1e"; # bg
+  #     recolor-darkcolor =           "#e1e1e1"; # fg
+  #   };
   };
 
 

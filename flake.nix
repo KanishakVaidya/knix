@@ -9,6 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-alien.url = "github:thiagokokada/nix-alien";
+    stylix.url = "github:danth/stylix";
   };
 
   outputs = inputs@{self, ...}:
@@ -27,7 +28,7 @@
       nixosConfigurations = {
         knix = inputs.nixpkgs.lib.nixosSystem {
           inherit system;
-          modules = [ ./configuration.nix ];
+          modules = [./configuration.nix];
           specialArgs = {
             inherit systemSettings;
           };
@@ -35,7 +36,10 @@
       };
       homeConfigurations.keshav = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [./home.nix];
+        modules = [
+          ./home.nix
+          inputs.stylix.homeManagerModules.stylix
+        ];
         extraSpecialArgs = {
           inherit self userSettings inputs system;
         };
