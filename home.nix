@@ -13,7 +13,7 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  home.stateVersion = "24.05"; # Please read the comment before changing.
   
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -36,11 +36,11 @@
     # '')
     bat htop freshfetch eza direnv
     tofi rofi-wayland waybar networkmanager_dmenu
-    foot firefox brave lxqt.pcmanfm-qt
+    foot firefox brave lxqt.pcmanfm-qt geany-with-vte
     onlyoffice-bin lxqt.lxqt-archiver nomacs gimp emacs-gtk signal-desktop xournalpp
     unzip pulseaudio lxqt.pavucontrol-qt jq 
     python311Packages.python-lsp-server python311Packages.ipython 
-    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "CascadiaCode" "FiraCode" ]; })
+    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; })
     texliveFull texlab
     libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct qt6Packages.qtstyleplugin-kvantum qt6Packages.qt6ct
     libnotify wl-clipboard swaybg hyprlock
@@ -63,7 +63,7 @@
       base06 = "e9e9e9";
       base07 = "ffffff";
       base08 = "f44747";
-      base09 = "9cdcfe";
+      base09 = "de935f";
       base0A = "d7ba7d";
       base0B = "608b4e";
       base0C = "9cdcfe";
@@ -71,6 +71,7 @@
       base0E = "c586c0";
       base0F = "d16969";
     };
+    # base16Scheme = {base00 = "262626"; base01 = "343434"; base02 = "373737"; base03 = "666666"; base04 = "888888"; base05 = "e4e4e4"; base06 = "f5f5f5"; base07 = "ffffff"; base08 = "f44747"; base09 = "ffaf00"; base0A = "d7ba7d"; base0B = "4ec9b0"; base0C = "0a7aca"; base0D = "5c6bf8"; base0E = "ddb6f2"; base0F = "d16969";};
     image = /home/keshav/.local/share/backgrounds/000.jpg;
     targets = {
       # gtk.enable = true;
@@ -94,14 +95,15 @@
     opacity = {
       terminal = 0.9;
     };
+    targets.btop.enable = false;
   };
 
   programs.btop = {
     enable = true;
     settings = {
-      # color_theme = "TTY";
+      color_theme = "TTY";
       theme_background = false;
-      truecolor = false;
+      truecolor = true;
       force_tty = false;
       proc_sorting = "memory";
       vim_keys = true;
@@ -117,30 +119,30 @@
 
   programs.foot = {
     enable = true;
-    # settings = {
-    #   main = {font = "JetBrainsMono Nerd Font :size=16";};
-    #   colors = {
-    #     alpha = "0.9";
-    #     background = "1e1e1e";
-    #     foreground = "d4d4d4";
-    #     regular0 = "505050";  # black
-    #     regular1 = "f44747";  # red
-    #     regular2 = "608b4e";  # green
-    #     regular3 = "d7ba7d";  # yellow
-    #     regular4 = "569cd6";  # blue
-    #     regular5 = "c586c0";  # magenta
-    #     regular6 = "9cdcfe";  # cyan
-    #     regular7 = "e9e9e9";  # white
-    #     dim0 = "505050";   # bright black
-    #     dim1 = "d16969";   # bright red
-    #     dim2 = "b5c3a8";   # bright green
-    #     dim3 = "c39178";   # bright yellow
-    #     dim4 = "4ec9b0";   # bright blue
-    #     dim5 = "646695";   # bright magenta
-    #     dim6 = "9cdcfe";   # bright cyan
-    #     dim7 = "ffffff";   # bright white
-    #   };
-    # };
+    settings = {
+      main = {font = "JetBrainsMono Nerd Font :size=16";};
+      colors = {
+        alpha = "0.9";
+        background = "1e1e1e";
+        foreground = "d4d4d4";
+        regular0 = "505050";  # black
+        regular1 = "f44747";  # red
+        regular2 = "608b4e";  # green
+        regular3 = "d7ba7d";  # yellow
+        regular4 = "569cd6";  # blue
+        regular5 = "c586c0";  # magenta
+        regular6 = "9cdcfe";  # cyan
+        regular7 = "e9e9e9";  # white
+        dim0 = "505050";   # bright black
+        dim1 = "d16969";   # bright red
+        dim2 = "b5c3a8";   # bright green
+        dim3 = "c39178";   # bright yellow
+        dim4 = "4ec9b0";   # bright blue
+        dim5 = "646695";   # bright magenta
+        dim6 = "9cdcfe";   # bright cyan
+        dim7 = "ffffff";   # bright white
+      };
+    };
   };
 
   home.file."doomEmacs" = {
@@ -263,14 +265,14 @@
     plugins = with pkgs.vimPlugins; [
       # lightline-vim
       {plugin = lightline-vim; config = "set noshowmode";}
-      {
-        plugin = vim-code-dark;
-        config = ''
-          let base16colorspace=256
-          set termguicolors
-          colorscheme codedark
-        '';
-      }
+      # {
+      #   plugin = vim-code-dark;
+      #   config = ''
+      #     let base16colorspace=256
+      #     set termguicolors
+      #     colorscheme codedark
+      #   '';
+      # }
     ];
     coc = {
       enable = true;
@@ -296,17 +298,17 @@
 
   # GTK and QT
 
-  # home.pointerCursor = {
-  #   name = "Quintom_Snow";
-  #   package = pkgs.quintom-cursor-theme;
-  # };
+  home.pointerCursor = {
+    name = "Quintom_Snow";
+    package = pkgs.quintom-cursor-theme;
+  };
   
   gtk = {
     enable = true;
-    # theme = {
-    #   package = pkgs.materia-theme;
-    #   name = "Materia-dark";
-    # };
+    theme = {
+      package = pkgs.materia-theme;
+      name = "Materia-dark";
+    };
     iconTheme = {
       package = pkgs.papirus-icon-theme;
       name = "Papirus-Dark";
@@ -855,29 +857,29 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
       enable = true;
       sort = "-time";
       layer = "overlay";
-      # backgroundColor = "#1e1e1e";
-      # textColor = "#d4d4d4";
+      backgroundColor = "#151515";
+      textColor = "#d4d4d4";
       width = 300;
       height = 110;
       borderSize = 2;
-      # borderColor = "#88c0d0";
+      borderColor = "#88c0d0";
       borderRadius = 15;
       icons = false;
       maxIconSize = 64;
       defaultTimeout = 5000;
       ignoreTimeout = true;
-      # font = "JetBrainsMono Nerd Font 14";
-      # extraConfig = ''
-      # [urgency=low]
-      # border-color=#f0c674
-      # 
-      # [urgency=normal]
-      # border-color=#569cd6
-      # 
-      # [urgency=high]
-      # border-color=#f44747
-      # default-timeout=59000
-      # '';
+      font = "JetBrainsMono Nerd Font 14";
+      extraConfig = ''
+      [urgency=low]
+      border-color=#f0c674
+      
+      [urgency=normal]
+      border-color=#569cd6
+      
+      [urgency=high]
+      border-color=#f44747
+      default-timeout=59000
+        '';
     };
 
     syncthing = {
