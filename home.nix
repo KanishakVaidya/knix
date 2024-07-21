@@ -198,6 +198,7 @@
       "v" = "cycle sub-visibility";
       "j" = "cycle sub";
       "J" = "cycle sub down";
+      "b" = "cycle audio";
       "f" = "cycle fullscreen";
       "s" = "screenshot";
       "S" = "screenshot video";
@@ -265,14 +266,14 @@
     plugins = with pkgs.vimPlugins; [
       # lightline-vim
       {plugin = lightline-vim; config = "set noshowmode";}
-      # {
-      #   plugin = vim-code-dark;
-      #   config = ''
-      #     let base16colorspace=256
-      #     set termguicolors
-      #     colorscheme codedark
-      #   '';
-      # }
+      {
+        plugin = vim-code-dark;
+        config = ''
+          let base16colorspace=256
+          set termguicolors
+          colorscheme codedark
+        '';
+      }
     ];
     coc = {
       enable = true;
@@ -995,10 +996,11 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
   #
 
   home.shellAliases = {
-    ls = "eza --color=auto";
-    lsa = "eza -a --color=auto";
-    ll = "eza -lh --color=auto";
-    lla = "eza -lha --color=auto";
+    ls = "eza --color=auto --icons";
+    ll = "eza -lh --color=auto --icons";
+    lt = "eza --tree --level=2";
+    lsa = "eza -a --color=auto --icons";
+    lla = "eza -lha --color=auto --icons";
     vim = "nvim";
     cp = "cp -i";
     grep = "grep --colour=auto";

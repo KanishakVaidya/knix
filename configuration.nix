@@ -11,7 +11,7 @@
     ];
 
   # Choosing the kernel
-  boot.kernelPackages = pkgs.linuxPackages_6_1;
+  # boot.kernelPackages = pkgs.linuxPackages_6_1;
 
   # Bootloader.
   boot.loader.systemd-boot = {
@@ -91,13 +91,17 @@
 
   programs.nix-ld.enable = true;
 
+  # Virt Manager
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
   programs.zsh.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.keshav = {
     isNormalUser = true;
     description = "keshav";
     shell = pkgs.zsh;
-    extraGroups = [ "video" "networkmanager" "wheel" ];
+    extraGroups = [ "video" "networkmanager" "wheel" "libvirtd" ];
     packages = with pkgs; [];
   };
 
