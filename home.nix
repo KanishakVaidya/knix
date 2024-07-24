@@ -998,7 +998,7 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
   home.shellAliases = {
     ls = "eza --color=auto --icons";
     ll = "eza -lh --color=auto --icons";
-    lt = "eza --tree --level=2";
+    lt = "eza --tree --icons --level=2";
     lsa = "eza -a --color=auto --icons";
     lla = "eza -lha --color=auto --icons";
     vim = "nvim";
