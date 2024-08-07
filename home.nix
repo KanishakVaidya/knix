@@ -159,6 +159,13 @@
     recursive = true;
   };
 
+  home.file."rofi" = {
+    enable = true;
+    source = ./dotfiles/rofi;
+    target = ".config/rofi";
+    recursive = true;
+  };
+
   programs.mpv = {
     enable = true;
     bindings = {
@@ -618,6 +625,7 @@ windowrulev2 = float,title:^(Removable medium is inserted)$
 windowrulev2 = float,class:^(lxqt-archiver)$,title:^(Progress)$
 windowrulev2 = float,class:^(firefox)$,title:^(Close Firefox)$
 windowrulev2 = float,class:^(myfloat)$
+windowrulev2 = float,title:^(Copy Files)$
 
 # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
 
@@ -692,26 +700,27 @@ bind = ,Print,exec,grim ~/pic/$(date +Screenshot_%Y%m%d_%H%M%S.png)
 
 
 # Gaming Mode
-bind=$mainMod,G,submap,(1)RVGL (2)Quake3 (3)0AD (4)Lutris
+# bind=$mainMod,G,submap,(1)RVGL (2)Quake3 (3)0AD (4)Lutris
+bind=$mainMod,G,exec,lutris
 
-# will start the submap
-submap=(1)RVGL (2)Quake3 (3)0AD (4)Lutris
-
-# sets binds for opening the games
-binde=,1,execr,(cd ~/pc/games/rvgl_full_linux_original; NIX_LD_LIBRARY_PATH=./lib/lib64 nix-alien-ld ./rvgl.64)
-binde=,2,exec,~/dwn/quake-iii-arena/ioquake3.x86_64
-binde=,3,exec,0ad
-binde=,4,exec,lutris
-
-# use reset to go back to the global submap
-binde=,1,submap,reset
-binde=,2,submap,reset
-binde=,3,submap,reset
-binde=,4,submap,reset
-bind=,escape,submap,reset
-
-# will reset the submap, meaning end the current one and return to the global one
-submap=reset
+#  # will start the submap
+#  submap=(1)RVGL (2)Quake3 (3)0AD (4)Lutris
+#  
+#  # sets binds for opening the games
+#  binde=,1,execr,(cd ~/pc/games/rvgl_full_linux_original; NIX_LD_LIBRARY_PATH=./lib/lib64 nix-alien-ld ./rvgl.64)
+#  binde=,2,exec,~/dwn/quake-iii-arena/ioquake3.x86_64
+#  binde=,3,exec,0ad
+#  binde=,4,exec,lutris
+#  
+#  # use reset to go back to the global submap
+#  binde=,1,submap,reset
+#  binde=,2,submap,reset
+#  binde=,3,submap,reset
+#  binde=,4,submap,reset
+#  bind=,escape,submap,reset
+#  
+#  # will reset the submap, meaning end the current one and return to the global one
+#  submap=reset
 
 
 bind=$mainMod_SHIFT,d,submap,(c)lose, (C)lose all, (i)nformation, (h)istory
@@ -861,15 +870,15 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
       backgroundColor = "#151515";
       textColor = "#d4d4d4";
       width = 300;
-      height = 110;
+      height = 500;
       borderSize = 2;
       borderColor = "#88c0d0";
       borderRadius = 15;
       icons = false;
       maxIconSize = 64;
-      defaultTimeout = 5000;
+      defaultTimeout = 10000;
       ignoreTimeout = true;
-      font = "JetBrainsMono Nerd Font 14";
+      font = "JetBrainsMono Nerd Font 11";
       extraConfig = ''
       [urgency=low]
       border-color=#f0c674
@@ -879,7 +888,7 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
       
       [urgency=high]
       border-color=#f44747
-      default-timeout=59000
+      default-timeout=59800
         '';
     };
 

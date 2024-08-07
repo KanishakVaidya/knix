@@ -18,7 +18,7 @@ lang=$(hyprctl -j devices | jq -r '.keyboards[] | select(.name == "liteon-dell-w
 case $lang in
     "English (US)") text="en" ;;
     "Indian") text="in" ;;
-    *) text=$land
+    *) text=$lang
 esac
 
 # Employing a hack to get caps lock state in hyprland for now.
