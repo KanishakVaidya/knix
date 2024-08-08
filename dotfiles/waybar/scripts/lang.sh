@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+keyboard=$(hyprctl -j devices | jq -r '.keyboards[] | select(.main) | .name')
+
 toggle_lang () {
-    hyprctl switchxkblayout liteon-dell-wireless-device next
+    hyprctl switchxkblayout $keyboard next
 }
 
 if [ -z ${BLOCK_BUTTON+x} ]; then
@@ -13,12 +15,12 @@ case $BLOCK_BUTTON in
     *) ;;
 esac
 
-lang=$(hyprctl -j devices | jq -r '.keyboards[] | select(.name == "liteon-dell-wireless-device") | .active_keymap')
+lang=$(hyprctl -j devices | jq -r '.keyboards[] | select(.main) | .active_keymap')
 
 case $lang in
     "English (US)") text="en" ;;
     "Indian") text="in" ;;
-    *) text=$lang
+    *) text=$land
 esac
 
 # Employing a hack to get caps lock state in hyprland for now.

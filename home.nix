@@ -40,7 +40,7 @@
     onlyoffice-bin lxqt.lxqt-archiver nomacs gimp emacs-gtk signal-desktop xournalpp
     unzip pulseaudio lxqt.pavucontrol-qt jq 
     python311Packages.python-lsp-server python311Packages.ipython 
-    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; })
+    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; }) lohit-fonts.devanagari
     texliveFull texlab
     libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct qt6Packages.qtstyleplugin-kvantum qt6Packages.qt6ct
     libnotify wl-clipboard swaybg hyprlock
