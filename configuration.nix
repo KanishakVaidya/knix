@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, systemSettings, userSettings, ... }:
 
 {
   imports =
@@ -28,7 +28,7 @@
   # };
   boot.tmp.cleanOnBoot = true;
 
-  networking.hostName = "knix"; # Define your hostname.
+  networking.hostName = systemSettings.hostname; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -61,10 +61,10 @@
   services.blueman.enable = true;
 
   # Set your time zone.
-  time.timeZone = "Asia/Kolkata";
+  time.timeZone = systemSettings.timezone;
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = systemSettings.defaultLocale;
   console = {
     earlySetup = true;
     font = "${pkgs.terminus_font}/share/consolefonts/ter-228b.psf.gz";
@@ -99,13 +99,16 @@
 
   programs.zsh.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.keshav = {
+  users.users.${userSettings.username} = {
     isNormalUser = true;
-    description = "keshav";
+    description = userSettings.name;
     shell = pkgs.zsh;
     extraGroups = [ "video" "networkmanager" "wheel" "libvirtd" ];
     packages = with pkgs; [];
   };
+
+  # AutoLogin
+  services.getty.autologinUser = systemSettings.autologinUser;
 
   # Let's use flake
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

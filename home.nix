@@ -38,7 +38,7 @@
     tofi rofi-wayland waybar networkmanager_dmenu
     foot firefox brave lxqt.pcmanfm-qt geany-with-vte
     onlyoffice-bin lxqt.lxqt-archiver nomacs gimp emacs-gtk signal-desktop xournalpp
-    unzip pulseaudio lxqt.pavucontrol-qt jq 
+    unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
     python311Packages.python-lsp-server python311Packages.ipython 
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; }) lohit-fonts.devanagari
     texliveFull texlab
@@ -48,7 +48,7 @@
     grim slurp swappy
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
     # Games
-    lutris
+    lutris protonup-qt
   ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]);
 
   stylix = {

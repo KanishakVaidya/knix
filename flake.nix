@@ -19,8 +19,12 @@
       pkgs = import inputs.nixpkgs {system = "x86_64-linux"; config.allowUnfree = true;};
       systemSettings = {
         hostname = "knix";
+        timezone = "Asia/Kolkata";
+        defaultLocale = "en_US.UTF-8";
+        autologinUser = "keshav";  # null if don't want autologin
       };
       userSettings = {
+        name = "Keshav";
         username = "keshav";
         useremail = "keshav@knix.home";
       };
@@ -30,7 +34,7 @@
           inherit system;
           modules = [./configuration.nix];
           specialArgs = {
-            inherit systemSettings;
+            inherit systemSettings userSettings;
           };
         };
       };
