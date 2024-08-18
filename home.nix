@@ -37,8 +37,8 @@
     bat htop freshfetch eza direnv
     tofi rofi-wayland waybar networkmanager_dmenu
     foot firefox brave lxqt.pcmanfm-qt geany-with-vte
-    onlyoffice-bin lxqt.lxqt-archiver nomacs gimp emacs-gtk signal-desktop xournalpp
-    unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
+    onlyoffice-bin nomacs gimp emacs-gtk signal-desktop xournalpp transmission-qt
+    lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
     python311Packages.python-lsp-server python311Packages.ipython 
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; }) lohit-fonts.devanagari
     texliveFull texlab
@@ -52,6 +52,7 @@
   ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]);
 
   stylix = {
+    enable = false;
     # base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
     base16Scheme = {
       base00 = "151515";
@@ -163,6 +164,13 @@
     enable = true;
     source = ./dotfiles/rofi;
     target = ".config/rofi";
+    recursive = true;
+  };
+
+  home.file."swappy" = {
+    enable = true;
+    source = ./dotfiles/swappy;
+    target = ".config/swappy";
     recursive = true;
   };
 
@@ -867,18 +875,18 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
       enable = true;
       sort = "-time";
       layer = "overlay";
-      backgroundColor = "#151515";
       textColor = "#d4d4d4";
       width = 300;
       height = 500;
       borderSize = 2;
-      borderColor = "#88c0d0";
       borderRadius = 15;
       icons = false;
       maxIconSize = 64;
       defaultTimeout = 10000;
       ignoreTimeout = true;
       font = "JetBrainsMono Nerd Font 11";
+      borderColor = "#88c0d0";
+      backgroundColor = "#151515";
       extraConfig = ''
       [urgency=low]
       border-color=#f0c674

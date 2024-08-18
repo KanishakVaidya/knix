@@ -8,5 +8,9 @@ configuration {
   // combi {
   //   display-name: "Applications";
   // }
+  kb-remove-to-eol: "";
+  kb-accept-entry: "Return";
+  kb-row-down: "Down,Control+j";
+  kb-row-up: "Up,Control+k";
 }
 @theme "/home/keshav/.config/rofi/themes/oxide.rasi"
