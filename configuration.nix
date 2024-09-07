@@ -28,6 +28,15 @@
   # };
   boot.tmp.cleanOnBoot = true;
 
+  # To enable OBS virtual camera
+  boot = {
+    extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
+    kernelModules = [ "v4l2loopback" ];
+    extraModprobeConfig = ''
+      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+      '';
+  };
+
   networking.hostName = systemSettings.hostname; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 

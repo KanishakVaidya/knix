@@ -48,7 +48,7 @@
     grim slurp swappy
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
     # Games
-    lutris protonup-qt
+    lutris protonup-qt ioquake3
   ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]);
 
   stylix = {
@@ -374,10 +374,6 @@
     enable = true;
     settings = {
       monitor = ",preferred,auto,1";
-      misc = {
-        disable_hyprland_logo = true;
-        disable_splash_rendering = true;
-      };
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
       "$mainMod" = "SUPER";
       exec-once = [
@@ -750,11 +746,11 @@ submap=reset
 
 
 # FREQUENT APPS
-bind=$mainMod,o,submap,(1)Signal, (2)MPV, (3)OBS, (4) Virt Manager
+bind=$mainMod,o,submap,(1)Signal, (2)Transmission, (3)OBS, (4) Virt Manager
 
-submap=(1)Signal, (2)MPV, (3)OBS, (4) Virt Manager
+submap=(1)Signal, (2)Transmission, (3)OBS, (4) Virt Manager
 bind=,1,exec,signal-desktop
-bind=,2,exec,mpv
+bind=,2,exec,transmission-qt
 bind=,3,exec,obs
 bind=,4,exec,virt-manager
 bind=,1,submap,reset
@@ -905,6 +901,14 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
     };
   };
 
+  programs.obs-studio = {
+    enable = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs
+      obs-pipewire-audio-capture
+    ];
+  };
+
   programs.yazi = {
     enable = true;
     settings = {
@@ -1018,6 +1022,7 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
     lt = "eza --tree --icons --level=2";
     lsa = "eza -a --color=auto --icons";
     lla = "eza -lha --color=auto --icons";
+    yz = "yazi";
     vim = "nvim";
     cp = "cp -i";
     grep = "grep --colour=auto";
