@@ -370,12 +370,34 @@
     };
   };
 
+  home.file."hyprScripts" = {
+    enable = true;
+    source = ./dotfiles/hypr/scripts;
+    target = ".config/hypr/scripts";
+    recursive = true;
+  };
+
+  home.file."hyprlock" = {
+    enable = true;
+    source = ./dotfiles/hypr/hyprlock.conf;
+    target = ".config/hypr/hyprlock.conf";
+  };
+
+  home.file."hyprmonitors" = {
+    enable = true;
+    source = ./dotfiles/hypr/default-monitors.conf;
+    target = ".config/hypr/default-monitors.conf";
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
       monitor = ",preferred,auto,1";
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
       "$mainMod" = "SUPER";
+      misc = {
+        disable_hyprland_logo = true;
+      };
       exec-once = [
         "~/.config/hypr/scripts/bg.sh"
         "mako"
@@ -427,6 +449,11 @@
         "$mainMod_SHIFT, j,       movewindoworgroup, d"
         "$mainMod_SHIFT, k,       movewindoworgroup, u"
         "$mainMod_SHIFT, l,       movewindoworgroup, r"
+
+        # Moves the active workspace to a monitor
+        "$mainMod_SHIFT, period, movecurrentworkspacetomonitor, +1"
+        "$mainMod_SHIFT, comma,  movecurrentworkspacetomonitor, -1"
+        "$mainMod SHIFT, M, swapactiveworkspaces, current +1"
 
       ] ++ (
         # workspaces
@@ -765,10 +792,6 @@ submap=reset
 # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
 # bind = $mainMod, space, exec,bemenu-run -l 20 -i --line-height 25 --fn "JetBrainsMono Nerd Font 14" --tb \##4e9cb0 --tf \##1e1e1e --hb \##f0c674 --hf \##1e1e1e
 # bind = $mainMod, space, exec,tofi-drun
-# Moves the active workspace to a monitor
-bind = $mainMod_SHIFT, period, movecurrentworkspacetomonitor, r
-bind = $mainMod_SHIFT, comma,  movecurrentworkspacetomonitor, l
-bind = $mainMod SHIFT, M, swapactiveworkspaces, eDP-1 HDMI-A-1
 
 # Clamping Workspaces to monitor
 workspace = 1, monitor:eDP-1
@@ -802,19 +825,6 @@ bind=ALT,SHIFT,exec,pkill -SIGRTMIN+13 waybar
 binde=, XF86MonBrightnessUp,   exec, ~/.config/waybar/scripts/amd_bl.sh 4 && pkill -SIGRTMIN+12 waybar
 binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pkill -SIGRTMIN+12 waybar
     '';
-  };
-
-  home.file."hyprScripts" = {
-    enable = true;
-    source = ./dotfiles/hypr/scripts;
-    target = ".config/hypr/scripts";
-    recursive = true;
-  };
-
-  home.file."hyprlock" = {
-    enable = true;
-    source = ./dotfiles/hypr/hyprlock.conf;
-    target = ".config/hypr/hyprlock.conf";
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
