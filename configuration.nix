@@ -2,16 +2,17 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, systemSettings, userSettings, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./nvidia.nix
     ];
 
   # Choosing the kernel
-  boot.kernelPackages = pkgs.linuxPackages_6_1;
+  # boot.kernelPackages = pkgs.linuxPackages_6_1;
 
   # Bootloader.
   boot.loader.systemd-boot = {
@@ -27,7 +28,16 @@
   # };
   boot.tmp.cleanOnBoot = true;
 
-  networking.hostName = "knix"; # Define your hostname.
+  # To enable OBS virtual camera
+  boot = {
+    extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
+    kernelModules = [ "v4l2loopback" ];
+    extraModprobeConfig = ''
+      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+      '';
+  };
+
+  networking.hostName = systemSettings.hostname; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -60,10 +70,10 @@
   services.blueman.enable = true;
 
   # Set your time zone.
-  time.timeZone = "Asia/Kolkata";
+  time.timeZone = systemSettings.timezone;
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = systemSettings.defaultLocale;
   console = {
     earlySetup = true;
     font = "${pkgs.terminus_font}/share/consolefonts/ter-228b.psf.gz";
@@ -85,21 +95,29 @@
 
   # Configure keymap in X11
   services.xserver = {
-    xkb.layout = "us";
+    xkb.layout = "us,in";
     xkb.variant = "";
+    xkb.options = "";
   };
 
   programs.nix-ld.enable = true;
 
+  # Virt Manager
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
   programs.zsh.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.keshav = {
+  users.users.${userSettings.username} = {
     isNormalUser = true;
-    description = "keshav";
+    description = userSettings.name;
     shell = pkgs.zsh;
-    extraGroups = [ "video" "networkmanager" "wheel" ];
+    extraGroups = [ "video" "networkmanager" "wheel" "libvirtd" ];
     packages = with pkgs; [];
   };
+
+  # AutoLogin
+  services.getty.autologinUser = systemSettings.autologinUser;
 
   # Let's use flake
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -114,52 +132,6 @@
     xwayland.enable = true;
   };
 
-  # NVIDIA
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
-
-  boot.initrd.kernelModules = [ "amdgpu" ];
-  services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
-
-  hardware.nvidia = {
-
-    # Modesetting is required.
-    modesetting.enable = true;
-
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    powerManagement.enable = false;
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
-
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
-    # Only available from driver 515.43.04+
-    # Currently alpha-quality/buggy, so false is currently the recommended setting.
-    open = false;
-
-    # Enable the Nvidia settings menu,
-	# accessible via `nvidia-settings`.
-    nvidiaSettings = true;
-
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-    prime = {
-      offload = {
-	      enable = true;
-	      enableOffloadCmd = true;
-      };
-      amdgpuBusId = "PCI:5:0:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

@@ -10,6 +10,7 @@ done
 option=$(echo "${displays[0]} only
 ${displays[1]} only
 Mirror
+${displays[0]} bottom of ${displays[1]}
 ${displays[0]} left of ${displays[1]}
 ${displays[1]} left of ${displays[0]}" | rofi -dmenu -p "Choose display configuration")
 
@@ -25,4 +26,7 @@ then
 elif [ "$option" == "${displays[1]} left of ${displays[0]}" ]
 then
 	hyprctl --batch "reload; keyword monitor ${display[1]},1920x1080,0x0,1; keyword monitor ${display[0]},1920x1080,1920x0,1;"
+elif [ "$option" == "${displays[0]} bottom of ${displays[1]}" ]
+then
+	hyprctl --batch "reload; keyword monitor ${display[0]},1920x1080,0x0,1; keyword monitor ${display[1]},1920x1080,0x1080,1;"
 fi

@@ -13,7 +13,7 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  home.stateVersion = "24.05"; # Please read the comment before changing.
   
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -36,11 +36,11 @@
     # '')
     bat htop freshfetch eza direnv
     tofi rofi-wayland waybar networkmanager_dmenu
-    foot firefox brave lxqt.pcmanfm-qt
-    onlyoffice-bin lxqt.lxqt-archiver nomacs gimp emacs-gtk signal-desktop xournalpp
-    unzip pulseaudio lxqt.pavucontrol-qt jq 
+    foot firefox brave lxqt.pcmanfm-qt geany-with-vte
+    onlyoffice-bin nomacs gimp emacs-gtk signal-desktop xournalpp transmission-qt
+    lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
     python311Packages.python-lsp-server python311Packages.ipython 
-    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "CascadiaCode" "FiraCode" ]; })
+    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; }) lohit-fonts.devanagari
     texliveFull texlab
     libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct qt6Packages.qtstyleplugin-kvantum qt6Packages.qt6ct
     libnotify wl-clipboard swaybg hyprlock
@@ -48,8 +48,56 @@
     grim slurp swappy
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
     # Games
-    lutris
+    lutris protonup-qt ioquake3
   ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]);
+
+  stylix = {
+    enable = false;
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
+    base16Scheme = {
+      base00 = "151515";
+      base01 = "202020";
+      base02 = "404040";
+      base03 = "505050";
+      base04 = "a0a0a0";
+      base05 = "d4d4d4";
+      base06 = "e9e9e9";
+      base07 = "ffffff";
+      base08 = "f44747";
+      base09 = "de935f";
+      base0A = "d7ba7d";
+      base0B = "608b4e";
+      base0C = "9cdcfe";
+      base0D = "569cd6";
+      base0E = "c586c0";
+      base0F = "d16969";
+    };
+    # base16Scheme = {base00 = "262626"; base01 = "343434"; base02 = "373737"; base03 = "666666"; base04 = "888888"; base05 = "e4e4e4"; base06 = "f5f5f5"; base07 = "ffffff"; base08 = "f44747"; base09 = "ffaf00"; base0A = "d7ba7d"; base0B = "4ec9b0"; base0C = "0a7aca"; base0D = "5c6bf8"; base0E = "ddb6f2"; base0F = "d16969";};
+    image = /home/keshav/.local/share/backgrounds/000.jpg;
+    targets = {
+      # gtk.enable = true;
+      # kde.enable = true; 
+      firefox.enable = true;
+    };
+    polarity = "dark";
+    fonts = {
+      monospace = {
+        name = "JetBrainsMono Nerd Font";
+        package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "CascadiaCode" "FiraCode" ]; };
+      };
+      sizes = {
+        terminal = 14;
+      };
+    };
+    cursor = {
+      name = "Quintom_Snow";
+      package = pkgs.quintom-cursor-theme;
+    };
+    opacity = {
+      terminal = 0.9;
+    };
+    targets.btop.enable = false;
+  };
 
   programs.btop = {
     enable = true;
@@ -112,6 +160,20 @@
     recursive = true;
   };
 
+  home.file."rofi" = {
+    enable = true;
+    source = ./dotfiles/rofi;
+    target = ".config/rofi";
+    recursive = true;
+  };
+
+  home.file."swappy" = {
+    enable = true;
+    source = ./dotfiles/swappy;
+    target = ".config/swappy";
+    recursive = true;
+  };
+
   programs.mpv = {
     enable = true;
     bindings = {
@@ -151,6 +213,7 @@
       "v" = "cycle sub-visibility";
       "j" = "cycle sub";
       "J" = "cycle sub down";
+      "b" = "cycle audio";
       "f" = "cycle fullscreen";
       "s" = "screenshot";
       "S" = "screenshot video";
@@ -307,16 +370,34 @@
     };
   };
 
+  home.file."hyprScripts" = {
+    enable = true;
+    source = ./dotfiles/hypr/scripts;
+    target = ".config/hypr/scripts";
+    recursive = true;
+  };
+
+  home.file."hyprlock" = {
+    enable = true;
+    source = ./dotfiles/hypr/hyprlock.conf;
+    target = ".config/hypr/hyprlock.conf";
+  };
+
+  home.file."hyprmonitors" = {
+    enable = true;
+    source = ./dotfiles/hypr/default-monitors.conf;
+    target = ".config/hypr/default-monitors.conf";
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
       monitor = ",preferred,auto,1";
-      misc = {
-        disable_hyprland_logo = true;
-        disable_splash_rendering = true;
-      };
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
       "$mainMod" = "SUPER";
+      misc = {
+        disable_hyprland_logo = true;
+      };
       exec-once = [
         "~/.config/hypr/scripts/bg.sh"
         "mako"
@@ -368,6 +449,11 @@
         "$mainMod_SHIFT, j,       movewindoworgroup, d"
         "$mainMod_SHIFT, k,       movewindoworgroup, u"
         "$mainMod_SHIFT, l,       movewindoworgroup, r"
+
+        # Moves the active workspace to a monitor
+        "$mainMod_SHIFT, period, movecurrentworkspacetomonitor, +1"
+        "$mainMod_SHIFT, comma,  movecurrentworkspacetomonitor, -1"
+        "$mainMod SHIFT, M, swapactiveworkspaces, current +1"
 
       ] ++ (
         # workspaces
@@ -546,7 +632,7 @@ dwindle {
 
 master {
     # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-    new_is_master = true
+    new_status = slave
 }
 
 gestures {
@@ -570,6 +656,7 @@ windowrulev2 = float,title:^(Removable medium is inserted)$
 windowrulev2 = float,class:^(lxqt-archiver)$,title:^(Progress)$
 windowrulev2 = float,class:^(firefox)$,title:^(Close Firefox)$
 windowrulev2 = float,class:^(myfloat)$
+windowrulev2 = float,title:^(Copy Files)$
 
 # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
 
@@ -644,26 +731,27 @@ bind = ,Print,exec,grim ~/pic/$(date +Screenshot_%Y%m%d_%H%M%S.png)
 
 
 # Gaming Mode
-bind=$mainMod,G,submap,(1)RVGL (2)Quake3 (3)0AD (4)Lutris
+# bind=$mainMod,G,submap,(1)RVGL (2)Quake3 (3)0AD (4)Lutris
+bind=$mainMod,G,exec,lutris
 
-# will start the submap
-submap=(1)RVGL (2)Quake3 (3)0AD (4)Lutris
-
-# sets binds for opening the games
-binde=,1,execr,(cd ~/pc/games/rvgl_full_linux_original; NIX_LD_LIBRARY_PATH=./lib/lib64 nix-alien-ld ./rvgl.64)
-binde=,2,exec,~/dwn/quake-iii-arena/ioquake3.x86_64
-binde=,3,exec,0ad
-binde=,4,exec,lutris
-
-# use reset to go back to the global submap
-binde=,1,submap,reset
-binde=,2,submap,reset
-binde=,3,submap,reset
-binde=,4,submap,reset
-bind=,escape,submap,reset
-
-# will reset the submap, meaning end the current one and return to the global one
-submap=reset
+#  # will start the submap
+#  submap=(1)RVGL (2)Quake3 (3)0AD (4)Lutris
+#  
+#  # sets binds for opening the games
+#  binde=,1,execr,(cd ~/pc/games/rvgl_full_linux_original; NIX_LD_LIBRARY_PATH=./lib/lib64 nix-alien-ld ./rvgl.64)
+#  binde=,2,exec,~/dwn/quake-iii-arena/ioquake3.x86_64
+#  binde=,3,exec,0ad
+#  binde=,4,exec,lutris
+#  
+#  # use reset to go back to the global submap
+#  binde=,1,submap,reset
+#  binde=,2,submap,reset
+#  binde=,3,submap,reset
+#  binde=,4,submap,reset
+#  bind=,escape,submap,reset
+#  
+#  # will reset the submap, meaning end the current one and return to the global one
+#  submap=reset
 
 
 bind=$mainMod_SHIFT,d,submap,(c)lose, (C)lose all, (i)nformation, (h)istory
@@ -685,11 +773,11 @@ submap=reset
 
 
 # FREQUENT APPS
-bind=$mainMod,o,submap,(1)Signal, (2)MPV, (3)OBS, (4) Virt Manager
+bind=$mainMod,o,submap,(1)Signal, (2)Transmission, (3)OBS, (4) Virt Manager
 
-submap=(1)Signal, (2)MPV, (3)OBS, (4) Virt Manager
+submap=(1)Signal, (2)Transmission, (3)OBS, (4) Virt Manager
 bind=,1,exec,signal-desktop
-bind=,2,exec,mpv
+bind=,2,exec,transmission-qt
 bind=,3,exec,obs
 bind=,4,exec,virt-manager
 bind=,1,submap,reset
@@ -704,10 +792,6 @@ submap=reset
 # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
 # bind = $mainMod, space, exec,bemenu-run -l 20 -i --line-height 25 --fn "JetBrainsMono Nerd Font 14" --tb \##4e9cb0 --tf \##1e1e1e --hb \##f0c674 --hf \##1e1e1e
 # bind = $mainMod, space, exec,tofi-drun
-# Moves the active workspace to a monitor
-bind = $mainMod_SHIFT, period, movecurrentworkspacetomonitor, r
-bind = $mainMod_SHIFT, comma,  movecurrentworkspacetomonitor, l
-bind = $mainMod SHIFT, M, swapactiveworkspaces, eDP-1 HDMI-A-1
 
 # Clamping Workspaces to monitor
 workspace = 1, monitor:eDP-1
@@ -741,19 +825,6 @@ bind=ALT,SHIFT,exec,pkill -SIGRTMIN+13 waybar
 binde=, XF86MonBrightnessUp,   exec, ~/.config/waybar/scripts/amd_bl.sh 4 && pkill -SIGRTMIN+12 waybar
 binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pkill -SIGRTMIN+12 waybar
     '';
-  };
-
-  home.file."hyprScripts" = {
-    enable = true;
-    source = ./dotfiles/hypr/scripts;
-    target = ".config/hypr/scripts";
-    recursive = true;
-  };
-
-  home.file."hyprlock" = {
-    enable = true;
-    source = ./dotfiles/hypr/hyprlock.conf;
-    target = ".config/hypr/hyprlock.conf";
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -810,18 +881,18 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
       enable = true;
       sort = "-time";
       layer = "overlay";
-      backgroundColor = "#1e1e1e";
       textColor = "#d4d4d4";
       width = 300;
-      height = 110;
+      height = 500;
       borderSize = 2;
-      borderColor = "#88c0d0";
       borderRadius = 15;
       icons = false;
       maxIconSize = 64;
-      defaultTimeout = 5000;
+      defaultTimeout = 10000;
       ignoreTimeout = true;
-      font = "JetBrainsMono Nerd Font 14";
+      font = "JetBrainsMono Nerd Font 11";
+      borderColor = "#88c0d0";
+      backgroundColor = "#151515";
       extraConfig = ''
       [urgency=low]
       border-color=#f0c674
@@ -831,13 +902,21 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
       
       [urgency=high]
       border-color=#f44747
-      default-timeout=59000
-    '';
+      default-timeout=59800
+        '';
     };
 
     syncthing = {
       enable = true;
     };
+  };
+
+  programs.obs-studio = {
+    enable = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs
+      obs-pipewire-audio-capture
+    ];
   };
 
   programs.yazi = {
@@ -897,41 +976,41 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
 
   programs.zathura = {
     enable = true;
-    options = {
-      font = "JetBrainsMono Nerd Font 14";
-      first-page-column = 1;
-      notification-error-bg =   "#1e1e1e"; # bg
-      notification-error-fg =   "#f44747"; # bright:red
-      notification-warning-bg = "#1e1e1e"; # bg
-      notification-warning-fg = "#d7ba7d"; # bright:yellow
-      notification-bg =         "#1e1e1e"; # bg
-      notification-fg =         "#608b4e"; # bright:green
-      completion-bg =           "#0f1011"; # bg2
-      completion-fg =           "#e1e1e1"; # fg
-      completion-group-bg =     "#3c3836"; # bg1
-      completion-group-fg =     "#928374"; # gray
-      completion-highlight-bg = "#569cd6"; # bright:blue
-      completion-highlight-fg = "#0f1011"; # bg2
-      # Define the color in index mode
-      index-bg =                    "#0f1011"; # bg2
-      index-fg =                    "#e1e1e1"; # fg
-      index-active-bg =             "#569cd6"; # bright:blue
-      index-active-fg =             "#0f1011"; # bg2
-      inputbar-bg =                 "#282828"; # bg
-      inputbar-fg =                 "#e1e1e1"; # fg
-      statusbar-bg =                "#0f1011"; # bg2
-      statusbar-fg =                "#e1e1e1"; # fg
-      highlight-color =             "#00ff00"; # bright:yellow
-      highlight-active-color =      "#00fa9a"; # bright:orange
-      highlight-transparency =      "0.4";
-      default-bg =                  "#1e1e1e"; # bg
-      default-fg =                  "#e1e1e1"; # fg
-      render-loading =              true;
-      render-loading-bg =           "#1e1e1e"; # bg
-      render-loading-fg =           "#e1e1e1"; # fg
-      recolor-lightcolor =          "#1e1e1e"; # bg
-      recolor-darkcolor =           "#e1e1e1"; # fg
-    };
+  #   options = {
+  #     font = "JetBrainsMono Nerd Font 14";
+  #     first-page-column = 1;
+  #     notification-error-bg =   "#1e1e1e"; # bg
+  #     notification-error-fg =   "#f44747"; # bright:red
+  #     notification-warning-bg = "#1e1e1e"; # bg
+  #     notification-warning-fg = "#d7ba7d"; # bright:yellow
+  #     notification-bg =         "#1e1e1e"; # bg
+  #     notification-fg =         "#608b4e"; # bright:green
+  #     completion-bg =           "#0f1011"; # bg2
+  #     completion-fg =           "#e1e1e1"; # fg
+  #     completion-group-bg =     "#3c3836"; # bg1
+  #     completion-group-fg =     "#928374"; # gray
+  #     completion-highlight-bg = "#569cd6"; # bright:blue
+  #     completion-highlight-fg = "#0f1011"; # bg2
+  #     # Define the color in index mode
+  #     index-bg =                    "#0f1011"; # bg2
+  #     index-fg =                    "#e1e1e1"; # fg
+  #     index-active-bg =             "#569cd6"; # bright:blue
+  #     index-active-fg =             "#0f1011"; # bg2
+  #     inputbar-bg =                 "#282828"; # bg
+  #     inputbar-fg =                 "#e1e1e1"; # fg
+  #     statusbar-bg =                "#0f1011"; # bg2
+  #     statusbar-fg =                "#e1e1e1"; # fg
+  #     highlight-color =             "#00ff00"; # bright:yellow
+  #     highlight-active-color =      "#00fa9a"; # bright:orange
+  #     highlight-transparency =      "0.4";
+  #     default-bg =                  "#1e1e1e"; # bg
+  #     default-fg =                  "#e1e1e1"; # fg
+  #     render-loading =              true;
+  #     render-loading-bg =           "#1e1e1e"; # bg
+  #     render-loading-fg =           "#e1e1e1"; # fg
+  #     recolor-lightcolor =          "#1e1e1e"; # bg
+  #     recolor-darkcolor =           "#e1e1e1"; # fg
+  #   };
   };
 
 
@@ -948,10 +1027,12 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
   #
 
   home.shellAliases = {
-    ls = "eza --color=auto";
-    lsa = "eza -a --color=auto";
-    ll = "eza -lh --color=auto";
-    lla = "eza -lha --color=auto";
+    ls = "eza --color=auto --icons";
+    ll = "eza -lh --color=auto --icons";
+    lt = "eza --tree --icons --level=2";
+    lsa = "eza -a --color=auto --icons";
+    lla = "eza -lha --color=auto --icons";
+    yz = "yazi";
     vim = "nvim";
     cp = "cp -i";
     grep = "grep --colour=auto";
