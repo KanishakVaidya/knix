@@ -16,7 +16,7 @@
     let
       system = "x86_64-linux";
       # pkgs = inputs.nixpkgs.legacyPackages.${system};
-      pkgs = import inputs.nixpkgs {system = "x86_64-linux"; config.allowUnfree = true;};
+      pkgs = import inputs.nixpkgs {system = system; config.allowUnfree = true;};
       systemSettings = {
         hostname = "knix";
         timezone = "Asia/Kolkata";
@@ -30,7 +30,7 @@
       };
     in {
       nixosConfigurations = {
-        knix = inputs.nixpkgs.lib.nixosSystem {
+        ${systemSettings.hostname} = inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [./configuration.nix];
           specialArgs = {
@@ -38,7 +38,7 @@
           };
         };
       };
-      homeConfigurations.keshav = inputs.home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.${userSettings.username} = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           ./home.nix
