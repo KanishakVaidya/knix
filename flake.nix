@@ -21,7 +21,7 @@
         hostname = "knix";
         timezone = "Asia/Kolkata";
         defaultLocale = "en_US.UTF-8";
-        autologinUser = "keshav";  # null if don't want autologin
+        autologinUser = null;  # null if don't want autologin
       };
       userSettings = {
         name = "Keshav";
