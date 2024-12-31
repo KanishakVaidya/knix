@@ -37,7 +37,7 @@
     bat htop freshfetch eza direnv
     tofi rofi-wayland waybar networkmanager_dmenu
     foot firefox brave lxqt.pcmanfm-qt geany-with-vte
-    onlyoffice-bin nomacs gimp emacs-gtk signal-desktop xournalpp transmission-qt
+    onlyoffice-bin nomacs gimp emacs-gtk signal-desktop xournalpp transmission_4-qt
     lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
     python311Packages.python-lsp-server python311Packages.ipython 
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; }) lohit-fonts.devanagari
