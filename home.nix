@@ -34,16 +34,16 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    bat htop freshfetch eza direnv
+    bat htop eza direnv
     tofi rofi-wayland waybar networkmanager_dmenu
-    foot firefox brave lxqt.pcmanfm-qt geany-with-vte
-    onlyoffice-bin nomacs gimp emacs-gtk signal-desktop xournalpp transmission_4-qt
+    foot firefox brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin
+    onlyoffice-bin libreoffice-fresh nomacs gimp emacs-gtk signal-desktop xournalpp transmission_4-qt
     lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
     python311Packages.python-lsp-server python311Packages.ipython 
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; }) lohit-fonts.devanagari
     texliveFull texlab
     libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct qt6Packages.qtstyleplugin-kvantum qt6Packages.qt6ct
-    libnotify wl-clipboard swaybg hyprlock
+    libnotify wl-clipboard swaybg hyprlock hyprsunset
     # Screenshot
     grim slurp swappy
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
@@ -118,10 +118,33 @@
     nix-direnv.enable = true;
   };
 
+  programs.fastfetch = {
+    enable = true;
+    settings = {
+      logo = {
+        source = "$HOME/.config/fastfetch/nix.txt";
+        padding = {right = 1;};
+      };
+      modules = [
+        "break" "title" "separator"
+        # "os"
+        "host" "kernel" "uptime"
+        # "packages"
+        "shell" "display"
+        # "de" "wm" "wmtheme" "theme" "icons" "font" "cursor"
+        "terminal" "terminalfont" "cpu" "gpu"
+        # "memory" "swap" "disk"
+        "localip"
+        # "battery" "poweradapter" "locale"
+        "break" "colors"
+      ];
+    };
+  };
+
   programs.foot = {
     enable = true;
     settings = {
-      main = {font = "JetBrainsMono Nerd Font :size=16";};
+      main = {font = "JetBrainsMono Nerd Font :size=13";};
       colors = {
         alpha = "0.9";
         background = "1e1e1e";
@@ -143,6 +166,19 @@
         dim6 = "9cdcfe";   # bright cyan
         dim7 = "ffffff";   # bright white
       };
+    };
+  };
+
+  programs.kitty = {
+    enable = true;
+    font = {
+      name = "JetBrainsMono Nerd Font";
+      size = 13;
+    };
+    settings = {
+      narrow_symbol = "U+0900-U+097F 2";
+      symbol_map = "U+0900-U+097F Yatra One";
+      enable_audio_bell = false;
     };
   };
 
@@ -337,7 +373,7 @@
     platformTheme.name = "qtct";
     style = {
       package = pkgs.materia-kde-theme;
-      name = "kvantum";
+      # name = "kvantum";
     };
   };
 
@@ -941,6 +977,9 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
     enableCompletion = true;
     dotDir = ".config/zsh";
     history.path = "${config.xdg.dataHome}/zsh/zsh_history";
+    initExtra = ''
+      ${pkgs.fastfetch}/bin/fastfetch
+    '';
   };
 
   programs.starship = {
@@ -1030,11 +1069,11 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
   #
 
   home.shellAliases = {
-    ls = "eza --color=auto --icons";
-    ll = "eza -lh --color=auto --icons";
-    lt = "eza --tree --icons --level=2";
-    lsa = "eza -a --color=auto --icons";
-    lla = "eza -lha --color=auto --icons";
+    ls = "eza --color=auto --icons=never";
+    ll = "eza -lh --color=auto --icons=always";
+    lt = "eza --tree --icons=always --level=2";
+    lsa = "eza -a --color=always --icons=never";
+    lla = "eza -lha --color=auto --icons=always";
     yz = "yazi";
     vim = "nvim";
     cp = "cp -i";
