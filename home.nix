@@ -406,10 +406,10 @@
     };
   };
 
-  home.file."hyprScripts" = {
+  xdg.configFile."hyprScripts" = {
     enable = true;
     source = ./dotfiles/hypr/scripts;
-    target = ".config/hypr/scripts";
+    target = "hypr/scripts";
     recursive = true;
   };
 
