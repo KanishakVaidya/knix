@@ -12,7 +12,7 @@ in
     description = "Shamli";
     extraGroups = [ "video" "networkmanager" "wheel" ];
     packages = (with pkgs; [
-      firefox neovim vlc onlyoffice-bin
+      firefox neovim mpv smplayer onlyoffice-bin
       ]) ++ (with kdePackages; [
       qtwayland qtsvg
       # Core Plasma parts
