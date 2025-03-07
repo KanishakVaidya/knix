@@ -107,6 +107,9 @@ in
     extraPackages = with kdePackages; [
       breeze-icons kirigami libplasma plasma5support qtsvg qtvirtualkeyboard
     ];
+    settings = {
+      Users.RememberLastSession = false;
+    };
   };
 
   programs.dconf.enable = true;
