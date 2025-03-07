@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./shamli-plasma.nix
+      ./minimalPlasma.nix
       ./hardware-configuration.nix
       ./nvidia.nix
     ];

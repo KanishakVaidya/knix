@@ -62,7 +62,8 @@ in
         libplasma # provides Kirigami platform theme
         plasma-integration # provides Qt platform theme
         kde-gtk-config # syncs KDE settings to GTK
-        
+
+
         # Artwork + themes
         breeze
         breeze-icons
@@ -87,6 +88,11 @@ in
         kcmutils
 
         # Optional packages
+        pkgs.sddm-sugar-dark
+        pkgs.vlc
+        pkgs.firefox
+        pkgs.gvfs
+        pkgs.onlyoffice-bin
         plasma-browser-integration
         konsole
         (lib.getBin qttools) # Expose qdbus in PATH
@@ -156,7 +162,7 @@ in
   # but kpackage is a library so we can't just wrap the one thing invoking it and be done.
   # This also means things won't work for people not on Plasma, but at least this way it
   # works for SOME people.
-  environment.sessionVariables.KPACKAGE_DEP_RESOLVERS_PATH = "${kdePackages.frameworkintegration.out}/libexec/kf6/kpackagehandlers";
+  environment.sessionVariables.KPACKAGE_DEP_RESOLVERS_PATH = "${pkgs.kdePackages.frameworkintegration.out}/libexec/kf6/kpackagehandlers";
   
   # Enable GTK applications to load SVG icons
   programs.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
@@ -174,20 +180,19 @@ in
     serif = [ "Noto Serif" ];
   };
   
-  programs.gnupg.agent.pinentryPackage = mkDefault pkgs.pinentry-qt;
-  programs.kde-pim.enable = mkDefault true;
-  programs.ssh.askPassword = mkDefault "${kdePackages.ksshaskpass.out}/bin/ksshaskpass";
+  programs.gnupg.agent.pinentryPackage = pkgs.pinentry-qt;
+  programs.kde-pim.enable = true;
+  # programs.ssh.askPassword = "${pkgs.kdePackages.ksshaskpass.out}/bin/ksshaskpass";
   
   # Enable helpful DBus services.
   services.accounts-daemon.enable = true;
   # when changing an account picture the accounts-daemon reads a temporary file containing the image which systemsettings5 may place under /tmp
   systemd.services.accounts-daemon.serviceConfig.PrivateTmp = false;
   
-  services.power-profiles-daemon.enable = mkDefault true;
-  services.system-config-printer.enable = mkIf config.services.printing.enable (mkDefault true);
+  services.power-profiles-daemon.enable = true;
   services.udisks2.enable = true;
   services.upower.enable = config.powerManagement.enable;
-  services.libinput.enable = mkDefault true;
+  services.libinput.enable = true;
   
   # Extra UDEV rules used by Solid
   services.udev.packages = [
@@ -197,32 +202,33 @@ in
   ];
   
   # Set up Dr. Konqi as crash handler
-  systemd.packages = [ kdePackages.drkonqi ];
+  systemd.packages = [ pkgs.kdePackages.drkonqi ];
   systemd.services."drkonqi-coredump-processor@".wantedBy = [ "systemd-coredump@.service" ];
   
   xdg.icons.enable = true;
-  xdg.icons.fallbackCursorThemes = mkDefault [ "breeze_cursors" ];
+  xdg.icons.fallbackCursorThemes = [ "breeze_cursors" ];
   
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [
-    kdePackages.kwallet
-    kdePackages.xdg-desktop-portal-kde
+    pkgs.kdePackages.kwallet
+    pkgs.kdePackages.xdg-desktop-portal-kde
     pkgs.xdg-desktop-portal-gtk
   ];
-  xdg.portal.configPackages = mkDefault [ kdePackages.plasma-workspace ];
-  services.pipewire.enable = mkDefault true;
+  xdg.portal.configPackages = [ pkgs.kdePackages.plasma-workspace ];
+  services.pipewire.enable = true;
   
   # Enable screen reader by default
-  services.orca.enable = mkDefault true;
+  # services.orca.enable = lib.mkDefault true;
   
   services.displayManager = {
-    sessionPackages = [ kdePackages.plasma-workspace ];
-    defaultSession = mkDefault "plasma";
+    sessionPackages = [ pkgs.kdePackages.plasma-workspace ];
+    defaultSession = "plasma";
   };
   services.displayManager.sddm = {
-    package = kdePackages.sddm;
-    theme = mkDefault "breeze";
-    wayland = mkDefault {
+    enable = true;
+    package = pkgs.kdePackages.sddm;
+    theme =  "sugar-dark";
+    wayland = {
       enable = true;
       compositor = "kwin";
     };
@@ -239,13 +245,13 @@ in
   security.pam.services = {
     login.kwallet = {
       enable = true;
-      package = kdePackages.kwallet-pam;
+      package = pkgs.kdePackages.kwallet-pam;
     };
     kde = {
       allowNullPassword = true;
       kwallet = {
         enable = true;
-        package = kdePackages.kwallet-pam;
+        package = pkgs.kdePackages.kwallet-pam;
       };
     };
   };
@@ -261,15 +267,15 @@ in
   
   programs.dconf.enable = true;
   
-  # programs.firefox.nativeMessagingHosts.packages = [ kdePackages.plasma-browser-integration ];
+  # programs.firefox.nativeMessagingHosts.packages = [ pkgs.kdePackages.plasma-browser-integration ];
   
   # programs.chromium = {
   #   enablePlasmaBrowserIntegration = true;
   #   plasmaBrowserIntegrationPackage = pkgs.kdePackages.plasma-browser-integration;
   # };
   
-  # programs.kdeconnect.package = kdePackages.kdeconnect-kde;
-  # programs.partition-manager.package = kdePackages.partitionmanager;
+  # programs.kdeconnect.package = pkgs.kdePackages.kdeconnect-kde;
+  # programs.partition-manager.package = pkgs.kdePackages.partitionmanager;
   
   # FIXME: ugly hack. See #292632 for details.
   system.userActivationScripts.rebuildSycoca = activationScript;
