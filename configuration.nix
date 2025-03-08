@@ -107,7 +107,7 @@
     isNormalUser = true;
     description = userSettings.name;
     shell = pkgs.zsh;
-    extraGroups = [ "video" "networkmanager" "wheel" "libvirtd" ];
+    extraGroups = [ "video" "networkmanager" "wheel" "libvirtd" "kvm" ];
     packages = with pkgs; [];
   };
 
