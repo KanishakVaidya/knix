@@ -98,7 +98,10 @@
   programs.nix-ld.enable = true;
 
   # Virt Manager
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
+  };
   programs.virt-manager.enable = true;
 
   programs.zsh.enable = true;
@@ -107,7 +110,7 @@
     isNormalUser = true;
     description = userSettings.name;
     shell = pkgs.zsh;
-    extraGroups = [ "video" "networkmanager" "wheel" "libvirtd" "kvm" ];
+    extraGroups = [ "video" "networkmanager" "wheel" "libvirtd" ];
     packages = with pkgs; [];
   };
 
