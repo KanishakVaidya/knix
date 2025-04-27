@@ -39,7 +39,7 @@
     foot firefox brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin
     onlyoffice-bin libreoffice-fresh nomacs gimp emacs-gtk signal-desktop xournalpp transmission_4-qt
     lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
-    python311Packages.python-lsp-server python311Packages.ipython 
+    python311Packages.python-lsp-server python311Packages.ipython python3Minimal 
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; }) lohit-fonts.devanagari
     texliveFull texlab
     libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct qt6Packages.qtstyleplugin-kvantum qt6Packages.qt6ct
@@ -382,6 +382,7 @@
       target = "Kvantum/kvantum.kvconfig";
       text = lib.generators.toINI { } {
         General.theme = "MateriaDark";
+        Hacks.transparent_pcmanfm_sidepane = true;
       };
     };
 
