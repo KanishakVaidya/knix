@@ -42,7 +42,7 @@
     python311Packages.python-lsp-server python311Packages.ipython python3Minimal 
     (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; }) lohit-fonts.devanagari
     texliveFull texlab
-    libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct qt6Packages.qtstyleplugin-kvantum qt6Packages.qt6ct
+    libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct qt6Packages.qtstyleplugin-kvantum qt6Packages.qt6ct nwg-displays
     libnotify wl-clipboard swaybg hyprlock hyprsunset
     # Screenshot
     grim slurp swappy
