@@ -20,12 +20,17 @@ esac
 vol=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '/Volume/{print $5+0}')
 if [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
 	echo " 󰝟 Mute "
+	notify-send -t 1000 -a 'wp-vol' "Volume" "󰝟 Mute%"
 elif [[ vol -lt 30  ]]; then
 	echo "  $vol% "
+	notify-send -t 1000 -a 'wp-vol' -h int:value:$((3 * vol / 4)) "Volume" "  ${vol}%"
 elif [[ vol -lt 60  ]]; then
 	echo "  $vol% "
+	notify-send -t 1000 -a 'wp-vol' -h int:value:$((3 * vol / 4)) "Volume" "  ${vol}%"
 elif [[ vol -lt 101  ]]; then
 	echo "  $vol% "
+	notify-send -t 1000 -a 'wp-vol' -h int:value:$((3 * vol / 4)) "Volume" "  ${vol}%"
 else
 	echo "  $vol% "
+	notify-send -u critical -t 1000 -a 'wp-vol' -h int:value:$(((vol + 200) / 4)) "Volume" "  ${vol}%"
 fi

@@ -933,6 +933,7 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
       font = "JetBrainsMono Nerd Font 11";
       borderColor = "#88c0d0";
       backgroundColor = "#151515";
+      groupBy="app-name";
       extraConfig = ''
       [urgency=low]
       border-color=#f0c674
@@ -942,7 +943,21 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
       
       [urgency=high]
       border-color=#f44747
+      progress-color=over #f44747
       default-timeout=59800
+
+      [app-name=wp-vol]
+      height=25
+      width=300
+      layer=overlay
+      history=0
+      anchor=top-right
+      ignore-timeout=0
+      format=<b>%s</b> %b
+      text-alignment=center
+      margin=0
+      padding=0
+      outer-margin=0
         '';
     };
 
