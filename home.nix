@@ -45,7 +45,7 @@
     libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct qt6Packages.qtstyleplugin-kvantum qt6Packages.qt6ct nwg-displays
     libnotify wl-clipboard swaybg hyprlock hyprsunset
     # Screenshot
-    grim slurp swappy
+    grim slurp swappy hyprshot
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
     # Games
     lutris protonup-qt ioquake3
@@ -749,15 +749,16 @@ submap=reset
 bind = $mainMod,x,exec,hyprlock
 
 # SCREENSHOT Mode
-bind=$mainMod,Print,submap,(s)creen (f)ull (a)rea
+bind=$mainMod,Print,submap,(s)creen (f)ull (a)rea (w)indow
 
 # will start a submap called "resize"
-submap=(s)creen (f)ull (a)rea
+submap=(s)creen (f)ull (a)rea (w)indow
 
 # sets repeatable binds for resizing the active window
-bind=,s,exec,grim -o $(hyprctl -j monitors | jq -r '.[] | select(.focused) | .name') ~/pic/$(date +Screenshot_%Y%m%d_%H%M%S.png) && notify-send "Screenshot" "Saved in ~/pic/$(date +Screenshot_%Y%m%d_%H%M%S.png)"
-bind=,f,exec,grim ~/pic/$(date +Screenshot_%Y%m%d_%H%M%S.png) && notify-send "Screenshot" "Saved in ~/pic/$(date +Screenshot_%Y%m%d_%H%M%S.png)"
-bind=,a,exec,grim -g "$(slurp)" - | swappy -f - && notify-send "Screenshot" "Saved in ~/pic/$(date +Screenshot_%Y%m%d_%H%M%S.png)"
+bind=,s,exec,~/.config/hypr/scripts/hyprscreenshot.sh screen
+bind=,f,exec,~/.config/hypr/scripts/hyprscreenshot.sh full
+bind=,a,exec,~/.config/hypr/scripts/hyprscreenshot.sh area
+bind=,w,exec,~/.config/hypr/scripts/hyprscreenshot.sh window
 
 # use reset to go back to the global submap
 bind=,s,submap,reset
@@ -767,7 +768,7 @@ bind=,escape,submap,reset
 
 # will reset the submap, meaning end the current one and return to the global one
 submap=reset
-bind = ,Print,exec,grim ~/pic/$(date +Screenshot_%Y%m%d_%H%M%S.png)
+bind = ,Print,exec,~/.config/hypr/scripts/hyprscreenshot.sh screen
 
 
 # Gaming Mode

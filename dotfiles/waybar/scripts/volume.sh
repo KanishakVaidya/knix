@@ -4,15 +4,15 @@ if [ -z ${BLOCK_BUTTON+x} ]; then
     BLOCK_BUTTON=$1
 fi
 case $BLOCK_BUTTON in
-	1) changeto='mute' ;;
+    1) changeto='mute' ;;
     3) changeto='nothing' ; pavucontrol-qt ;;
-	4) changeto='increase' ;;
-	5) changeto='decrease' ;;
+    4) changeto='increase' ;;
+    5) changeto='decrease' ;;
 esac
 case $changeto in
-	'increase')
+    'increase')
         pactl set-sink-volume @DEFAULT_SINK@ +1% ;;
-	'decrease')
+    'decrease')
         pactl set-sink-volume @DEFAULT_SINK@ -1% ;;
     'mute') pactl set-sink-mute @DEFAULT_SINK@ toggle ;;
 esac
