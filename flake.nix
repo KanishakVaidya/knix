@@ -3,13 +3,13 @@
 
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
-    nixpkgs.url = "nixpkgs/nixos-24.11";
+    nixpkgs.url = "nixpkgs/nixos-25.05";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-alien.url = "github:thiagokokada/nix-alien";
-    stylix.url = "github:danth/stylix/release-24.11";
+    stylix.url = "github:nix-community/stylix/release-25.05";
   };
 
   outputs = inputs@{self, ...}:
@@ -42,7 +42,7 @@
         inherit pkgs;
         modules = [
           ./home.nix
-          inputs.stylix.homeManagerModules.stylix
+          inputs.stylix.homeModules.stylix
         ];
         extraSpecialArgs = {
           inherit self userSettings inputs system;

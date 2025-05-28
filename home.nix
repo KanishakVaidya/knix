@@ -40,7 +40,8 @@
     onlyoffice-bin libreoffice-fresh nomacs gimp emacs-gtk signal-desktop xournalpp transmission_4-qt
     lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
     python311Packages.python-lsp-server python311Packages.ipython python3Minimal 
-    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; }) lohit-fonts.devanagari
+    nerd-fonts.jetbrains-mono nerd-fonts.droid-sans-mono nerd-fonts.fira-code lohit-fonts.devanagari
+    # (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; })
     texliveFull texlab
     libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct qt6Packages.qtstyleplugin-kvantum qt6Packages.qt6ct nwg-displays
     libnotify wl-clipboard swaybg hyprlock hyprsunset
@@ -83,7 +84,7 @@
     fonts = {
       monospace = {
         name = "JetBrainsMono Nerd Font";
-        package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "CascadiaCode" "FiraCode" ]; };
+        package = pkgs.nerd-fonts.jetbrains-mono;
       };
       sizes = {
         terminal = 14;
@@ -92,6 +93,7 @@
     cursor = {
       name = "Quintom_Snow";
       package = pkgs.quintom-cursor-theme;
+      size = 15;
     };
     opacity = {
       terminal = 0.9;
@@ -442,6 +444,10 @@
         "lxqt-policykit-agent"
         "hyprctl setcursor Quintom_Snow 24"
       ];
+      group.groupbar = {
+        font_family = "JetBrainsMono Nerd Font";
+        font_size = 12;
+      };
       bind = [
         "$mainMod, Return, exec, foot"
         "$mainMod, v, exec, alacritty"
@@ -920,46 +926,43 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
   services = {
     mako = {
       enable = true;
-      sort = "-time";
-      layer = "overlay";
-      textColor = "#d4d4d4";
-      width = 300;
-      height = 500;
-      borderSize = 2;
-      borderRadius = 15;
-      icons = false;
-      maxIconSize = 64;
-      defaultTimeout = 10000;
-      ignoreTimeout = true;
-      font = "JetBrainsMono Nerd Font 11";
-      borderColor = "#88c0d0";
-      backgroundColor = "#151515";
-      groupBy="app-name";
-      extraConfig = ''
-      [urgency=low]
-      border-color=#f0c674
-      
-      [urgency=normal]
-      border-color=#569cd6
-      
-      [urgency=high]
-      border-color=#f44747
-      progress-color=over #f44747
-      default-timeout=59800
-
-      [app-name=wp-vol]
-      height=25
-      width=300
-      layer=overlay
-      history=0
-      anchor=top-right
-      ignore-timeout=0
-      format=<b>%s</b> %b
-      text-alignment=center
-      margin=0
-      padding=0
-      outer-margin=0
-        '';
+      settings={
+        sort = "-time";
+        layer = "overlay";
+        text-color = "#d4d4d4";
+        width = 300;
+        height = 500;
+        border-size = 2;
+        border-radius = 15;
+        icons = false;
+        max-icon-size = 64;
+        default-timeout = 10000;
+        ignore-timeout = true;
+        font = "JetBrainsMono Nerd Font 11";
+        border-color = "#88c0d0";
+        background-color = "#151515";
+        group-by="app-name";
+        "urgency=low" = {border-color = "#f0c674";};
+        "urgency=normal" = {border-color = "#569cd6";};
+        "urgency=high" = {
+          border-color = "#f44747";
+          progress-color = "over #f44747";
+          default-timeout = 59800;
+        };
+        "app-name=wp-vol" = {
+          height = 25;
+          width = 300;
+          layer = "overlay";
+          history = 0;
+          anchor = "top-right";
+          ignore-timeout = 0;
+          format = "<b>%s</b> %b";
+          text-alignment = "center";
+          margin = 0;
+          padding = 0;
+          outer-margin = 0;
+        };
+      };
     };
 
     syncthing = {
@@ -994,7 +997,7 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
     enableCompletion = true;
     dotDir = ".config/zsh";
     history.path = "${config.xdg.dataHome}/zsh/zsh_history";
-    initExtra = ''
+    initContent = ''
       ${pkgs.fastfetch}/bin/fastfetch
     '';
   };
@@ -1097,7 +1100,6 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
     grep = "grep --colour=auto";
     egrep = "egrep --colour=auto";
     fgrep = "fgrep --colour=auto";
-    btop = "btop --utf-force";
     cmatrix = "cmatrix -ba";
   };
 
