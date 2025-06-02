@@ -29,38 +29,42 @@ stat=$(cat /sys/class/power_supply/BAT0/status)
 levl=$(cat /sys/class/power_supply/BAT0/capacity)
 
 case $stat in
-	Full) text="󰂄 $levl%" ;;
+	Full)
+	    icon="󰂄"
+	    ;;
 	Charging)
-        text=" ${char_icon[0]} $levl% "
-		class="charging"
-		for i in {1..10}
-		do
-			if [[ $levl == $i? ]]
-			then
-				text=" ${char_icon[$i]} $levl% "
-			fi
-		done
-	;;
-	Discharging)
-		if [[ levl -lt 5 ]]; then
-            notify-send -u critical "󰄌 Battery $levl%" "Khud e utha jana ab mene ek minute ke andar. shutdown -c hi bcha skta tujhe ab" -a BATTERY -t 30000
-			shutdown now
-		elif [[ levl -lt 25  ]]; then
-			notify-send -u critical "󰄌 Battery $levl%" "$(notification)" -a BATTERY -t 30000
+	    icon="${char_icon[0]}"
+	    class="charging"
+	    for i in {1..10}
+	    do
+		if [[ $levl == $i? ]]
+		then
+		    icon="${char_icon[$i]}"
 		fi
-        text=" ${disc_icon[0]} $levl% "
-		class="${classes[0]}"
-		for i in {1..10}
-		do
-			if [[ $levl == $i? ]]
-			then
-				text=" ${disc_icon[$i]} $levl% "
-				class="${classes[$i]}"
-			fi
-		done
-	;;
-	"Not charging") text=" 󰂏 $levl% ";;
-    *) text="󰂑 ??? " ;;
+	    done
+	    ;;
+	Discharging)
+	    if [[ levl -lt 5 ]]; then
+		notify-send -u critical "󰄌 Battery $levl%" "Khud e utha jana ab mene ek minute ke andar. shutdown -c hi bcha skta tujhe ab" -a BATTERY -t 30000
+		shutdown now
+	    elif [[ levl -lt 25  ]]; then
+		notify-send -u critical "󰄌 Battery $levl%" "$(notification)" -a BATTERY -t 30000
+	    fi
+            icon="${disc_icon[0]}"
+	    class="${classes[0]}"
+	    for i in {1..10}
+	    do
+	    	if [[ $levl == $i? ]]
+	    	then
+	    	    icon="${disc_icon[$i]}"
+	    	    class="${classes[$i]}"
+	    	fi
+	    done
+	    ;;
+	"Not charging")
+	    icon="󰂏";;
+	*)
+	    icon="󰂑 ??? " ;;
 esac
-
-echo "{\"text\": \"$text\" , \"class\": \"$class\" }"
+text=" $icon $levl%"
+echo "{\"text\": \"$text\" , \"percentage\": \"$levl\", \"icon\": \"$icon\", \"class\": \"$class\" }"
