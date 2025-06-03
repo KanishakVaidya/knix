@@ -57,6 +57,22 @@
     jack.enable = true;
   };
 
+  # Firefox Screen sharing config
+  programs.firefox = {
+    enable = true;
+    wrapperConfig.pipewireSupport = true;
+  };
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+    };
+  };
+  # /Firefox Screen sharing config
+
   # SwayLock No work?
   # security.pam.services.swaylock = {};
 

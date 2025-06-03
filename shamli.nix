@@ -15,7 +15,7 @@
     description = "Shamli";
     extraGroups = [ "video" "networkmanager" "wheel" ];
     packages = (with pkgs; [
-      vlc firefox evince gnome-browser-connector gnome-desktop gvfs geany-with-vte onlyoffice-bin xdg-user-dirs gnome-menus gnome-common gnome-shell gnome-session gnome-power-manager gdm gnome-settings-daemon gnome-terminal gnome-control-center nautilus gnome-tweaks gnome-calculator eog gnome-themes-extra file-roller
+      vlc evince gnome-browser-connector gnome-desktop gvfs geany-with-vte onlyoffice-bin xdg-user-dirs gnome-menus gnome-common gnome-shell gnome-session gnome-power-manager gdm gnome-settings-daemon gnome-terminal gnome-control-center nautilus gnome-tweaks gnome-calculator eog gnome-themes-extra file-roller
       # dependencies of orchis gtk theme
       sassc gtk-engine-murrine
     ]) ;
