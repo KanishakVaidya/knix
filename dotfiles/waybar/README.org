@@ -367,12 +367,12 @@ lang=$(hyprctl -j devices | jq -r '.keyboards[] | select(.main) | .active_keymap
 case $lang in
     "English (US)") text="en" ;;
     "Indian") text="in" ;;
-    ,*) text=$land
+    ,*) text=$lang
 esac
 
 # Employing a hack to get caps lock state in hyprland for now.
 # Reading the state of caps lock led to get caps lock state.
-[[ $(cat /sys/class/leds/input15\:\:capslock/brightness) == 1 ]] && capstate="capson"
+[[ $(cat /sys/class/leds/*caps*/brightness | sort -n | tail -1) == 1 ]] && capstate="capson"
 echo "{\"text\": \"$text\" , \"class\": \"$capstate\" }"
 #+end_src
 ** CSS
@@ -394,6 +394,7 @@ echo "{\"text\": \"$text\" , \"class\": \"$capstate\" }"
     "custom/myVolume": {
         "exec": "~/.config/waybar/scripts/volume.sh",
         "exec-on-event": true,
+        "return-type": "json",
         "signal": 11,
         "interval": "once",
         "on-click": "~/.config/waybar/scripts/volume.sh 1 > /dev/null",
@@ -426,21 +427,28 @@ esac
 
 vol=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '/Volume/{print $5+0}')
 if [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
-	echo " 󰝟 Mute "
+	text=" 󰝟 Mute "
+	icon="󰝟"
 	notify-send -t 1000 -a 'wp-vol' "Volume" "󰝟 Mute%"
 elif [[ vol -lt 30  ]]; then
-	echo "  $vol% "
+	icon=""
 	notify-send -t 1000 -a 'wp-vol' -h int:value:$((3 * vol / 4)) "Volume" "  ${vol}%"
 elif [[ vol -lt 60  ]]; then
-	echo "  $vol% "
+	icon=""
 	notify-send -t 1000 -a 'wp-vol' -h int:value:$((3 * vol / 4)) "Volume" "  ${vol}%"
 elif [[ vol -lt 101  ]]; then
-	echo "  $vol% "
+	icon=""
 	notify-send -t 1000 -a 'wp-vol' -h int:value:$((3 * vol / 4)) "Volume" "  ${vol}%"
 else
-	echo "  $vol% "
+	icon=""
 	notify-send -u critical -t 1000 -a 'wp-vol' -h int:value:$(((vol + 200) / 4)) "Volume" "  ${vol}%"
 fi
+
+if [ -z ${text+x} ]; then
+    text=" $icon $vol%"
+fi
+
+echo "{\"text\": \"$text\", \"icon\": \"$icon\", \"percentage\": \"$vol\" }"
 #+end_src
 ** CSS
 #+begin_src css :tangle style.css

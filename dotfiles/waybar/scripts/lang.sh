@@ -20,10 +20,10 @@ lang=$(hyprctl -j devices | jq -r '.keyboards[] | select(.main) | .active_keymap
 case $lang in
     "English (US)") text="en" ;;
     "Indian") text="in" ;;
-    *) text=$land
+    *) text=$lang
 esac
 
 # Employing a hack to get caps lock state in hyprland for now.
 # Reading the state of caps lock led to get caps lock state.
-[[ $(cat /sys/class/leds/input15\:\:capslock/brightness) == 1 ]] && capstate="capson"
+[[ $(cat /sys/class/leds/*caps*/brightness | sort -n | tail -1) == 1 ]] && capstate="capson"
 echo "{\"text\": \"$text\" , \"class\": \"$capstate\" }"

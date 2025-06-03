@@ -46,6 +46,7 @@
 "custom/myVolume": {
     "exec": "~/.config/waybar/scripts/volume.sh",
     "exec-on-event": true,
+    "return-type": "json",
     "signal": 11,
     "interval": "once",
     "on-click": "~/.config/waybar/scripts/volume.sh 1 > /dev/null",
