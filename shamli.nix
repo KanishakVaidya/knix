@@ -9,6 +9,12 @@
       wayland = true;
     };
   };
+
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [
+    pkgs.xdg-desktop-portal-gnome
+    pkgs.xdg-desktop-portal-gtk
+  ];
   services.displayManager.sessionPackages = [ pkgs.gnome-session.sessions ];
   users.users."shamli" = {
     isNormalUser = true;
