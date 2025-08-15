@@ -58,6 +58,7 @@
 
 "custom/myBrightness": {
     "exec": "~/.config/waybar/scripts/amd_bl.sh",
+    "return-type": "json",
     "exec-on-event": true,
     "signal": 12,
     "interval": "once",

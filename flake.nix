@@ -34,7 +34,7 @@
           inherit system;
           modules = [./configuration.nix];
           specialArgs = {
-            inherit systemSettings userSettings;
+            inherit systemSettings userSettings inputs;
           };
         };
       };
