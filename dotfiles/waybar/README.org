@@ -578,7 +578,7 @@ case $stat in
 	Discharging)
 	    if [[ levl -lt 5 ]]; then
 		notify-send -u critical "󰄌 Battery $levl%" "Khud e utha jana ab mene ek minute ke andar. shutdown -c hi bcha skta tujhe ab" -a BATTERY -t 30000
-		shutdown now
+		systemctl hybrid-sleep
 	    elif [[ levl -lt 25  ]]; then
 		notify-send -u critical "󰄌 Battery $levl%" "$(notification)" -a BATTERY -t 30000
 	    fi

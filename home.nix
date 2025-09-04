@@ -39,7 +39,7 @@
     foot brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin
     onlyoffice-bin libreoffice-fresh nomacs gimp emacs-gtk signal-desktop xournalpp transmission_4-qt
     lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
-    python311Packages.python-lsp-server python311Packages.ipython python3Minimal 
+    python312Packages.python-lsp-server python312Packages.ipython python312Packages.python
     nerd-fonts.jetbrains-mono nerd-fonts.droid-sans-mono nerd-fonts.fira-code lohit-fonts.devanagari
     # (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; })
     texliveFull texlab
