@@ -5,7 +5,7 @@
 
 "modules-left": ["hyprland/window", "hyprland/submap"],
 "modules-center": ["hyprland/workspaces"],
-"modules-right": ["custom/myLang" , "custom/myBrightness", "custom/myVolume", "custom/myBattery", "clock", "custom/myinternet", "tray"],
+"modules-right": ["custom/myLang" , "custom/myBrightness", "custom/myVolume", "custom/myBattery", "clock", "custom/myinternet", "custom/mypowermenu", "tray"],
 
 "hyprland/workspaces": {
     "all-outputs": false,
@@ -107,7 +107,7 @@
     "interval": 3,
 },
 
-"custom/mypowremenu": {
+"custom/mypowermenu": {
     "format": "󰐥",
     "on-click": "~/.config/waybar/scripts/powermenu.sh",
 },

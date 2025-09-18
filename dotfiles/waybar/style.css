@@ -253,9 +253,10 @@ window#waybar.empty #window {
     color: #666666;
 }
 
-#custom-myinternet.disconnected {
+#custom-mypowermenu {
     color: white;
-    background: red;
+    background: @myRed;
+    border-radius: 15px;
 }
 
 #tray {

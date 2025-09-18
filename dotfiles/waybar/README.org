@@ -116,7 +116,7 @@ window#waybar.chromium {
 #+begin_src js :tangle config
     "modules-left": ["hyprland/window", "hyprland/submap"],
     "modules-center": ["hyprland/workspaces"],
-    "modules-right": ["custom/myLang" , "custom/myBrightness", "custom/myVolume", "custom/myBattery", "clock", "custom/myinternet", "tray"],
+    "modules-right": ["custom/myLang" , "custom/myBrightness", "custom/myVolume", "custom/myBattery", "clock", "custom/myinternet", "custom/mypowermenu", "tray"],
 #+end_src
 *** Common CSS for all the modules
 + Use box-shadow instead of border so the text isn't offset.
@@ -770,7 +770,7 @@ fi
 * Custom powermenu
 ** config
 #+begin_src js :tangle config
-"custom/mypowremenu": {
+"custom/mypowermenu": {
     "format": "󰐥",
     "on-click": "~/.config/waybar/scripts/powermenu.sh",
 },
@@ -779,7 +779,7 @@ fi
 #+begin_src shell :tangle ./scripts/powermenu.sh
 #!/usr/bin/env bash
 
-option=$(echo "Logout\nSwitch User\nPowerOff\nReboot" | rofi -drun)
+option=$(echo "Logout\nSwitch User\nPowerOff\nReboot" | rofi -dmenu)
 
 case $option in
     "Logout")
@@ -795,9 +795,10 @@ esac
 #+end_src
 ** CSS
 #+begin_src css :tangle style.css
-#custom-myinternet.disconnected {
+#custom-mypowermenu {
     color: white;
-    background: red;
+    background: @myRed;
+    border-radius: 15px;
 }
 #+end_src
 

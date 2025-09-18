@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-option=$(echo "Logout\nSwitch User\nPowerOff\nReboot" | rofi -drun)
+option=$(echo -e "Logout\nSwitch User\nPowerOff\nReboot" | rofi -dmenu)
 
 case $option in
     "Logout")
