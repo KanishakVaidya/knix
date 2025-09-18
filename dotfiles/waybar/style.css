@@ -257,6 +257,7 @@ window#waybar.empty #window {
     color: white;
     background: @myRed;
     border-radius: 15px;
+    padding: 0 5px;
 }
 
 #tray {

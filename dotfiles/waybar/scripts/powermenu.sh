@@ -6,8 +6,7 @@ case $option in
     "Logout")
 	hyprctl dispatch exit ;;
     "Switch User")
-	# Switch User
-    ;;
+	dm-tool switch-to-greeter ;;
     "PowerOff")
 	poweroff ;;
     "Reboot")
