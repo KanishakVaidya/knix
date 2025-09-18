@@ -107,6 +107,11 @@
     "interval": 3,
 },
 
+"custom/mypowremenu": {
+    "format": "󰐥",
+    "on-click": "~/.config/waybar/scripts/powermenu.sh",
+},
+
 "tray": {
         // "icon-size": 21,
         "spacing": 10

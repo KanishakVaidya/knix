@@ -37,9 +37,13 @@
   - [[#config-6][config]]
   - [[#script-4][Script]]
   - [[#css-6][CSS]]
-- [[#tray][Tray]]
-  - [[#config-7][Config]]
+- [[#custom-powermenu][Custom powermenu]]
+  - [[#config-7][config]]
+  - [[#script-5][Script]]
   - [[#css-7][CSS]]
+- [[#tray][Tray]]
+  - [[#config-8][Config]]
+  - [[#css-8][CSS]]
 - [[#other-modules][Other Modules]]
   - [[#networking-module][Networking Module]]
   - [[#battery][Battery]]
@@ -760,6 +764,40 @@ fi
 #+begin_src css :tangle style.css
 #custom-myinternet.disconnected {
     color: #666666;
+}
+#+end_src
+
+* Custom powermenu
+** config
+#+begin_src js :tangle config
+"custom/mypowremenu": {
+    "format": "󰐥",
+    "on-click": "~/.config/waybar/scripts/powermenu.sh",
+},
+#+end_src
+** Script
+#+begin_src shell :tangle ./scripts/powermenu.sh
+#!/usr/bin/env bash
+
+option=$(echo "Logout\nSwitch User\nPowerOff\nReboot" | rofi -drun)
+
+case $option in
+    "Logout")
+	hyprctl dispatch exit ;;
+    "Switch User")
+	# Switch User
+    ;;
+    "PowerOff")
+	poweroff ;;
+    "Reboot")
+	reboot ;;
+esac
+#+end_src
+** CSS
+#+begin_src css :tangle style.css
+#custom-myinternet.disconnected {
+    color: white;
+    background: red;
 }
 #+end_src
 

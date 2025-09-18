@@ -253,6 +253,11 @@ window#waybar.empty #window {
     color: #666666;
 }
 
+#custom-myinternet.disconnected {
+    color: white;
+    background: red;
+}
+
 #tray {
     background-color: @myBackground;
 }

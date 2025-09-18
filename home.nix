@@ -385,6 +385,7 @@
       text = lib.generators.toINI { } {
         General.theme = "MateriaDark";
         Hacks.transparent_pcmanfm_sidepane = true;
+        libreoffice.theme = "arc";
       };
     };
 
@@ -497,6 +498,10 @@
         "$mainMod_SHIFT, period, movecurrentworkspacetomonitor, +1"
         "$mainMod_SHIFT, comma,  movecurrentworkspacetomonitor, -1"
         "$mainMod SHIFT, M, swapactiveworkspaces, current +1"
+
+        # Scratchpads
+        "$mainMod_SHIFT, c, movetoworkspace, special"
+        "$mainMod, c, togglespecialworkspace, special"
 
       ] ++ (
         # workspaces
@@ -667,6 +672,7 @@ animations {
     animation = borderangle, 1, 5, default
     animation = fade, 1, 5, default
     animation = workspaces, 1, 5, default
+    animation = specialWorkspace, 1, 5, default, slidevert
 }
 
 dwindle {
@@ -981,7 +987,7 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
   programs.yazi = {
     enable = true;
     settings = {
-      manager = {
+      mgr = {
         show_hidden = false;
         sort_by = "alphabetical";
         sort_dir_first = false;
