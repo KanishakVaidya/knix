@@ -34,7 +34,7 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    bat htop eza direnv
+    bat htop eza direnv stow
     tofi rofi-wayland waybar networkmanager_dmenu
     foot brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin
     onlyoffice-bin libreoffice-fresh nomacs gimp emacs-gtk signal-desktop xournalpp transmission_4-qt
@@ -185,28 +185,28 @@
   };
 
   home.file."doomEmacs" = {
-    enable = true;
+    enable = false;
     source = ./dotfiles/doom;
     target = ".config/doom";
     recursive = true;
   };
 
   home.file."waybar" = {
-    enable = true;
+    enable = false;
     source = ./dotfiles/waybar;
     target = ".config/waybar";
     recursive = true;
   };
 
   home.file."rofi" = {
-    enable = true;
+    enable = false;
     source = ./dotfiles/rofi;
     target = ".config/rofi";
     recursive = true;
   };
 
   home.file."swappy" = {
-    enable = true;
+    enable = false;
     source = ./dotfiles/swappy;
     target = ".config/swappy";
     recursive = true;
@@ -411,20 +411,20 @@
   };
 
   xdg.configFile."hyprScripts" = {
-    enable = true;
+    enable = false;
     source = ./dotfiles/hypr/scripts;
     target = "hypr/scripts";
     recursive = true;
   };
 
   home.file."hyprlock" = {
-    enable = true;
+    enable = false;
     source = ./dotfiles/hypr/hyprlock.conf;
     target = ".config/hypr/hyprlock.conf";
   };
 
   home.file."hyprmonitors" = {
-    enable = true;
+    enable = false;
     source = ./dotfiles/hypr/default-monitors.conf;
     target = ".config/hypr/default-monitors.conf";
   };
