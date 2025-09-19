@@ -1,0 +1,131 @@
+(defvar foo "Keshav")
+(defwidget example [name]
+  "Hi! ${name}")
+
+(defwidget sidestuff []
+  (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
+       (eventbox :onclick "eww open --toggle mycalendar-closer && eww open --toggle mycalendar"
+		 (box :class "clock"
+		      :orientation "h"
+		      time))
+       ;; (myvolume)
+       ;; (old-battery-widget)
+       (box :class "mytray" :orientation "h" :space-evenly true
+	    (brightness-widget)
+	    (volume-widget)
+	    (battery-widget))))
+
+(defwidget old-battery-widget []
+  (box :class "battery ${battery-with-class.class}"
+       :orientation "h"
+       "${battery-with-class.text}"))
+
+(defpoll battery-with-class
+    :interval "10s"
+    `bash ~/.config/waybar/scripts/battery.sh`)
+
+(defwidget battery-widget []
+  (overlay :class "battery ${battery-with-class.class}"
+	   :tooltip "Battery: ${battery-with-class.text}"
+	   :width 50
+	   (label :text "${battery-with-class.icon}")
+	   (circular-progress
+	    :thickness 2
+	    :value "${battery-with-class.percentage}")))
+
+(defpoll myvol
+    :interval "864000s"
+    :initial-value "100 %"
+    :run-while false
+    `bash ~/.config/waybar/scripts/volume.sh`)
+
+(defwidget myvolume []
+  (tooltip 
+   (box :orientation "h"
+	" ${myvol.text} ")
+   (box :class "volume"
+	:orientation "h"
+	" ${myvol.text} ")))
+
+(defwidget volume-widget []
+  (overlay :class "volume"
+	   :tooltip "Volume: ${myvol.text}%"
+	   :width 50
+	   (label :text "${myvol.icon} ")
+	   (circular-progress
+	    :thickness 4
+	    :value "${myvol.percentage}")))
+
+(defpoll brightness
+    :interval "864000s"
+    :initial-value "255"
+    :run-while false
+    `bash ~/.config/waybar/scripts/amd_bl.sh`)
+
+(defwidget brightness-widget []
+  (eventbox :onscroll "bash ~/.config/waybar/scripts/amd_bl.sh {} && eww poll brightness"
+	    (overlay :class "backlight"
+  		     :tooltip "Brightness: ${brightness.text}%"
+  		     :width 50
+  		     (label :text "${brightness.icon}")
+  		     (circular-progress
+  		      :thickness 4
+  		      :value "${brightness.percentage}"))))
+
+;; (defwidget brightness-widget []
+;;   (eventbox :onscroll "bash ~/.config/waybar/scripts/amd_bl.sh {} && eww poll brightness"
+;; 	    (box :class "backlight"
+;; 		 :orientation "h"
+;; 		 "${brightness.text}")))
+
+(defpoll time :interval "10s"
+  "date '+ %a %b %d  %H:%M '")
+
+(deflisten workspaces :initial "[]" "bash ~/.config/eww/scripts/get-workspaces")
+(deflisten current_workspace :initial "1" "bash ~/.config/eww/scripts/get-active-workspace")
+(defwidget workspaces []
+  (eventbox :onscroll "bash ~/.config/eww/scripts/change-active-workspace {} ${current_workspace}" :class "workspaces-widget"
+    (box :space-evenly true :width 400
+      (label :text "${workspaces}${current_workspace}" :visible false)
+      (for workspace in workspaces
+        (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}"
+          (box :class "workspace-entry ${workspace.windows > 0 ? "occupied" : "empty"}"
+            (label :text "${workspace.id}" :class "workspace-entry ${workspace.id == current_workspace ? "current" : ""}" )))))))
+
+
+(defwidget bar []
+  (centerbox :orientation "h"
+    (example :name foo)
+    (workspaces)
+    (sidestuff)))
+
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "100%"
+                      :height "30px"
+                      :anchor "bottom center")
+  :stacking "fg" :exclusive true
+  (bar))
+
+(defwidget closer [window]
+  (eventbox :onclick "eww close ${window} && eww close ${window}-closer"))
+ 
+(defwindow mycalendar
+  :monitor 0
+  :geometry (geometry :x "0%"
+                      :y "0px"
+		      :height "200px"
+		      :width "200px"
+                      :anchor "bottom right")
+  :stacking "fg" :exclusive false
+  (calendar :class "calendar" :valign "center"))
+
+(defwindow mycalendar-closer
+  :monitor 0
+  :geometry (geometry :width "100%" :height "100%")
+  :stacking "fg"
+  :focusable false
+  (closer :window "mycalendar"))

@@ -255,6 +255,7 @@ window#waybar.empty #window {
 
 #custom-mypowermenu {
     color: white;
+    font-weight: bold;
     background: @myRed;
     border-radius: 15px;
     padding: 0 5px;
