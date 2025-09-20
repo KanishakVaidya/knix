@@ -1,6 +1,6 @@
 * {
   all: unset; // Unsets everything so you can style everything from scratch
-  font-family: JetBrainsMono Nerd Font, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+  font-family: JetBrainsMono Nerd Font Propo, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
   font-size: 14px;
 }
 
@@ -62,19 +62,19 @@
     }
 }
 
-.battery {
-    margin-right: 15px;
-}
-
 .battery.Discharging {
     color: cyan;
 }
 
 .mytray {
     background: #3c3c3c;
-    border-radius: 10px;
-    margin-left: 5px;
-    margin-right: 5px;
+    border-radius: 20px;
+    margin: 0 5px; 
+    padding: 0 5px;
+}
+
+.battery-label {
+    margin: 0 1em;
 }
 
 .battery {
@@ -172,15 +172,16 @@
 
 .backlight {
     color: #f0c676;
-    // border-bottom: 3px solid #f0c676;
+    border-bottom: 3px solid #f0c676;
+    margin: 0 1em;
 }
 
 calendar {
     background: #1e1e1e;
-    font-family: JetBrainsMono Nerd Font, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-family: JetBrainsMono Nerd Font Propo, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
     font-size: 20px;
     border-radius: 1em;
-    padding:  0.3em;
+    padding:  0 0.1em;
     .button {
 	color: #fff;
     }

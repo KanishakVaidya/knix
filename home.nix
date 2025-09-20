@@ -432,6 +432,17 @@
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
+      general = {
+        # See https://wiki.hyprland.org/Configuring/Variables/ for more
+        gaps_in = 5;
+        gaps_out = 5;
+        border_size = 2;
+        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+        "col.inactive_border" = "rgba(595959aa)";
+        layout = "dwindle";
+        resize_on_border = true;
+        hover_icon_on_border = true;
+      };
       monitor = ",preferred,auto,1";
       # See https://wiki.hyprland.org/Configuring/Keywords/ for more
       "$mainMod" = "SUPER";
@@ -623,20 +634,6 @@ input {
 
 bindl = ALT_L,SHIFT_L,exec,~/.config/waybar/scripts/lang.sh 1 > /dev/null && pkill -SIGRTMIN+13 waybar
 bindr = CAPS,Caps_Lock,exec,pkill -SIGRTMIN+13 waybar
-
-general {
-    # See https://wiki.hyprland.org/Configuring/Variables/ for more
-
-    gaps_in = 5
-    gaps_out = 5
-    border_size = 2
-    col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
-    col.inactive_border = rgba(595959aa)
-
-    layout = dwindle
-    resize_on_border = true
-    hover_icon_on_border = true
-}
 
 decoration {
     # See https://wiki.hyprland.org/Configuring/Variables/ for more

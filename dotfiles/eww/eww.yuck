@@ -10,7 +10,7 @@
 		      time))
        ;; (myvolume)
        ;; (old-battery-widget)
-       (box :class "mytray" :orientation "h" :space-evenly true
+       (box :class "mytray" :orientation "h" :space-evenly false
 	    (brightness-widget)
 	    (volume-widget)
 	    (battery-widget))))
@@ -27,8 +27,8 @@
 (defwidget battery-widget []
   (overlay :class "battery ${battery-with-class.class}"
 	   :tooltip "Battery: ${battery-with-class.text}"
-	   :width 50
-	   (label :text "${battery-with-class.icon}")
+	   :width 25
+	   (label :class "battery-label" :text "${battery-with-class.icon}")
 	   (circular-progress
 	    :thickness 2
 	    :value "${battery-with-class.percentage}")))
@@ -50,10 +50,11 @@
 (defwidget volume-widget []
   (overlay :class "volume"
 	   :tooltip "Volume: ${myvol.text}%"
-	   :width 50
-	   (label :text "${myvol.icon} ")
+	   :width 40
+	   (label
+	    :text "${myvol.icon}")
 	   (circular-progress
-	    :thickness 4
+	    :thickness 2
 	    :value "${myvol.percentage}")))
 
 (defpoll brightness
@@ -64,13 +65,14 @@
 
 (defwidget brightness-widget []
   (eventbox :onscroll "bash ~/.config/waybar/scripts/amd_bl.sh {} && eww poll brightness"
-	    (overlay :class "backlight"
-  		     :tooltip "Brightness: ${brightness.text}%"
-  		     :width 50
-  		     (label :text "${brightness.icon}")
-  		     (circular-progress
-  		      :thickness 4
-  		      :value "${brightness.percentage}"))))
+	    (overlay
+	     :class "backlight"
+	     :tooltip "Brightness: ${brightness.text}"
+	     :width 40
+	     (label :text "${brightness.icon}")
+	     (circular-progress
+	      :thickness 2
+	      :value "${brightness.percentage}"))))
 
 ;; (defwidget brightness-widget []
 ;;   (eventbox :onscroll "bash ~/.config/waybar/scripts/amd_bl.sh {} && eww poll brightness"
