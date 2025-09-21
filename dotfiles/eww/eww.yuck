@@ -33,7 +33,7 @@
 	    :thickness 2
 	    :value "${battery-with-class.percentage}")))
 
-(defpoll myvol
+(defpoll myvolpoll
     :interval "864000s"
     :initial-value "100 %"
     :run-while false
@@ -47,32 +47,32 @@
 	:orientation "h"
 	" ${myvol.text} ")))
 
+(defvar myvol "{}")
 (defwidget volume-widget []
-  (overlay :class "volume"
-	   :tooltip "Volume: ${myvol.text}%"
-	   :width 40
-	   (label
-	    :text "${myvol.icon}")
-	   (circular-progress
-	    :thickness 2
-	    :value "${myvol.percentage}")))
+  (eventbox
+   :onclick "bash -c 'eww update myvol=\"$(~/.config/waybar/scripts/volume.sh 1)\"'"
+   :onrightclick "bash -c '~/.config/waybar/scripts/volume.sh 3 > /dev/null'"
+   :onscroll "bash -c 'eww update myvol=\"$(~/.config/waybar/scripts/volume.sh {})\"'"
+   (overlay :class "volume"
+  	    :tooltip "Volume: ${myvol.text}%"
+  	    :width 40
+  	    (label :text "${myvol.icon}")
+  	    (circular-progress
+  	     :thickness 2
+  	     :value "${myvol.percentage}"))))
 
-(defpoll brightness
-    :interval "864000s"
-    :initial-value "255"
-    :run-while false
-    `bash ~/.config/waybar/scripts/amd_bl.sh`)
-
+(defvar brightness "{}")
 (defwidget brightness-widget []
-  (eventbox :onscroll "bash ~/.config/waybar/scripts/amd_bl.sh {} && eww poll brightness"
-	    (overlay
-	     :class "backlight"
-	     :tooltip "Brightness: ${brightness.text}"
-	     :width 40
-	     (label :text "${brightness.icon}")
-	     (circular-progress
-	      :thickness 2
-	      :value "${brightness.percentage}"))))
+  (eventbox
+   :onscroll "bash -c '~/.config/waybar/scripts/amd_bl.sh {} && eww update brightness=\"$(~/.config/waybar/scripts/amd_bl.sh)\"'"
+   (overlay
+    :class "backlight"
+    :tooltip "Brightness: ${brightness.text}"
+    :width 40
+    (label :text "${brightness.icon}")
+    (circular-progress
+     :thickness 2
+     :value "${brightness.percentage}"))))
 
 ;; (defwidget brightness-widget []
 ;;   (eventbox :onscroll "bash ~/.config/waybar/scripts/amd_bl.sh {} && eww poll brightness"

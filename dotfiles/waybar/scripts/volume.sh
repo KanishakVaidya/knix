@@ -6,8 +6,8 @@ fi
 case $BLOCK_BUTTON in
     1) changeto='mute' ;;
     3) changeto='nothing' ; pavucontrol-qt ;;
-    4) changeto='increase' ;;
-    5) changeto='decrease' ;;
+    4 | "up") changeto='increase' ;;
+    5 | "down") changeto='decrease' ;;
 esac
 case $changeto in
     'increase')
@@ -19,8 +19,8 @@ esac
 
 vol=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '/Volume/{print $5+0}')
 if [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
-	text=" 󰝟 Mute "
-	icon="󰝟"
+	text="  Mute "
+	icon=""
 	notify-send -t 1000 -a 'wp-vol' "Volume" "󰝟 Mute%"
 elif [[ vol -lt 30  ]]; then
 	icon=""
