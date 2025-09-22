@@ -37,7 +37,7 @@
     bat htop eza direnv stow
     tofi rofi-wayland waybar networkmanager_dmenu
     foot brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin
-    onlyoffice-bin libreoffice-fresh nomacs gimp emacs-gtk signal-desktop xournalpp transmission_4-qt
+    onlyoffice-bin libreoffice-fresh nomacs gimp emacs-pgtk signal-desktop xournalpp transmission_4-qt
     lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
     python312Packages.python-lsp-server python312Packages.ipython python312Packages.python
     nerd-fonts.jetbrains-mono nerd-fonts.droid-sans-mono nerd-fonts.fira-code lohit-fonts.devanagari
