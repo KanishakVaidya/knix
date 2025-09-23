@@ -4,7 +4,7 @@ option=$(echo -e "Logout\nSwitch User\nPowerOff\nReboot" | rofi -dmenu)
 
 case $option in
     "Logout")
-	hyprctl dispatch exit ;;
+	exec $LOGOUT_COMMAND ;;
     "Switch User")
 	dm-tool switch-to-greeter ;;
     "PowerOff")

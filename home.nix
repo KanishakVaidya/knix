@@ -1108,6 +1108,23 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
 
   home.sessionVariables = {
     EDITOR = "nvim";
+    # XDG_DATA_HOME = "${config.home.homeDirectory}/.local/share";
+    # XDG_CONFIG_HOME = "${config.home.homeDirectory}/.config";
+    # XDG_STATE_HOME = "${config.home.homeDirectory}/.local/state";
+    # MANROFFOPT = "-c";
+    # MANPAGER = "sh -c 'col -bx | bat -l man -p'";
+    # HISTFILE = "${config.home.homeDirectory}/.local/state/bash/history";
+    # CUDA_CACHE_PATH = "${config.home.homeDirectory}/.cache/nv";
+    # GTK2_RC_FILES = "${config.home.homeDirectory}/.config/gtk-2.0/gtkrc";
+    # KERAS_HOME = "${config.home.homeDirectory}/.local/state/keras";
+    # LESSHISTFILE = "${config.home.homeDirectory}/.cache/less/history";
+    # TEXMFVAR = "${config.home.homeDirectory}/.cache/texlive/texmf-var";
+    # HISTFILE = "${config.home.homeDirectory}/.local/state/zsh/history";
+    # IPYTHONDIR = "${config.home.homeDirectory}/.config/ipython";
+    # JUPYTER_CONFIG_DIR = "${config.home.homeDirectory}/.config/jupyter";
+    # NUGET_PACKAGES = "${config.home.homeDirectory}/.cache/NuGetPackages";
+    # W3M_DIR = "${config.home.homeDirectory}/.local/share/w3m";
+    NOTES_DIR = "${config.home.homeDirectory}/doc/notes";
   };
 
   # Let Home Manager install and manage itself.
