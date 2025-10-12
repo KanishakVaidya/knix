@@ -35,7 +35,7 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
     bat htop eza direnv stow
-    tofi rofi-wayland waybar networkmanager_dmenu
+    eww tofi rofi-wayland waybar networkmanager_dmenu
     foot brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin
     onlyoffice-bin libreoffice-fresh nomacs gimp emacs-pgtk signal-desktop xournalpp transmission_4-qt
     lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
