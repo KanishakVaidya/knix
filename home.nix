@@ -35,7 +35,7 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
     bat htop eza direnv stow
-    eww tofi rofi-wayland waybar networkmanager_dmenu
+    eww tofi rofi-wayland waybar networkmanager_dmenu 
     foot brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin
     onlyoffice-bin libreoffice-fresh nomacs gimp emacs-pgtk signal-desktop xournalpp transmission_4-qt
     lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
@@ -44,7 +44,7 @@
     # (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "FiraCode" ]; })
     texliveFull texlab
     libsForQt5.qtstyleplugin-kvantum libsForQt5.qt5ct qt6Packages.qtstyleplugin-kvantum qt6Packages.qt6ct nwg-displays
-    libnotify wl-clipboard swaybg hyprlock hyprsunset
+    libnotify wl-clipboard swaybg swaylock hyprlock hyprsunset
     # Screenshot
     grim slurp swappy hyprshot
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
