@@ -1,0 +1,93 @@
+(defwidget sidestuff []
+  (box :space-evenly false :orientation "h" :halign "end" :spacing 10
+       (eww_calendar)
+       (brightness)
+       (volume)
+       (battery)
+       (internet)
+       (powermenu)))
+
+
+;; Calendar
+(defpoll time :interval "10s"
+  "date '+ %a %b %d  %H:%M '")
+
+(defwidget eww_calendar []
+  (eventbox
+   :onclick "eww -c . open --toggle calendar_window"
+   (box :class "datetime" :orientation "h" time)))
+
+(defwindow calendar_window
+  :monitor 0
+  :geometry (geometry
+	     :x "0%"
+             :y "0px"
+             :anchor "bottom right")
+  :stacking "fg" :exclusive false
+  (calendar :class "cal"))
+
+
+;; Brightness
+(defvar brightness "{}")
+(defwidget brightness []
+  (eventbox
+   :onscroll "bash -c 'eww -c . update brightness=\"$(~/.config/waybar/scripts/amd_bl.sh {})\"'"
+   (overlay
+    :class "backlight"
+    :tooltip "Brightness: ${brightness.text}"
+    :width 30
+    (label :text "${brightness.icon}")
+    (circular-progress
+     :thickness 2
+     :value "${brightness.percentage}"))))
+
+
+;; Volume
+(defvar myvol "{}")
+(defwidget volume []
+  (eventbox
+   :class "volume"
+   :onclick "bash -c 'eww -c . update myvol=\"$(~/.config/waybar/scripts/volume.sh 1)\"'"
+   :onrightclick "bash -c '~/.config/waybar/scripts/volume.sh 3 > /dev/null'"
+   :onscroll "bash -c 'eww -c . update myvol=\"$(~/.config/waybar/scripts/volume.sh {})\"'"
+   (overlay :class "volume"
+  	    :tooltip "Volume: ${myvol.text}%"
+  	    :width 30
+  	    (label :class "volume" :text "${myvol.icon}")
+  	    (circular-progress
+  	     :thickness 2
+  	     :value "${myvol.percentage}"))))
+
+
+;; Battery
+(defpoll battery-with-class
+    :interval "10s"
+    `bash ~/.config/waybar/scripts/battery.sh`)
+
+(defwidget battery []
+  (overlay :class "battery ${battery-with-class.class}"
+	   :tooltip "Battery: ${battery-with-class.text}"
+	   :width 30
+	   (label :class "battery-label" :text "${battery-with-class.icon}")
+	   (circular-progress
+	    :thickness 2
+	    :value "${battery-with-class.percentage}")))
+
+
+;; Internet
+(defpoll internet-with-class
+    :interval "3s"
+    `bash ~/.config/waybar/scripts/network.sh`)
+
+(defwidget internet []
+  (eventbox
+   :class {internet-with-class.class}
+   :onclick "networkmanager_dmenu"
+   :onrightclick "$TERMINAL -e nmtui"
+   (label :text "${internet-with-class.text}")))
+
+;; Powermenu
+(defwidget powermenu []
+  (eventbox
+   :onclick "~/.config/niri/widgets/powermenu/powermenu.sh"
+   (label :style "color: white; background-color: red; padding: 0 0.4em;" :text "󰐥")))

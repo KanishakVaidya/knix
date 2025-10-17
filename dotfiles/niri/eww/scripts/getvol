@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+eww update myvol="$(~/.config/waybar/scripts/volume.sh)"

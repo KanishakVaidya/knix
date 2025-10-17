@@ -1,0 +1,90 @@
+$myBackground: #1e1e1e;
+$myInactiveBG: #404040;
+$myInactiveFG: #888888;
+$myRed:  #f44747;
+$myCyan: #9cdcfe;
+$myYellow:  #d7ba7d;
+$myBYellow:  #f0c676;
+$myMagenta:  #c586c0;
+$myGreen:  #8fbcbb;
+
+* {
+  all: unset; // Unsets everything so you can style everything from scratch
+  font-family: JetBrainsMono Nerd Font Propo, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  background-color: $myBackground;
+  margin-top: 0.1em;
+}
+
+.datetime {
+    color: $myCyan;
+    border-bottom: 3px solid $myCyan;
+}
+
+.backlight {
+    color: $myBYellow;
+}
+
+.volume {
+    font-size: 12px;
+    color: $myMagenta;
+}
+
+.battery {
+    color: $myGreen;
+}
+
+.window_button {
+    margin: 0 0.2em;
+    padding: 0 0.4em;
+}
+.focused_window {
+    background-color: $myInactiveBG;
+    color: $myGreen;
+    border-radius: 1em;
+}
+
+.workspace_button {
+    margin: 0 0.2em;
+    padding: 0 0.4em;
+}
+.focused_ws {
+    color: black;
+    background-color: $myCyan;
+    border-radius: 1em;
+}
+
+.workspace_renamer {
+    font-size: 4em;
+}
+
+
+// Calendar
+.cal {
+    font-size: 14;
+    border: 4px solid $myYellow;
+    padding: 1em;
+}
+
+calendar.header {
+    color: $myCyan;
+    border: None;
+}
+
+calendar.button {
+    color: $myMagenta;
+}
+
+calendar.highlight {
+    color: $myMagenta;
+    font-weight: bold;
+}
+
+calendar:indeterminate {
+    color: $myInactiveFG;
+}
+
+calendar:selected {
+    color: $myRed;
+    font-size: 20;
+}

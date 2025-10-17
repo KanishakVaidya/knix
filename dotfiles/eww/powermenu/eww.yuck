@@ -1,0 +1,26 @@
+(defwindow powermenu
+           :monitor 0
+           :geometry (geometry :anchor "bottom right")
+           :stacking "fg"
+           :windowtype "normal"
+           :wm-ignore true
+  (powermenu))
+
+(defwidget powermenu []
+  (box
+   :class "powermenu"
+   :vexpand true :hexpand true :vlaign "end" :halign "end" :orientation "v"
+   :space-evenly false
+   (button :class "powerbutton" :onclick `$LOGOUT_COMMAND` "󰍃")
+   (button :class "powerbutton" :onclick "poweroff" "󰐥")
+   (button :class "powerbutton" :onclick "reboot" "󰜉")))
+
+(defwidget closer [window]
+  (eventbox :onclick "eww -c . close ${window} && eww -c . close ${window}_closer"))
+ 
+(defwindow powermenu_closer
+  :monitor 0
+  :geometry (geometry :width "100%" :height "100%")
+  :stacking "fg"
+  :focusable false
+  (closer :window "powermenu"))

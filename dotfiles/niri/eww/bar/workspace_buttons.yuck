@@ -1,0 +1,13 @@
+(defwidget niri_workspaces [monitor]
+  (box
+   :space-evenly false
+   :orientation "h"
+   :halign "center"
+   (for workspace in {jq(niri_events.workspaces, "[.[] | select(.active_window_id != null or .is_active)]")}
+	(eventbox
+	 :visible {workspace.output == monitor}
+	 :onclick "niri msg action focus-workspace ${workspace.id}"
+	 (label
+	  :width 50
+	  :text "${workspace.name == 'null' ? workspace.idx : workspace.name}"
+	  :class "workspace_botton ${workspace.is_focused ? 'focused_ws' : ''}")))))
