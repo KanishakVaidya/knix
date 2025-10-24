@@ -11,6 +11,7 @@
    :class "powermenu"
    :vexpand true :hexpand true :vlaign "end" :halign "end" :orientation "v"
    :space-evenly false
+   ;; (button :class "powerbutton" :onclick "eww -c . close && swaylock " "L")
    (button :class "powerbutton" :onclick `$LOGOUT_COMMAND` "󰍃")
    (button :class "powerbutton" :onclick "poweroff" "󰐥")
    (button :class "powerbutton" :onclick "reboot" "󰜉")))
