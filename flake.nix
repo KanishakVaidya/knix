@@ -10,6 +10,11 @@
     };
     nix-alien.url = "github:thiagokokada/nix-alien";
     stylix.url = "github:nix-community/stylix/release-25.05";
+
+    ignis = {
+      url = "github:ignis-sh/ignis";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{self, ...}:

@@ -14,6 +14,17 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
+
+  # IGNIS
+  imports = [inputs.ignis.homeManagerModules.default];
+  programs.ignis = {
+    enable = true; 
+    addToPythonEnv = true;
+    sass = {
+      enable = true;
+      useDartSass = true;
+    };
+  };
   
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -178,6 +189,7 @@
       size = 13;
     };
     settings = {
+      background_opacity = 0.95;
       narrow_symbol = "U+0900-U+097F 2";
       symbol_map = "U+0900-U+097F Yatra One";
       enable_audio_bell = false;
