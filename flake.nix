@@ -12,7 +12,7 @@
     stylix.url = "github:nix-community/stylix/release-25.05";
 
     ignis = {
-      url = "github:ignis-sh/ignis";
+      url = "github:KanishakVaidya/ignis";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
