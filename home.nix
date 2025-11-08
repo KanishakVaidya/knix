@@ -24,7 +24,7 @@
       # bluetooth.enable = true;
       # recorder.enable = true;
       audio.enable = true;
-      # network.enable = true;
+      network.enable = true;
     };
     sass = {
       enable = true;
