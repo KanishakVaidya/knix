@@ -181,15 +181,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1758101718,
-        "narHash": "sha256-qxY1q6ppBK5zWueAWVibiQLXUKbmot3/Zlb+J6q7RS0=",
-        "owner": "ignis-sh",
+        "lastModified": 1761833271,
+        "narHash": "sha256-k6B4Wwrrx09ECEDtYL0Nc4xNrzc3nxKzSufFLXGNLlo=",
+        "owner": "KanishakVaidya",
         "repo": "ignis",
-        "rev": "57017f8fbde4c4c67bdd4fa69c72589358882928",
+        "rev": "25ef11c63a8c522a9556a62037e36a1d783811a4",
         "type": "github"
       },
       "original": {
-        "owner": "ignis-sh",
+        "owner": "KanishakVaidya",
         "repo": "ignis",
         "type": "github"
       }

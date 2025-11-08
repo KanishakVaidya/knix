@@ -89,5 +89,5 @@
 ;; Powermenu
 (defwidget powermenu []
   (eventbox
-   :onclick "~/.config/niri/widgets/powermenu/powermenu.sh"
+   :onclick "~/.config/niri/widgets/powermenu/powermenu.sh >> /tmp/errors.bar.eww"
    (label :style "color: white; background-color: red; padding: 0 0.4em;" :text "󰐥")))
