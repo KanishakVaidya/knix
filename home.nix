@@ -1,6 +1,15 @@
 { self, config, lib, pkgs, userSettings, inputs, system, ... }:
 
 {
+  imports = [
+    inputs.ignis.homeManagerModules.default
+    inputs.zen-browser.homeModules.beta
+    # or inputs.zen-browser.homeModules.twilight
+    # or inputs.zen-browser.homeModules.twilight-official
+  ];
+
+  programs.zen-browser.enable = true;
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = userSettings.username;
@@ -16,7 +25,6 @@
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
   # IGNIS
-  imports = [inputs.ignis.homeManagerModules.default];
   programs.ignis = {
     enable = true; 
     # addToPythonEnv = true;
