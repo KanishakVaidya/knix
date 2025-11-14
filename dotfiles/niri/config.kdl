@@ -257,8 +257,8 @@ layout {
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
 // spawn-sh-at-startup "waybar -c $HOME/.config/niri/waybar/config"
-spawn-sh-at-startup "$HOME/.config/niri/eww/launch-eww.sh"
-// spawn-sh-at-startup "ignis init"
+// spawn-sh-at-startup "$HOME/.config/niri/eww/launch-eww.sh"
+spawn-sh-at-startup "ignis init"
 spawn-sh-at-startup "swaybg -i $HOME/.local/share/backgrounds/000.jpg"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -382,7 +382,8 @@ binds {
     Mod+Space hotkey-overlay-title="Run an Application: rofi" { spawn-sh "rofi -show combi"; }
     Mod+T hotkey-overlay-title="Text Editor: emacs" { spawn "emacs"; }
     Mod+G { spawn "lutris"; }
-    Super+Shift+X hotkey-overlay-title="Powermenu" { spawn-sh "~/.config/niri/widgets/powermenu/powermenu.sh"; }
+    Super+P hotkey-overlay-title="Display settings" { spawn "ignis" "toggle-window" "displayToggler"; }
+    Super+Shift+X hotkey-overlay-title="Powermenu" { spawn "ignis" "toggle-window" "powermenu"; }
     Super+X hotkey-overlay-title="Lock Screen" { spawn-sh "$LOCK_COMMAND"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
@@ -391,10 +392,15 @@ binds {
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "eww -c ~/.config/niri/eww update myvol=\"$(~/.config/waybar/scripts/volume.sh up)\""; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "eww -c ~/.config/niri/eww update myvol=\"$(~/.config/waybar/scripts/volume.sh down)\""; }
-    XF86AudioMute        allow-when-locked=true { spawn-sh "eww -c ~/.config/niri/eww update myvol=\"$(~/.config/waybar/scripts/volume.sh 1)\""; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "+1%"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "-1%"; }
+    XF86AudioMute        allow-when-locked=true { spawn "pactl" "set-sink-mute" "@DEFAULT_SINK@" "toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+
+    // XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "eww -c ~/.config/niri/eww update myvol=\"$(~/.config/waybar/scripts/volume.sh up)\""; }
+    // XF86AudioLowerVolume allow-when-locked=true { spawn-sh "eww -c ~/.config/niri/eww update myvol=\"$(~/.config/waybar/scripts/volume.sh down)\""; }
+    // XF86AudioMute        allow-when-locked=true { spawn-sh "eww -c ~/.config/niri/eww update myvol=\"$(~/.config/waybar/scripts/volume.sh 1)\""; }
+    // XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
 
     // Brightness
     XF86MonBrightnessUp { spawn-sh "eww -c ~/.config/niri/eww update brightness=\"$(~/.config/waybar/scripts/amd_bl.sh up)\""; }
