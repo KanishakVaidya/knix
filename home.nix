@@ -8,8 +8,6 @@
     # or inputs.zen-browser.homeModules.twilight-official
   ];
 
-  programs.zen-browser.enable = true;
-
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = userSettings.username;
@@ -23,6 +21,9 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
+
+  # ZEN BETA BROWSER
+  programs.zen-browser.enable = true;
 
   # IGNIS
   programs.ignis = {
@@ -62,7 +63,7 @@
     bat htop eza direnv stow
     eww tofi rofi-wayland waybar networkmanager_dmenu 
     foot brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin
-    onlyoffice-bin libreoffice-fresh nomacs gimp emacs-pgtk signal-desktop xournalpp transmission_4-qt
+    onlyoffice-bin libreoffice-fresh nomacs gimp emacs-pgtk signal-desktop xournalpp transmission_4-qt mpv
     lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
     python312Packages.python-lsp-server python312Packages.ipython python312Packages.python
     nerd-fonts.jetbrains-mono nerd-fonts.droid-sans-mono nerd-fonts.fira-code lohit-fonts.devanagari
@@ -239,7 +240,7 @@
   };
 
   programs.mpv = {
-    enable = true;
+    enable = false;
     bindings = {
       WHEEL_UP = "add volume 5";
       WHEEL_DOWN = "add volume -5";
