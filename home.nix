@@ -412,7 +412,7 @@
       text = lib.generators.toINI { } {
         General.theme = "MateriaDark";
         Hacks.transparent_pcmanfm_sidepane = true;
-        libreoffice.theme = "arc";
+        libreoffice.theme = "KvAdapta";
       };
     };
 
