@@ -61,9 +61,9 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
     bat htop eza direnv stow
-    eww tofi rofi-wayland waybar networkmanager_dmenu 
+    eww tofi rofi waybar networkmanager_dmenu 
     foot brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin
-    onlyoffice-bin libreoffice-fresh nomacs gimp emacs-pgtk signal-desktop xournalpp transmission_4-qt mpv
+    onlyoffice-desktopeditors libreoffice-fresh nomacs gimp emacs-pgtk signal-desktop xournalpp transmission_4-qt mpv
     lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
     python312Packages.python-lsp-server python312Packages.ipython python312Packages.python
     nerd-fonts.jetbrains-mono nerd-fonts.droid-sans-mono nerd-fonts.fira-code lohit-fonts.devanagari
@@ -949,8 +949,10 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
 
   programs.git = {
     enable = true;
-    userName = userSettings.username ;
-    userEmail = userSettings.useremail;
+    settings = {
+      user.name =  userSettings.username;
+      user.email = userSettings.useremail;
+    };
   };
 
   services = {
@@ -1025,7 +1027,7 @@ binde=, XF86MonBrightnessDown, exec, ~/.config/waybar/scripts/amd_bl.sh 5 && pki
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     enableCompletion = true;
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
     history.path = "${config.xdg.dataHome}/zsh/zsh_history";
     initContent = ''
       ${pkgs.fastfetch}/bin/fastfetch
