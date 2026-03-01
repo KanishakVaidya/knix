@@ -63,7 +63,7 @@
     hyprland
     bat htop eza direnv stow
     eww tofi rofi waybar networkmanager_dmenu 
-    foot brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin
+    foot brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin celestia
     onlyoffice-desktopeditors libreoffice-fresh nomacs gimp emacs-pgtk signal-desktop xournalpp transmission_4-qt mpv
     lxqt.lxqt-archiver unzip unrar p7zip pulseaudio lxqt.pavucontrol-qt jq 
     python312Packages.python-lsp-server python312Packages.ipython python312Packages.python
