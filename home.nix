@@ -23,7 +23,11 @@
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
   # ZEN BETA BROWSER
-  programs.zen-browser.enable = true;
+  programs.zen-browser = {
+    enable = true;
+    suppressXdgMigrationWarning = true;
+  };
+  
 
   # IGNIS
   programs.ignis = {
