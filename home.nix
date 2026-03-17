@@ -556,9 +556,7 @@
       };
     };
 
-    syncthing = {
-      enable = true;
-    };
+    syncthing.enable = false;
   };
 
   programs.obs-studio = {
