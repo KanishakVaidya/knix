@@ -6,7 +6,7 @@
     inputs.zen-browser.homeModules.beta
     # or inputs.zen-browser.homeModules.twilight
     # or inputs.zen-browser.homeModules.twilight-official
-    inputs.noctalia.homeModules.default
+    # inputs.noctalia.homeModules.default
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -47,7 +47,7 @@
   };
 
   # Noctalia shell
-  programs.noctalia-shell.enable = true;
+  # programs.noctalia-shell.enable = true;
   
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -83,6 +83,7 @@
     # Screenshot
     grim slurp swappy hyprshot
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
+    noctalia-shell
     # Games
     lutris protonup-qt ioquake3
   ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]);
