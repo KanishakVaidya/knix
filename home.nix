@@ -6,6 +6,7 @@
     inputs.zen-browser.homeModules.beta
     # or inputs.zen-browser.homeModules.twilight
     # or inputs.zen-browser.homeModules.twilight-official
+    inputs.noctalia.homeModules.default
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -44,6 +45,9 @@
       useDartSass = true;
     };
   };
+
+  # Noctalia shell
+  programs.noctalia-shell.enable = true;
   
   # The home.packages option allows you to install Nix packages into your
   # environment.
