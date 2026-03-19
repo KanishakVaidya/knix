@@ -264,7 +264,7 @@ layout {
 // spawn-sh-at-startup "waybar -c $HOME/.config/niri/waybar/config"
 // spawn-sh-at-startup "$HOME/.config/niri/eww/launch-eww.sh"
 // spawn-sh-at-startup "ignis init"
-spawn-at-startup "qs" "-c" "noctalia-shell"
+spawn-at-startup "noctalia-shell"
 // spawn-sh-at-startup "swaybg -i $HOME/.local/share/backgrounds/000.jpg"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
