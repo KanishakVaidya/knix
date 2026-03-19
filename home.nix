@@ -26,7 +26,6 @@
   # ZEN BETA BROWSER
   programs.zen-browser = {
     enable = true;
-    suppressXdgMigrationWarning = true;
   };
   
 
@@ -48,6 +47,7 @@
 
   # Noctalia shell
   programs.noctalia-shell.enable = true;
+  
   
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -85,7 +85,7 @@
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
     # Games
     lutris protonup-qt ioquake3
-  ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]);
+  ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]) ++ ([inputs.noctalia-qs.packages.${system}.quickshell]);
 
   stylix = {
     enable = false;
