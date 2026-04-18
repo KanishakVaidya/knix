@@ -10,6 +10,7 @@
       ./shamli.nix
       ./hardware-configuration.nix
       ./nvidia.nix
+      ./specializations.nix
     ];
 
   # Choosing the kernel
