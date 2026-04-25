@@ -561,6 +561,8 @@
     };
 
     syncthing.enable = false;
+
+    kanshi.enable = true;
   };
 
   programs.obs-studio = {
