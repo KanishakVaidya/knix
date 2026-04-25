@@ -41,12 +41,12 @@
     "bar": {
         "autoHideDelay": 500,
         "autoShowDelay": 150,
-        "backgroundOpacity": 0.93,
+        "backgroundOpacity": 1,
         "barType": "simple",
         "capsuleColorKey": "none",
         "capsuleOpacity": 1,
-        "contentPadding": 2,
-        "density": "spacious",
+        "contentPadding": 1,
+        "density": "default",
         "displayMode": "always_visible",
         "enableExclusionZoneInset": true,
         "floating": false,
@@ -74,12 +74,12 @@
         "showCapsule": false,
         "showOnWorkspaceSwitch": true,
         "showOutline": false,
-        "useSeparateOpacity": false,
+        "useSeparateOpacity": true,
         "widgetSpacing": 6,
         "widgets": {
             "center": [
                 {
-                    "characterCount": 2,
+                    "characterCount": 3,
                     "colorizeIcons": false,
                     "emptyColor": "secondary",
                     "enableScrollWheel": true,
@@ -87,13 +87,13 @@
                     "followFocusedScreen": false,
                     "fontWeight": "bold",
                     "groupedBorderOpacity": 1,
-                    "hideUnoccupied": false,
+                    "hideUnoccupied": true,
                     "iconScale": 0.8,
                     "id": "Workspace",
-                    "labelMode": "index",
+                    "labelMode": "name",
                     "occupiedColor": "secondary",
                     "pillSize": 0.6,
-                    "showApplications": false,
+                    "showApplications": true,
                     "showApplicationsHover": false,
                     "showBadge": true,
                     "showLabelsOnlyWhenOccupied": true,
@@ -111,16 +111,6 @@
                     "useDistroLogo": false
                 },
                 {
-                    "colorizeIcons": false,
-                    "hideMode": "hidden",
-                    "id": "ActiveWindow",
-                    "maxWidth": 145,
-                    "scrollingMode": "hover",
-                    "showIcon": true,
-                    "textColor": "none",
-                    "useFixedWidth": false
-                },
-                {
                     "compactMode": false,
                     "hideMode": "hidden",
                     "hideWhenIdle": false,
@@ -135,6 +125,16 @@
                     "textColor": "none",
                     "useFixedWidth": false,
                     "visualizerType": "linear"
+                },
+                {
+                    "colorizeIcons": false,
+                    "hideMode": "hidden",
+                    "id": "ActiveWindow",
+                    "maxWidth": 145,
+                    "scrollingMode": "hover",
+                    "showIcon": true,
+                    "textColor": "none",
+                    "useFixedWidth": false
                 }
             ],
             "right": [
@@ -142,7 +142,7 @@
                     "clockColor": "none",
                     "customFont": "",
                     "formatHorizontal": "HH:mm ddd, MMM dd",
-                    "formatVertical": "HH mm - dd MM",
+                    "formatVertical": "ddd MMM dd ---- HH mm",
                     "id": "Clock",
                     "tooltipFormat": "HH:mm ddd, MMM dd",
                     "useCustomFont": false
@@ -219,7 +219,7 @@
                 "id": "calendar-month-card"
             },
             {
-                "enabled": true,
+                "enabled": false,
                 "id": "weather-card"
             }
         ]
@@ -229,7 +229,7 @@
         "generationMethod": "tonal-spot",
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
-        "monitorForColors": "",
+        "monitorForColors": "eDP-1",
         "predefinedScheme": "Noctalia (default)",
         "schedulingMode": "off",
         "useWallpaperColors": false
@@ -436,7 +436,7 @@
         "showWeekNumberInCalendar": false,
         "use12hourFormat": false,
         "useFahrenheit": false,
-        "weatherEnabled": true,
+        "weatherEnabled": false,
         "weatherShowEffects": true
     },
     "network": {

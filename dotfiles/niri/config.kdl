@@ -255,6 +255,7 @@ layout {
     }
 }
 
+
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
@@ -348,6 +349,7 @@ environment {
     MOZ_ENABLE_WAYLAND "1"
     WLR_NO_HARDWARE_CURSORS "1"
     TERMINAL "foot"
+    DISPLAY ":0"
 
     LOGOUT_COMMAND "niri msg action quit"
     LOCK_COMMAND "swaylock -c 1e1e1e"
@@ -390,7 +392,7 @@ binds {
     Mod+T hotkey-overlay-title="Text Editor: emacs" { spawn "emacs"; }
     Mod+G { spawn "lutris"; }
     Mod+Shift+P hotkey-overlay-title="Display settings" { spawn "ignis" "toggle-window" "displayToggler"; }
-    Mod+Shift+X hotkey-overlay-title="Powermenu" { spawn "ignis" "toggle-window" "powermenu"; }
+    Mod+Shift+X hotkey-overlay-title="Powermenu" { spawn "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; }
     Mod+X hotkey-overlay-title="Lock Screen" { spawn-sh "$LOCK_COMMAND"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
@@ -399,19 +401,18 @@ binds {
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "+1%"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "-1%"; }
-    XF86AudioMute        allow-when-locked=true { spawn "pactl" "set-sink-mute" "@DEFAULT_SINK@" "toggle"; }
-    XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
 
-    // XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "eww -c ~/.config/niri/eww update myvol=\"$(~/.config/waybar/scripts/volume.sh up)\""; }
-    // XF86AudioLowerVolume allow-when-locked=true { spawn-sh "eww -c ~/.config/niri/eww update myvol=\"$(~/.config/waybar/scripts/volume.sh down)\""; }
-    // XF86AudioMute        allow-when-locked=true { spawn-sh "eww -c ~/.config/niri/eww update myvol=\"$(~/.config/waybar/scripts/volume.sh 1)\""; }
-    // XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    // Core Noctalia binds
+    // Mod+Space { spawn-sh "qs -c noctalia-shell ipc call launcher toggle"; }
+    // Mod+S { spawn-sh "qs -c noctalia-shell ipc call controlCenter toggle"; }
+    // Mod+Comma { spawn-sh "qs -c noctalia-shell ipc call settings toggle"; }
 
-    // Brightness
-    XF86MonBrightnessUp { spawn-sh "eww -c ~/.config/niri/eww update brightness=\"$(~/.config/waybar/scripts/amd_bl.sh up)\""; }
-    XF86MonBrightnessDown { spawn-sh "eww -c ~/.config/niri/eww update brightness=\"$(~/.config/waybar/scripts/amd_bl.sh down)\""; }
+    // Audio & Brightness
+    XF86AudioRaiseVolume { spawn "noctalia-shell" "ipc" "call" "volume" "increase"; }
+    XF86AudioLowerVolume { spawn "noctalia-shell" "ipc" "call" "volume" "decrease"; }
+    XF86AudioMute { spawn "noctalia-shell" "ipc" "call" "volume" "muteOutput"; }
+    XF86MonBrightnessUp { spawn "noctalia-shell" "ipc" "call" "brightness" "increase"; }
+    XF86MonBrightnessDown { spawn "noctalia-shell" "ipc" "call" "brightness" "decrease"; }
 
     XF86KbdBrightnessUp {spawn-sh "~/.config/waybar/scripts/keyboard_bl.sh 'inc'";}
     XF86KbdBrightnessDown {spawn-sh "~/.config/waybar/scripts/keyboard_bl.sh 'dec'";}
@@ -427,10 +428,13 @@ binds {
     Mod+Down  { focus-window-down; }
     Mod+Up    { focus-window-up; }
     Mod+Right { focus-column-or-monitor-right; }
-    Mod+H     { focus-column-or-monitor-left; }
     // Mod+J     { focus-window-down; }
     // Mod+K     { focus-window-up; }
-    Mod+L     { focus-column-or-monitor-right; }
+
+    // Mod+H     { focus-column-or-monitor-left; }
+    // Mod+L     { focus-column-or-monitor-right; }
+    Mod+H     { focus-column-left; }
+    Mod+L     { focus-column-right; }
 
     Mod+Shift+Left  { move-column-left; }
     Mod+Shift+Down  { move-window-down-or-to-workspace-down; }
@@ -548,6 +552,8 @@ binds {
     Mod+7 { focus-workspace "set"; }
     Mod+8 { focus-workspace "gms"; }
     Mod+9 { focus-workspace "ws9"; }
+    Mod+0 { focus-workspace "ws0"; }
+
     Mod+Shift+1 { move-column-to-workspace "cmd"; }
     Mod+Shift+2 { move-column-to-workspace "dir"; }
     Mod+Shift+3 { move-column-to-workspace "www"; }
@@ -557,6 +563,7 @@ binds {
     Mod+Shift+7 { move-column-to-workspace "set"; }
     Mod+Shift+8 { move-column-to-workspace "gms"; }
     Mod+Shift+9 { move-column-to-workspace "ws9"; }
+    Mod+Shift+0 { move-column-to-workspace "ws0"; }
 
     // Alternatively, there are commands to move just a single window:
     // Mod+Ctrl+1 { move-window-to-workspace 1; }

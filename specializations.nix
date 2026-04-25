@@ -5,9 +5,6 @@
     # We don't just blacklist; we tell the kernel to disable the device power
     boot.blacklistedKernelModules = [ "nvidia" "nouveau" "nvidia_drm" "nvidia_modeset" ];
     
-    # Disable turbo boost (big battery saver)
-    boot.kernelParams = [ "amd_pstate=active" ];  # OR amd_pstate=active
-    
     services.xserver.videoDrivers = [ "amdgpu" ];
     
     # This udev rule completely suspends the NVIDIA GPU at the hardware level
@@ -33,6 +30,7 @@
     powerManagement.cpuFreqGovernor = "powersave";
     
     # 3. TLP: The Gold Standard
+    services.power-profiles-daemon.enable = false;
     services.tlp.enable = true;
     services.tlp.settings = {
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
@@ -46,9 +44,6 @@
       # 1.0 GHz = 1000000 | 1.2 GHz = 1200000
       CPU_SCALING_MIN_FREQ_ON_BAT = 400000;  # Allow it to idle low
       CPU_SCALING_MAX_FREQ_ON_BAT = 1500000; # Cap it at 1.5 GHz
-      
-      # Ensure the governor doesn't try to override this
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
     };
     
     # 4. Miscellaneous
@@ -56,7 +51,7 @@
     # but disable heavy indexing if you use it (like updatedb or locate).
     
     # Turn off Bluetooth if you don't use it while traveling
-    hardware.bluetooth.enable = false;
+    # hardware.bluetooth.enable = false;
     
     # PowerTop is great for monitoring, but TLP handles the tuning better
     powerManagement.powertop.enable = false; 

@@ -5,6 +5,7 @@
        (volume)
        (battery)
        (internet)
+       (systray :space-evenly true)
        (powermenu)))
 
 

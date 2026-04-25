@@ -46,6 +46,9 @@
   # Automounting
   services.gvfs.enable = true;
 
+  # Thunderbolt
+  services.hardware.bolt.enable = true;
+
   # PipeWire
   security.rtkit.enable = true;
   services.pipewire = {
