@@ -84,6 +84,7 @@
     grim slurp swappy hyprshot
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
     # Games
+    wineWowPackages.waylandFull
     lutris protonup-qt ioquake3
   ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]) ++ ([inputs.noctalia-qs.packages.${system}.quickshell]);
 
