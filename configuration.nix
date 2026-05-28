@@ -10,6 +10,7 @@
       ./shamli.nix
       ./hardware-configuration.nix
       ./nvidia.nix
+      ./gamers.nix
       ./specializations.nix
     ];
 
