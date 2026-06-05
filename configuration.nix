@@ -159,7 +159,6 @@
   #  wget
     neovim curl git rsync xwayland-satellite
     v4l-utils
-    asusctl supergfxctl
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -171,6 +170,10 @@
   # };
 
   # List services that you want to enable:
+
+  # Settings for ASUS laptops
+  services.asusd.enable = true;
+  services.supergfxd.enable = true;
 
   # udev rules for unprivileged user to work with adb
   # services.udev.packages = [ pkgs.android-udev-rules ];
