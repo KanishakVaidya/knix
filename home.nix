@@ -21,7 +21,7 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "24.05"; # Please read the comment before changing.
+  home.stateVersion = "26.05"; # Please read the comment before changing.
 
   # ZEN BETA BROWSER
   programs.zen-browser = {
@@ -84,7 +84,7 @@
     grim slurp swappy hyprshot
     lxqt.lxqt-menu-data lxqt.lxqt-policykit
     # Games
-    wineWowPackages.waylandFull
+    wineWow64Packages.waylandFull
     lutris protonup-qt ioquake3
   ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]) ++ ([inputs.noctalia-qs.packages.${system}.quickshell]);
 
@@ -183,7 +183,7 @@
     enable = true;
     settings = {
       main = {font = "JetBrainsMono Nerd Font :size=13";};
-      colors = {
+      colors-dark = {
         alpha = "0.9";
         background = "1e1e1e";
         foreground = "d4d4d4";
@@ -495,11 +495,13 @@
     userDirs = {
       enable = true;
       createDirectories = true;
+      setSessionVariables = false;  # home-manager warning asked to put this
       desktop = "${config.home.homeDirectory}/desktop";
       documents = "${config.home.homeDirectory}/doc";
       download = "${config.home.homeDirectory}/dwn";
       music = "${config.home.homeDirectory}/music";
       pictures = "${config.home.homeDirectory}/pic";
+      projects = "${config.home.homeDirectory}/prj";
       publicShare = "${config.home.homeDirectory}/shared";
       templates = "${config.home.homeDirectory}/templates";
       videos = "${config.home.homeDirectory}/vid";
@@ -584,6 +586,7 @@
         sort_reverse = false;
       };
     };
+    shellWrapperName = "y";
   };
 
   programs.zsh = {
