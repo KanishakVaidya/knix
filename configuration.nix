@@ -159,6 +159,7 @@
   #  wget
     neovim curl git rsync xwayland-satellite
     v4l-utils
+    asusctl supergfxctl
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
