@@ -86,6 +86,9 @@
     # Games
     wineWow64Packages.waylandFull
     lutris protonup-qt ioquake3
+    # spell check
+    # Also setting up a sessionVariable DICPATH, otherwise hunspell don't know where to find dictionaries
+    hunspell hunspellDicts.en_US  # Read comment above before removing this
   ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]) ++ ([inputs.noctalia-qs.packages.${system}.quickshell]);
 
   stylix = {
@@ -295,95 +298,6 @@
     };
     config = {keep-open = "yes";};
   };
-
-  # programs.neovim = {
-  #   enable = true;
-  #   extraConfig = ''
-  #     set number
-  #     set relativenumber
-  #     set mouse=nv
-  #     set linebreak
-  #     set breakindent
-  #     set incsearch
-  #     set ignorecase
-  #     set smartcase
-  #     set scrolloff=4
-  #     set tabstop=4
-  #     set shiftwidth=4
-  #     set expandtab
-  #     set cursorline
-  #     let mapleader = ' '
-  #     let maplocalleader = ' '
-  #     filetype plugin indent on
-  #     syntax on
-  #     hi MatchParen cterm=bold ctermbg=none ctermfg=red   
-  #     set clipboard=unnamedplus
-  #     " let g:tex_flavor = "latex"
-
-  #     noremap <C-h> <C-w>h
-  #     noremap <C-j> <C-w>j
-  #     noremap <C-k> <C-w>k
-  #     noremap <C-l> <C-w>l
-  #     noremap <C-up> <C-W>+
-  #     noremap <C-down> <C-W>-
-  #     noremap <C-right> <C-W>>
-  #     noremap <C-left> <C-W><
-      
-  #     " Surround
-  #     function! Surround()
-  #         let sur = nr2char(getchar())
-  #         if sur == "(" || sur == ")"
-  #             exe "normal! gv\"sd\<Esc>i(\<Esc>\"spa)"
-  #         elseif sur == "[" || sur == "]"
-  #             exe "normal! gv\"sd\<Esc>i[\<Esc>\"spa]"
-  #         elseif sur == "{" || sur == "}"
-  #             exe "normal! gv\"sd\<Esc>i{\<Esc>\"spa}"
-  #         else
-  #             exe "normal! gv\"sd\<Esc>i" . sur . "\<esc>\"spa" . sur
-  #         endif
-  #     endfunction
-      
-  #     vnoremap s :call Surround()<CR>
-      
-  #     " Find files using Telescope command-line sugar.
-  #     nnoremap <leader>fr <cmd>Telescope oldfiles<cr>
-  #     nnoremap <leader>ff <cmd>Telescope find_files<cr>
-  #     nnoremap <leader>ht <cmd>Telescope colorscheme<cr>
-  #     nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-  #     nnoremap <leader>fb <cmd>Telescope buffers<cr>
-  #     nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-  #   '';
-  #   plugins = with pkgs.vimPlugins; [
-  #     # lightline-vim
-  #     {plugin = lightline-vim; config = "set noshowmode";}
-  #     {
-  #       plugin = vim-code-dark;
-  #       config = ''
-  #         let base16colorspace=256
-  #         set termguicolors
-  #         colorscheme codedark
-  #       '';
-  #     }
-  #   ];
-  #   coc = {
-  #     enable = true;
-  #     pluginConfig = ''
-  #       " Enter should select the coc.completion candidate
-  #       inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
-  #       function! s:check_back_space() abort
-  #         let col = col('.') - 1
-  #         return !col || getline('.')[col - 1]  =~ '\s'
-  #       endfunction
-        
-  #       " Insert <tab> when previous text is space, refresh completion if not.
-  #       inoremap <silent><expr> <TAB>
-  #         \ coc#pum#visible() ? coc#pum#next(1):
-  #         \ <SID>check_back_space() ? "\<Tab>" :
-  #         \ coc#refresh()
-  #       inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-  #     '';
-  #   };
-  # };
 
   fonts.fontconfig.enable = true;
 
@@ -721,6 +635,9 @@
     NUGET_PACKAGES = "${config.home.homeDirectory}/.cache/NuGetPackages";
     W3M_DIR = "${config.home.homeDirectory}/.local/share/w3m";
     NOTES_DIR = "${config.home.homeDirectory}/doc/notes";
+
+    # Adding otherwise hunspell doesn't know where are the dictionaries
+    DICPATH = "${pkgs.hunspellDicts.en_US}/share/hunspell";
   };
 
   # Let Home Manager install and manage itself.
