@@ -11,7 +11,8 @@
       ./hardware-configuration.nix
       ./nvidia.nix
       ./gamers.nix
-      ./specializations.nix
+      ./specializations/battery.nix
+      ./specializations/vfio.nix
     ];
 
   nix.settings = {

@@ -1,0 +1,12 @@
+{
+  "plugins": {
+    "lightline.vim": {
+      "rev": "6c283f8df85aa7219fa4096a6ed4ff45d48aa9e1",
+      "src": "https://github.com/itchyny/lightline.vim"
+    },
+    "vim-code-dark": {
+      "rev": "4624dc223bf574aa9a731c2383c579847303c380",
+      "src": "https://github.com/tomasiser/vim-code-dark"
+    }
+  }
+}
