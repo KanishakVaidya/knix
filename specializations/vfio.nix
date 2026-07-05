@@ -31,7 +31,7 @@
       open = false;
     };
 
-    hardware.opengl.enable = true;
+    hardware.graphics.enable = true;
     virtualisation.spiceUSBRedirection.enable = true;
     programs.virt-manager.enable = true;
     virtualisation.libvirtd = {

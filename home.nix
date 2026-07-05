@@ -406,6 +406,8 @@
   };
 
   xdg = {
+    # enable = true;
+    # binHome = "${config.home.homeDirectory}/.local/bin";
     userDirs = {
       enable = true;
       createDirectories = true;

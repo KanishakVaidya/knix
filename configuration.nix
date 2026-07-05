@@ -173,6 +173,7 @@
     neovim curl git rsync xwayland-satellite
     v4l-utils
   ];
+  environment.localBinInPath = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
