@@ -4,6 +4,7 @@
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "nixpkgs/nixos-26.05";
+    flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -70,6 +71,10 @@
         extraSpecialArgs = {
           inherit self userSettings inputs system;
         };
+      };
+
+      devShells.${system}.python = import ./shells/python.nix {
+        inherit pkgs;
       };
     };
 }
