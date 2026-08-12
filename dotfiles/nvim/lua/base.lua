@@ -1,50 +1,45 @@
-local g = vim.g
-local o = vim.o
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.mouse = nv
+vim.opt.linebreak = true
+vim.opt.breakindent = true
+vim.opt.incsearch = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.scrolloff = 4
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+vim.opt.cursorline = true
+vim.opt.syntax = on
+vim.opt.signcolumn = "yes"
 
-o.number = true
-o.relativenumber = true
-o.mouse = nv
-o.linebreak = true
-o.breakindent = true
-o.incsearch = true
-o.ignorecase = true
-o.smartcase = true
-o.scrolloff = 4
-o.tabstop = 2
-o.shiftwidth = 2
-o.expandtab = true
-o.cursorline = true
-o.syntax = on
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 
-o.splitright = true
-o.splitbelow = true
-
-o.cursorline = true
+vim.opt.cursorline = true
 
 -- Don't show the mode, since it's already in the status line
-o.showmode = false
+vim.opt.showmode = false
 
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function() o.clipboard = 'unnamedplus' end)
+vim.schedule(function() vim.opt.clipboard = 'unnamedplus' end)
 
 
 -- Minimal number of screen lines to keep above and below the cursor.
-o.scrolloff = 10
+vim.opt.scrolloff = 10
 
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
-o.confirm = true
+vim.opt.confirm = true
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>') 
-
-g.mapleader = ' '
-g.maplocalleader = ' '
 
 vim.cmd[[hi MatchParen cterm=bold ctermbg=none ctermfg=red]]
 
