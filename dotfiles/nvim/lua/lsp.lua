@@ -6,10 +6,9 @@ vim.lsp.enable({ 'basedpyright' })
 
 vim.diagnostic.config({ virtual_text = true })
 
+vim.opt.completeopt = { 'menuone', 'noselect', 'fuzzy', 'popup' }
+vim.opt.autocomplete = true
 vim.opt.complete:append('o')
-
-vim.opt.completeopt = { 'menuone', 'noinsert', 'fuzzy', 'popup' }
-
 vim.opt.pumheight = 5
 -- vim.opt.pumborder = 'rounded'
 
@@ -39,10 +38,10 @@ vim.keymap.set('i', '<C-k>', function()
   end
 end, { expr = true })
 
-vim.keymap.set('i', '<CR>', function()
-  if vim.fn.pumvisible() == 1 then
-    return '<C-y>'
-  else
-    return '<CR>'
-  end
-end, { expr = true })
+-- vim.keymap.set('i', '<CR>', function()
+--   if vim.fn.pumvisible() == 1 then
+--     return '<C-y>'
+--   else
+--     return '<CR>'
+--   end
+-- end, { expr = true })

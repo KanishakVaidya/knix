@@ -1,7 +1,8 @@
 { pkgs }:
 
 let
-  python = pkgs.python312;
+  python = pkgs.python314;
+  pypkgs = python.pkgs;
 in
 
 pkgs.mkShell {
@@ -10,9 +11,9 @@ pkgs.mkShell {
 
     # Python tooling
     uv
-    python312Packages.pip
-    python312Packages.virtualenv
-    python312Packages.ipython
+    pyppkgs.pip
+    pyppkgs.virtualenv
+    pyppkgs.ipython
 
     # Formatters / linters
     ruff
