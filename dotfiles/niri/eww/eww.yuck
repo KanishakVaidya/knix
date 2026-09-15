@@ -1,0 +1,2 @@
+(include "./bar/main.yuck")
+(include "./workspace_renamer/main.yuck")

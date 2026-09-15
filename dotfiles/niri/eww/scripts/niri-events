@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+spaces (){
+    FOCUSED_WINDOW=$(niri msg --json focused-window | jq -Mc .)
+    WORKSPACE_WINDOWS=$(niri msg --json workspaces | jq -Mc 'sort_by(.idx)')
+    FOCUSED_WORKSPACE_ID=$(echo "$FOCUSED_WINDOW" | jq -Mc '.workspace_id')
+    WINDOWS_IN_FOCUSED_WORKSPACE=$(niri msg --json windows | jq -Mc --argjson focused_id $FOCUSED_WORKSPACE_ID '[.[] | select(.workspace_id == $focused_id)] | sort_by(.layout.pos_in_scrolling_layout[0])')
+    
+    echo "{\"focused_window\": $FOCUSED_WINDOW, \"workspaces\": $WORKSPACE_WINDOWS, \"windows\": $WINDOWS_IN_FOCUSED_WORKSPACE}"
+}
+
+spaces
+niri msg --json event-stream | while read -r line; do
+  spaces
+done

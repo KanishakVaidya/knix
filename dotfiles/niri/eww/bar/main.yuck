@@ -1,0 +1,22 @@
+(defwindow bar [monitor]
+  :monitor monitor
+  :windowtype "dock"
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "100%"
+                      :height "30px"
+                      :anchor "bottom center")
+  :stacking "fg" :exclusive true
+  (bar :monitor monitor))
+
+(defwidget bar [monitor]
+  (centerbox :orientation "h"
+    ;; (window_title)
+    (workspace_windows :monitor monitor)
+    (niri_workspaces :monitor monitor)
+    (sidestuff)))
+
+(deflisten niri_events `~/.config/niri/eww/scripts/niri-events`)
+(include "./bar/window_title.yuck")
+(include "./bar/workspace_buttons.yuck")
+(include "./bar/sidestuff.yuck")

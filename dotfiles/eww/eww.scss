@@ -1,0 +1,202 @@
+* {
+  all: unset; // Unsets everything so you can style everything from scratch
+  font-family: JetBrainsMono Nerd Font Propo, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+
+@define-color myBackground #1e1e1e;
+@define-color myInactiveBG #404040;
+@define-color myCyan #9cdcfe;
+@define-color myRed  #f44747;
+@define-color myYellow  #d7ba7d;
+@define-color myBYellow  #f0c676;
+@define-color myMagenta  #c586c0;
+@define-color myGreen  #8fbcbb;
+
+// Global Styles
+.bar {
+  background-color: #000;
+  color: #b0b4bc;
+}
+
+// Styles on classes (see eww.yuck for more information)
+
+.sidestuff slider {
+  all: unset;
+  color: #ffd5cd;
+}
+
+.metric scale trough highlight {
+  all: unset;
+  background-color: #D35D6E;
+  color: #000000;
+  border-radius: 10px;
+}
+
+.metric scale trough {
+  all: unset;
+  background-color: #4e4e4e;
+  border-radius: 50px;
+  min-height: 3px;
+  min-width: 50px;
+  margin-left: 10px;
+  margin-right: 20px;
+}
+
+.label-ram {
+  font-size: large;
+}
+
+.workspaces-widget {
+    border-radius: 15px;
+    background-color: #333333;
+    color: #555;
+    .occupied {
+	color: #fff;
+	border-radius: 15px;
+    }
+    .current {
+	color: #000;
+	background-color: #9cdcfe;
+	border-radius: 15px;
+    }
+}
+
+.battery.Discharging {
+    color: cyan;
+}
+
+.mytray {
+    background: #3c3c3c;
+    border-radius: 20px;
+    margin: 0 5px; 
+    padding: 0 5px;
+}
+
+.battery-label {
+    margin: 0 1em;
+}
+
+.battery {
+    color: #d4d4d4;
+    border-bottom: 3px solid #d4d4d4;
+}
+
+.battery.charging {
+    color: #569cd6;
+    border-bottom: 3px solid #569cd6;
+}
+
+
+.battery.gt0 {
+    color: #608b4e;
+    border-bottom: 3px solid #608b4e;
+}
+
+.battery.gt9 {
+    color: #608b4e;
+    border-bottom: 3px solid #608b4e;
+}
+
+.battery.gt8 {
+    color: #7d9756;
+    border-bottom: 3px solid #7d9756;
+}
+
+.battery.gt7 {
+    color: #9ca45e;
+    border-bottom: 3px solid #9ca45e;
+}
+
+.battery.gt6 {
+    color: #bab066;
+    border-bottom: 3px solid #bab066;
+}
+
+.battery.gt5 {
+    color: #d7bc6d;
+    border-bottom: 3px solid #d7bc6d;
+}
+
+.battery.gt4 {
+    color: #f0c172;
+    border-bottom: 3px solid #f0c172;
+}
+
+.battery.gt3 {
+    color: #f19663;
+    border-bottom: 3px solid #f19663;
+}
+
+.battery.gt2 {
+    color: #f37055;
+    border-bottom: 3px solid #f37055;
+}
+
+.battery.gt1 {
+    color: #f37055;
+    border-bottom: 3px solid #f37055;
+}
+
+@keyframes blink {
+    to {
+        background-color: #f53c3c;
+        color: #000;
+    }
+}
+
+.battery.critical {
+    color: #f53c3c;
+    border-bottom: 3px solid #f53c3c;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+.volume {
+    color: #c586c0;
+    border-bottom: 3px solid #c586c0;
+}
+
+.clock {
+    color: #9cdcfe;
+    // border-bottom: 3px solid #9cdcfe;
+    margin-right: 15px;
+}
+
+.calendar {
+    background: black;
+}
+
+.backlight {
+    color: #f0c676;
+    border-bottom: 3px solid #f0c676;
+    margin: 0 1em;
+}
+
+calendar {
+    background: #1e1e1e;
+    font-family: JetBrainsMono Nerd Font Propo, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    border-radius: 1em;
+    padding:  0 0.1em;
+    .button {
+	color: #fff;
+    }
+    .header {
+	color: #0f0;
+    }
+    .highlight {
+	color: #f00;
+    }
+    :selected {
+	color: #000;
+	background-color: #ff0;
+	border-radius: 5em;
+    }
+    :indeterminate {
+	color: #666;
+    }
+}

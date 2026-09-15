@@ -1,0 +1,18 @@
+* {
+  all: unset; // Unsets everything so you can style everything from scratch
+  font-family: JetBrainsMono Nerd Font Propo, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.powermenu {
+    border: 2px solid white;
+    border-radius: 1em;
+    background: black;
+}
+
+.powerbutton {
+    font-size: 3em;
+    color: white;
+    margin: 0.4em;
+    border-radius: 1em;
+    padding: 0.1em 0.5em;
+}

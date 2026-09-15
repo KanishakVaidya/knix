@@ -5,7 +5,7 @@
 
 "modules-left": ["hyprland/window", "hyprland/submap"],
 "modules-center": ["hyprland/workspaces"],
-"modules-right": ["custom/myLang" , "custom/myBrightness", "custom/myVolume", "custom/myBattery", "clock", "custom/myinternet", "tray"],
+"modules-right": ["custom/myLang" , "custom/myBrightness", "custom/myVolume", "custom/myBattery", "clock", "custom/myinternet", "custom/mypowermenu", "tray"],
 
 "hyprland/workspaces": {
     "all-outputs": false,
@@ -46,6 +46,7 @@
 "custom/myVolume": {
     "exec": "~/.config/waybar/scripts/volume.sh",
     "exec-on-event": true,
+    "return-type": "json",
     "signal": 11,
     "interval": "once",
     "on-click": "~/.config/waybar/scripts/volume.sh 1 > /dev/null",
@@ -57,6 +58,7 @@
 
 "custom/myBrightness": {
     "exec": "~/.config/waybar/scripts/amd_bl.sh",
+    "return-type": "json",
     "exec-on-event": true,
     "signal": 12,
     "interval": "once",
@@ -103,6 +105,11 @@
     "on-click": "networkmanager_dmenu",
     "on-click-right": "$TERMINAL -e -a myfloat nmtui",
     "interval": 3,
+},
+
+"custom/mypowermenu": {
+    "format": "󰐥",
+    "on-click": "~/.config/waybar/scripts/powermenu.sh",
 },
 
 "tray": {

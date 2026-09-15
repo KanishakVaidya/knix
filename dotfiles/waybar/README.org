@@ -37,9 +37,13 @@
   - [[#config-6][config]]
   - [[#script-4][Script]]
   - [[#css-6][CSS]]
-- [[#tray][Tray]]
-  - [[#config-7][Config]]
+- [[#custom-powermenu][Custom powermenu]]
+  - [[#config-7][config]]
+  - [[#script-5][Script]]
   - [[#css-7][CSS]]
+- [[#tray][Tray]]
+  - [[#config-8][Config]]
+  - [[#css-8][CSS]]
 - [[#other-modules][Other Modules]]
   - [[#networking-module][Networking Module]]
   - [[#battery][Battery]]
@@ -72,7 +76,7 @@ Here we define the basic CSS of waybar:
 #+begin_src css :tangle style.css
 ,* {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: JetBrainsMono Nerd Font, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-family: JetBrainsMono Nerd Font Propo, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
     font-size: 14px;
 }
 
@@ -112,7 +116,7 @@ window#waybar.chromium {
 #+begin_src js :tangle config
     "modules-left": ["hyprland/window", "hyprland/submap"],
     "modules-center": ["hyprland/workspaces"],
-    "modules-right": ["custom/myLang" , "custom/myBrightness", "custom/myVolume", "custom/myBattery", "clock", "custom/myinternet", "tray"],
+    "modules-right": ["custom/myLang" , "custom/myBrightness", "custom/myVolume", "custom/myBattery", "clock", "custom/myinternet", "custom/mypowermenu", "tray"],
 #+end_src
 *** Common CSS for all the modules
 + Use box-shadow instead of border so the text isn't offset.
@@ -367,12 +371,12 @@ lang=$(hyprctl -j devices | jq -r '.keyboards[] | select(.main) | .active_keymap
 case $lang in
     "English (US)") text="en" ;;
     "Indian") text="in" ;;
-    ,*) text=$land
+    ,*) text=$lang
 esac
 
 # Employing a hack to get caps lock state in hyprland for now.
 # Reading the state of caps lock led to get caps lock state.
-[[ $(cat /sys/class/leds/input15\:\:capslock/brightness) == 1 ]] && capstate="capson"
+[[ $(cat /sys/class/leds/*caps*/brightness | sort -n | tail -1) == 1 ]] && capstate="capson"
 echo "{\"text\": \"$text\" , \"class\": \"$capstate\" }"
 #+end_src
 ** CSS
@@ -394,6 +398,7 @@ echo "{\"text\": \"$text\" , \"class\": \"$capstate\" }"
     "custom/myVolume": {
         "exec": "~/.config/waybar/scripts/volume.sh",
         "exec-on-event": true,
+        "return-type": "json",
         "signal": 11,
         "interval": "once",
         "on-click": "~/.config/waybar/scripts/volume.sh 1 > /dev/null",
@@ -411,31 +416,43 @@ if [ -z ${BLOCK_BUTTON+x} ]; then
     BLOCK_BUTTON=$1
 fi
 case $BLOCK_BUTTON in
-	1) changeto='mute' ;;
+    1) changeto='mute' ;;
     3) changeto='nothing' ; pavucontrol-qt ;;
-	4) changeto='increase' ;;
-	5) changeto='decrease' ;;
+    4 | "up") changeto='increase' ;;
+    5 | "down") changeto='decrease' ;;
 esac
 case $changeto in
-	'increase')
+    'increase')
         pactl set-sink-volume @DEFAULT_SINK@ +1% ;;
-	'decrease')
+    'decrease')
         pactl set-sink-volume @DEFAULT_SINK@ -1% ;;
     'mute') pactl set-sink-mute @DEFAULT_SINK@ toggle ;;
 esac
 
 vol=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '/Volume/{print $5+0}')
 if [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
-	echo " 󰝟 Mute "
+	text="  Mute "
+	icon=""
+	notify-send -t 1000 -a 'wp-vol' "Volume" "󰝟 Mute%"
 elif [[ vol -lt 30  ]]; then
-	echo "  $vol% "
+	icon=""
+	notify-send -t 1000 -a 'wp-vol' -h int:value:$((3 * vol / 4)) "Volume" "  ${vol}%"
 elif [[ vol -lt 60  ]]; then
-	echo "  $vol% "
+	icon=""
+	notify-send -t 1000 -a 'wp-vol' -h int:value:$((3 * vol / 4)) "Volume" "  ${vol}%"
 elif [[ vol -lt 101  ]]; then
-	echo "  $vol% "
+	icon=""
+	notify-send -t 1000 -a 'wp-vol' -h int:value:$((3 * vol / 4)) "Volume" "  ${vol}%"
 else
-	echo "  $vol% "
+	icon=""
+	notify-send -u critical -t 1000 -a 'wp-vol' -h int:value:$(((vol + 200) / 4)) "Volume" "  ${vol}%"
 fi
+
+if [ -z ${text+x} ]; then
+    text=" $icon $vol%"
+fi
+
+echo "{\"text\": \"$text\", \"icon\": \"$icon\", \"percentage\": \"$vol\" }"
 #+end_src
 ** CSS
 #+begin_src css :tangle style.css
@@ -449,6 +466,7 @@ fi
 #+begin_src js :tangle config
     "custom/myBrightness": {
         "exec": "~/.config/waybar/scripts/amd_bl.sh",
+        "return-type": "json",
         "exec-on-event": true,
         "signal": 12,
         "interval": "once",
@@ -471,25 +489,31 @@ fi
 
 brand=$(ls /sys/class/backlight/ | head -n 1)
 
-max_brightness=$(awk '{print}' /sys/class/backlight/$brand/max_brightness)
+max_brightness=$(cat /sys/class/backlight/$brand/max_brightness)
 min_brightness=$(expr $max_brightness \/ 12)
-brightness=$(awk '{print}' /sys/class/backlight/$brand/brightness)
+brightness=$(cat /sys/class/backlight/$brand/brightness)
 step=$(expr $max_brightness \/ 51)
 
 case $BLOCK_BUTTON in
-	4)
-		if [[ $brightness -lt $max_brightness ]]; then
-			echo $(awk "BEGIN {print $brightness + $step; exit}") > /sys/class/backlight/$brand/brightness ;
+	4|"up")
+		if (( brightness + step < max_brightness )); then
+			expr $brightness \+ $step > /sys/class/backlight/$brand/brightness ;
 		fi
 	;;
-	5)
+	5|"down")
 		if [[ $brightness -gt $min_brightness ]]; then
-			echo $(awk "BEGIN {print $brightness - $step; exit}") > /sys/class/backlight/$brand/brightness ;
+			expr $brightness \- $step > /sys/class/backlight/$brand/brightness ;
 		fi
 	;;
 esac
 
-awk '{print "  " $1 " "}' /sys/class/backlight/$brand/brightness
+brightness=$(cat /sys/class/backlight/$brand/brightness)
+icon=""
+text="$icon $brightness"
+percentage=$(expr $brightness \* 100 \/ $max_brightness)
+
+echo "{\"text\": \"$text\" , \"percentage\": \"$percentage\", \"icon\": \"$icon\", \"brightness\": \"$brightness\" }"
+# awk '{print "  " $1 " "}' /sys/class/backlight/$brand/brightness
 #+end_src
 ** CSS
 #+begin_src css :tangle style.css
@@ -501,12 +525,12 @@ awk '{print "  " $1 " "}' /sys/class/backlight/$brand/brightness
 * Custom Battery
 ** Config
 #+begin_src js :tangle config
-    "custom/myBattery": {
-        "exec": "~/.config/waybar/scripts/battery.sh",
-        "return-type": "json",
-        "interval": 60,
-        "on-click": "~/.config/waybar/scripts/battery.sh > /dev/null"
-    },
+"custom/myBattery": {
+    "exec": "~/.config/waybar/scripts/battery.sh",
+    "return-type": "json",
+    "interval": 60,
+    "on-click": "~/.config/waybar/scripts/battery.sh > /dev/null"
+},
 #+end_src
 ** Script
 #+begin_src shell :tangle ./scripts/battery.sh
@@ -541,41 +565,45 @@ stat=$(cat /sys/class/power_supply/BAT0/status)
 levl=$(cat /sys/class/power_supply/BAT0/capacity)
 
 case $stat in
-	Full) text="󰂄 $levl%" ;;
+	Full)
+	    icon="󰂄"
+	    ;;
 	Charging)
-        text=" ${char_icon[0]} $levl% "
-		class="charging"
-		for i in {1..10}
-		do
-			if [[ $levl == $i? ]]
-			then
-				text=" ${char_icon[$i]} $levl% "
-			fi
-		done
-	;;
-	Discharging)
-		if [[ levl -lt 5 ]]; then
-            notify-send -u critical "󰄌 Battery $levl%" "Khud e utha jana ab mene ek minute ke andar. shutdown -c hi bcha skta tujhe ab" -a BATTERY -t 30000
-			shutdown now
-		elif [[ levl -lt 25  ]]; then
-			notify-send -u critical "󰄌 Battery $levl%" "$(notification)" -a BATTERY -t 30000
+	    icon="${char_icon[0]}"
+	    class="charging"
+	    for i in {1..10}
+	    do
+		if [[ $levl == $i? ]]
+		then
+		    icon="${char_icon[$i]}"
 		fi
-        text=" ${disc_icon[0]} $levl% "
-		class="${classes[0]}"
-		for i in {1..10}
-		do
-			if [[ $levl == $i? ]]
-			then
-				text=" ${disc_icon[$i]} $levl% "
-				class="${classes[$i]}"
-			fi
-		done
-	;;
-	"Not charging") text=" 󰂏 $levl% ";;
-    *) text="󰂑 ??? " ;;
+	    done
+	    ;;
+	Discharging)
+	    if [[ levl -lt 5 ]]; then
+		notify-send -u critical "󰄌 Battery $levl%" "Khud e utha jana ab mene ek minute ke andar. shutdown -c hi bcha skta tujhe ab" -a BATTERY -t 30000
+		systemctl hybrid-sleep
+	    elif [[ levl -lt 25  ]]; then
+		notify-send -u critical "󰄌 Battery $levl%" "$(notification)" -a BATTERY -t 30000
+	    fi
+            icon="${disc_icon[0]}"
+	    class="${classes[0]}"
+	    for i in {1..10}
+	    do
+	    	if [[ $levl == $i? ]]
+	    	then
+	    	    icon="${disc_icon[$i]}"
+	    	    class="${classes[$i]}"
+	    	fi
+	    done
+	    ;;
+	"Not charging")
+	    icon="󰂏";;
+	,*)
+	    icon="󰂑 ??? " ;;
 esac
-
-echo "{\"text\": \"$text\" , \"class\": \"$class\" }"
+text=" $icon $levl%"
+echo "{\"text\": \"$text\" , \"percentage\": \"$levl\", \"icon\": \"$icon\", \"class\": \"$class\" }"
 #+end_src
 ** CSS
 #+begin_src css :tangle style.css
@@ -736,6 +764,42 @@ fi
 #+begin_src css :tangle style.css
 #custom-myinternet.disconnected {
     color: #666666;
+}
+#+end_src
+
+* Custom powermenu
+** config
+#+begin_src js :tangle config
+"custom/mypowermenu": {
+    "format": "󰐥",
+    "on-click": "~/.config/waybar/scripts/powermenu.sh",
+},
+#+end_src
+** Script
+#+begin_src shell :tangle ./scripts/powermenu.sh
+#!/usr/bin/env bash
+
+option=$(echo -e "Logout\nSwitch User\nPowerOff\nReboot" | rofi -dmenu)
+
+case $option in
+    "Logout")
+	hyprctl dispatch exit ;;
+    "Switch User")
+	dm-tool switch-to-greeter ;;
+    "PowerOff")
+	poweroff ;;
+    "Reboot")
+	reboot ;;
+esac
+#+end_src
+** CSS
+#+begin_src css :tangle style.css
+#custom-mypowermenu {
+    color: white;
+    font-weight: bold;
+    background: @myRed;
+    border-radius: 15px;
+    padding: 0 5px;
 }
 #+end_src
 

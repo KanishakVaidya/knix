@@ -2,14 +2,30 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, systemSettings, userSettings, ... }:
+{ config, pkgs, systemSettings, userSettings, inputs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
+      ./shamli.nix
       ./hardware-configuration.nix
       ./nvidia.nix
+      ./gamers.nix
+      ./specializations/battery.nix
+      ./specializations/vfio.nix
     ];
+
+  nix.settings = {
+    substituters = [
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+      "https://hyprland.cachix.org"
+    ];
+    trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+    ];
+  };
 
   # Choosing the kernel
   # boot.kernelPackages = pkgs.linuxPackages_6_1;
@@ -20,12 +36,6 @@
     configurationLimit = 5;
   };
   boot.loader.efi.canTouchEfiVariables = true;
-  # boot.loader.grub = {
-  #   enable = true;
-  #   version = 2;
-  #   device = "nodev";
-  #   efiSupport = true;
-  # };
   boot.tmp.cleanOnBoot = true;
 
   # To enable OBS virtual camera
@@ -50,6 +60,9 @@
   # Automounting
   services.gvfs.enable = true;
 
+  # Thunderbolt
+  services.hardware.bolt.enable = true;
+
   # PipeWire
   security.rtkit.enable = true;
   services.pipewire = {
@@ -61,6 +74,20 @@
     pulse.enable = true;
     jack.enable = true;
   };
+
+  # Firefox Screen sharing config
+  programs.firefox = {
+    enable = true;
+    wrapperConfig.pipewireSupport = true;
+  };
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-wlr
+      xdg-desktop-portal-gtk
+    ];
+  };
+  # /Firefox Screen sharing config
 
   # SwayLock No work?
   # security.pam.services.swaylock = {};
@@ -103,7 +130,10 @@
   programs.nix-ld.enable = true;
 
   # Virt Manager
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
+  };
   programs.virt-manager.enable = true;
 
   programs.zsh.enable = true;
@@ -132,14 +162,18 @@
     xwayland.enable = true;
   };
 
+  # Niri
+  programs.niri.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-  neovim curl git rsync
+    neovim curl git rsync xwayland-satellite
+    v4l-utils
   ];
+  environment.localBinInPath = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -151,8 +185,12 @@
 
   # List services that you want to enable:
 
+  # Settings for ASUS laptops
+  services.asusd.enable = true;
+  services.supergfxd.enable = true;
+
   # udev rules for unprivileged user to work with adb
-  services.udev.packages = [ pkgs.android-udev-rules ];
+  # services.udev.packages = [ pkgs.android-udev-rules ];
 
   services.udev.extraRules = ''
   ACTION=="add", SUBSYSTEM=="backlight", RUN+="${pkgs.coreutils}/bin/chgrp video $sys$devpath/brightness", RUN+="${pkgs.coreutils}/bin/chmod g+w $sys$devpath/brightness"
@@ -163,7 +201,7 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 8000 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

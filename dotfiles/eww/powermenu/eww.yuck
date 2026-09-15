@@ -1,0 +1,42 @@
+(defwindow powermenu
+           :monitor 0
+           :geometry (geometry :anchor "bottom right")
+           :stacking "fg"
+           :windowtype "normal"
+	   :focusable "ondemand"
+           :wm-ignore true
+  (powermenu))
+
+(defvar show_logout false)
+(defwidget powerbutton [power_text power_cmd]
+   (eventbox :onhover "eww -c . update show_logout=true" :onhoverlost "eww -c . update show_logout=false"
+	     (box :orientation "v" :space-evenly false
+		  (button :class "powerbutton" :onclick `$LOGOUT_COMMAND` "󰍃")
+		  (revealer :transition "slideup"
+			    :reveal show_logout
+			    (label :text "Logout")))))
+
+(defwidget powermenu []
+  (box
+   :class "powermenu"
+   :vexpand true :hexpand true :vlaign "end" :halign "end" :orientation "v"
+   :space-evenly false
+   ;; (button :class "powerbutton" :onclick "eww -c . close && swaylock " "L")
+   (eventbox :onhover "eww -c . update show_logout=true" :onhoverlost "eww -c . update show_logout=false"
+	     (box :orientation "v" :space-evenly false
+		  (button :class "powerbutton" :onclick `$LOGOUT_COMMAND` "󰍃")
+		  (revealer :transition "slideup"
+			    :reveal show_logout
+			    (label :text "Logout"))))
+   (button :class "powerbutton" :tooltip "shutoff" :onclick "poweroff" "󰐥")
+   (button :class "powerbutton" :tooltip "reboot" :onclick "reboot" "󰜉")))
+
+(defwidget closer [window]
+  (eventbox :onclick "eww -c . close ${window} && eww -c . close ${window}_closer"))
+ 
+(defwindow powermenu_closer
+  :monitor 0
+  :geometry (geometry :width "100%" :height "100%")
+  :stacking "fg"
+  :focusable false
+  (closer :window "powermenu"))

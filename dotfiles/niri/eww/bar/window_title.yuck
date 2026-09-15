@@ -1,0 +1,15 @@
+(defwidget window_title []
+  (label :text {niri_events.focused_window.title} :xalign 0))
+
+(defwidget workspace_windows [monitor]
+  (box
+   :space-evenly false
+   :orientation "h"
+   :halign "left"
+   (for window in {niri_events.windows}
+	(eventbox
+	 :onclick "niri msg action focus-window --id ${window.id}"
+	 (label
+	  :width 20
+	  :text "${window.app_id == '' ? '!!!' : window.app_id}"
+	  :class "window_button ${window.is_focused ? 'focused_window' : ''}")))))

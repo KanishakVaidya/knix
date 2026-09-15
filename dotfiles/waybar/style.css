@@ -1,6 +1,6 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: JetBrainsMono Nerd Font, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-family: JetBrainsMono Nerd Font Propo, FontAwesome, Roboto, Helvetica, Arial, sans-serif;
     font-size: 14px;
 }
 
@@ -251,6 +251,14 @@ window#waybar.empty #window {
 
 #custom-myinternet.disconnected {
     color: #666666;
+}
+
+#custom-mypowermenu {
+    color: white;
+    font-weight: bold;
+    background: @myRed;
+    border-radius: 15px;
+    padding: 0 5px;
 }
 
 #tray {
