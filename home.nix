@@ -123,55 +123,6 @@
     fonts = {
       monospace = {
         name = "JetBrainsMono Nerd Font";
-        package = pkgs.nerd-fonts.jetbrains-mono;
-      };
-      sizes = {
-        terminal = 14;
-      };
-    };
-    cursor = {
-      name = "Quintom_Snow";
-      package = pkgs.quintom-cursor-theme;
-      size = 15;
-    };
-    opacity = {
-      terminal = 0.9;
-    };
-    targets.btop.enable = false;
-  };
-
-  stylix = {
-    enable = false;
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/default-dark.yaml";
-    base16Scheme = {
-      base00 = "151515";
-      base01 = "202020";
-      base02 = "404040";
-      base03 = "505050";
-      base04 = "a0a0a0";
-      base05 = "d4d4d4";
-      base06 = "e9e9e9";
-      base07 = "ffffff";
-      base08 = "f44747";
-      base09 = "de935f";
-      base0A = "d7ba7d";
-      base0B = "608b4e";
-      base0C = "9cdcfe";
-      base0D = "569cd6";
-      base0E = "c586c0";
-      base0F = "d16969";
-    };
-    # base16Scheme = {base00 = "262626"; base01 = "343434"; base02 = "373737"; base03 = "666666"; base04 = "888888"; base05 = "e4e4e4"; base06 = "f5f5f5"; base07 = "ffffff"; base08 = "f44747"; base09 = "ffaf00"; base0A = "d7ba7d"; base0B = "4ec9b0"; base0C = "0a7aca"; base0D = "5c6bf8"; base0E = "ddb6f2"; base0F = "d16969";};
-    image = /home/keshav/.local/share/backgrounds/000.jpg;
-    targets = {
-      # gtk.enable = true;
-      # kde.enable = true; 
-      firefox.enable = true;
-    };
-    polarity = "dark";
-    fonts = {
-      monospace = {
-        name = "JetBrainsMono Nerd Font";
         package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" "CascadiaCode" "FiraCode" ]; };
       };
       sizes = {
@@ -530,14 +481,6 @@
     syncthing.enable = false;
 
     kanshi.enable = true;
-  };
-
-  programs.obs-studio = {
-    enable = true;
-    plugins = with pkgs.obs-studio-plugins; [
-      wlrobs
-      obs-pipewire-audio-capture
-    ];
   };
 
   programs.obs-studio = {

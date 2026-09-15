@@ -11,9 +11,9 @@ pkgs.mkShell {
 
     # Python tooling
     uv
-    pyppkgs.pip
-    pyppkgs.virtualenv
-    pyppkgs.ipython
+    pypkgs.pip
+    pypkgs.virtualenv
+    pypkgs.ipython
 
     # Formatters / linters
     ruff
