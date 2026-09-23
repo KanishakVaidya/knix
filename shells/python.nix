@@ -14,12 +14,14 @@ pkgs.mkShell {
     pypkgs.pip
     pypkgs.virtualenv
     pypkgs.ipython
+    pypkgs.ty
+    pypkgs.jupyterlab
+    pypkgs.jupyterlab-vim
 
     # Formatters / linters
     ruff
     black
     isort
-    basedpyright
 
     # Build tools
     gcc

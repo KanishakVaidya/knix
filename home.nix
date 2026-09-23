@@ -46,7 +46,10 @@
   };
 
   # Noctalia shell
-  programs.noctalia-shell.enable = true;
+  # programs.noctalia-shell.enable = true;
+  programs.noctalia = {
+    enable = true;
+  };
   
   
   # The home.packages option allows you to install Nix packages into your
@@ -89,7 +92,7 @@
     # spell check
     # Also setting up a sessionVariable DICPATH, otherwise hunspell don't know where to find dictionaries
     hunspell hunspellDicts.en_US  # Read comment above before removing this
-  ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]) ++ ([inputs.noctalia-qs.packages.${system}.quickshell]);
+  ]) ++ (with self.inputs.nix-alien.packages.${system}; [nix-alien]); # ++ ([inputs.noctalia-qs.packages.${system}.quickshell]);
 
   stylix = {
     enable = false;
@@ -132,6 +135,7 @@
     cursor = {
       name = "Quintom_Snow";
       package = pkgs.quintom-cursor-theme;
+      size = 12;
     };
     opacity = {
       terminal = 0.9;

@@ -17,7 +17,7 @@
   users.users."shamli" = {
     isNormalUser = true;
     description = "Shamli";
-    extraGroups = [ "video" "networkmanager" "wheel" ];
+    extraGroups = [ "video" "networkmanager" "wheel" "input" ];
     packages = (with pkgs; [
       brave vlc evince geany-with-vte libreoffice-fresh file-roller xournalpp gnome-terminal
       gnome-calculator gnome-calendar gnome-screenshot pix
