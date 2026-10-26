@@ -1,29 +1,33 @@
 (defwidget sidestuff []
-  (box :space-evenly false :orientation "h" :halign "end" :spacing 10
-       (eww_calendar)
+  (box :space-evenly false :orientation "v" :valign "end" :spacing 10
+       ;; (eww_calendar)
        (brightness)
        (volume)
        (battery)
        (internet)
-       (systray :space-evenly true)
+       (systray :space-evenly true :orientation "v")
        (powermenu)))
 
 
 ;; Calendar
-(defpoll time :interval "10s"
-  "date '+ %a %b %d  %H:%M '")
+(defpoll time :interval "10s" :halign "center"
+  "date '+%n%a%n%b%n%d%n%n%H%n%M'")
 
-(defwidget eww_calendar []
+(defwidget eww_calendar [monitor]
   (eventbox
-   :onclick "eww -c . open --toggle calendar_window"
-   (box :class "datetime" :orientation "h" time)))
+   :onclick "eww -c . open --toggle calendar_window --arg monitor=${monitor}"
+   (label
+    :class "datetime"
+    :justify "center"
+    :orientation "v"
+    :text {time})))
 
-(defwindow calendar_window
-  :monitor 0
+(defwindow calendar_window [monitor]
+  :monitor monitor
   :geometry (geometry
 	     :x "0%"
              :y "0px"
-             :anchor "bottom right")
+             :anchor "center left")
   :stacking "fg" :exclusive false
   (calendar :class "cal"))
 
@@ -91,4 +95,4 @@
 (defwidget powermenu []
   (eventbox
    :onclick "~/.config/niri/widgets/powermenu/powermenu.sh >> /tmp/errors.bar.eww"
-   (label :style "color: white; background-color: red; padding: 0 0.4em;" :text "󰐥")))
+   (label :style "color: white; background-color: red;" :text "󰐥")))

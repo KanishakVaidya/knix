@@ -1,7 +1,7 @@
 (defwidget niri_workspaces [monitor]
   (box
    :space-evenly false
-   :orientation "h"
+   :orientation "v"
    :halign "center"
    (for workspace in {jq(niri_events.workspaces, "[.[] | select(.active_window_id != null or .is_active)]")}
 	(eventbox
@@ -10,4 +10,31 @@
 	 (label
 	  :width 50
 	  :text "${workspace.name == 'null' ? workspace.idx : workspace.name}"
-	  :class "workspace_botton ${workspace.is_focused ? 'focused_ws' : ''}")))))
+	  :class "workspace_button ${workspace.is_focused ? 'focused_ws' : ''}")))))
+
+
+(defwidget niri_workspaces_n_windows [monitor]
+  (box
+   :space-evenly false
+   :orientation "v"
+   :halign "center"
+   (for workspace in {jq(niri_events.workspaces, "[.[] | select(.active_window_id != null or .is_active)]")}
+	(box
+	 :visible {workspace.output == monitor}
+	 :space-evenly false
+	 :orientation "v"
+	 :valign "center"
+	 :class "workspace_container ${workspace.is_focused ? 'focused_workspace' : ''}"
+	 (eventbox
+	 :onclick "niri msg action focus-workspace ${workspace.idx}"
+	 (label
+    :width 20
+	  :class "workspace_label ${workspace.is_focused ? 'focused_label' : ''}"
+	  :text "${workspace.name == 'null' ? workspace.idx : workspace.name}"))
+	 (for window in {jq(niri_events.all_windows, "[.[] | select(.workspace_id == ${workspace.id})]")}
+	      (eventbox
+	       :onclick "niri msg action focus-window --id ${window.id}"
+	       :class "window_box"
+	       (image
+		:class "window_button ${window.is_focused ? 'focused_window' : ''}"
+		:icon "${window.app_id == '' ? 'pcmanfm-qt' : window.app_id}")))))))

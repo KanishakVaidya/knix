@@ -4,7 +4,7 @@
 (defwidget workspace_windows [monitor]
   (box
    :space-evenly false
-   :orientation "h"
+   :orientation "v"
    :halign "left"
    (for window in {niri_events.windows}
 	(eventbox

@@ -3,17 +3,19 @@
   :windowtype "dock"
   :geometry (geometry :x "0%"
                       :y "0%"
-                      :width "100%"
-                      :height "30px"
-                      :anchor "bottom center")
+                      :width "20px"
+                      :height "100%"
+                      :anchor "left center")
   :stacking "fg" :exclusive true
   (bar :monitor monitor))
 
 (defwidget bar [monitor]
-  (centerbox :orientation "h"
+  (centerbox :orientation "v"
     ;; (window_title)
-    (workspace_windows :monitor monitor)
-    (niri_workspaces :monitor monitor)
+    ;; (workspace_windows :monitor monitor)
+    (niri_workspaces_n_windows :monitor monitor)
+    (eww_calendar :monitor monitor)
+    ;; (niri_workspaces :monitor monitor)
     (sidestuff)))
 
 (deflisten niri_events `~/.config/niri/eww/scripts/niri-events`)

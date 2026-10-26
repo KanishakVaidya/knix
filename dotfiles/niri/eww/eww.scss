@@ -3,7 +3,7 @@ $myInactiveBG: #404040;
 $myInactiveFG: #888888;
 $myRed:  #f44747;
 $myCyan: #9cdcfe;
-$myYellow:  #d7ba7d;
+$myYellow:  #fff59b;
 $myBYellow:  #f0c676;
 $myMagenta:  #c586c0;
 $myGreen:  #8fbcbb;
@@ -18,7 +18,7 @@ $myGreen:  #8fbcbb;
 
 .datetime {
     color: $myCyan;
-    border-bottom: 3px solid $myCyan;
+    // border-bottom: 3px solid $myCyan;
 }
 
 .backlight {
@@ -34,14 +34,38 @@ $myGreen:  #8fbcbb;
     color: $myGreen;
 }
 
-.window_button {
-    margin: 0 0.2em;
-    padding: 0 0.4em;
+.workspace_container {
+    border: 1px solid $myInactiveFG;
+    border-radius: 5em;
+    padding: 0.6em 0;
 }
-.focused_window {
-    background-color: $myInactiveBG;
-    color: $myGreen;
+
+.focused_workspace {
+    border: 1px solid $myYellow;
+}
+
+.workspace_label {
+    font-size: 12px;
+    border-radius: 0em;
+    border: transparent;
+}
+
+.focused_label {
+    background: $myYellow;
+    color: $myBackground;
+}
+
+.window_box {
     border-radius: 1em;
+}
+
+.window_button {
+    padding: 0.3em 0;
+}
+
+.focused_window {
+    color: $myGreen;
+    border-left: 2px solid $myYellow;
 }
 
 .workspace_button {

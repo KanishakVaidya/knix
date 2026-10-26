@@ -193,6 +193,7 @@
   # services.udev.packages = [ pkgs.android-udev-rules ];
 
   services.udev.extraRules = ''
+  ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="0b05", ATTR{power/control}="on"
   ACTION=="add", SUBSYSTEM=="backlight", RUN+="${pkgs.coreutils}/bin/chgrp video $sys$devpath/brightness", RUN+="${pkgs.coreutils}/bin/chmod g+w $sys$devpath/brightness"
   ACTION=="add", SUBSYSTEM=="leds", KERNEL=="asus::kbd_backlight", MODE="0666" RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/leds/%k/brightness"
   '';
