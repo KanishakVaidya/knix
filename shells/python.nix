@@ -43,7 +43,13 @@ pkgs.mkShell {
       pkgs.zlib
       pkgs.openssl
       pkgs.libffi
+      pkgs.libGL
+      pkgs.libGLU
     ]}:$LD_LIBRARY_PATH"
+
+    if [ -d /run/opengl-driver/lib ]; then
+      export LD_LIBRARY_PATH="/run/opengl-driver/lib:$LD_LIBRARY_PATH"
+    fi
 
     echo "Python dev shell"
     echo "Python: $(python --version)"
