@@ -5,20 +5,20 @@ if [ -z ${BLOCK_BUTTON+x} ]; then
 fi
 case $BLOCK_BUTTON in
     1) changeto='mute' ;;
-    3) changeto='nothing' ; pavucontrol-qt ;;
+    3) changeto='nothing' ; pwvucontrol ;;
     4 | "up") changeto='increase' ;;
     5 | "down") changeto='decrease' ;;
 esac
 case $changeto in
     'increase')
-        pactl set-sink-volume @DEFAULT_SINK@ +1% ;;
+        wpctl set-volume @DEFAULT_SINK@ 1%+ ;;
     'decrease')
-        pactl set-sink-volume @DEFAULT_SINK@ -1% ;;
-    'mute') pactl set-sink-mute @DEFAULT_SINK@ toggle ;;
+        wpctl set-volume @DEFAULT_SINK@ 1%- ;;
+    'mute') wpctl set-mute @DEFAULT_SINK@ toggle ;;
 esac
 
-vol=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '/Volume/{print $5+0}')
-if [[ $(pactl get-sink-mute @DEFAULT_SINK@) == "Mute: yes" ]]; then
+vol=$(wpctl get-volume @DEFAULT_SINK@ | awk '{print $2*100}')
+if [[ $(wpctl get-volume @DEFAULT_SINK@) == "[MUTED]" ]]; then
 	text="  Mute "
 	icon=""
 	notify-send -t 1000 -a 'wp-vol' "Volume" "󰝟 Mute%"
