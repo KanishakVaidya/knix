@@ -11,8 +11,8 @@ no=''
 option=$(echo -e "$shutdown\n$reboot\n$lock\n$logout\n$suspend" | rofi \
     -dmenu -theme ~/.config/niri/widgets/powermenu/style-5.rasi \
     -hover-select -me-select-entry '' \
-    -me-accept-entry MousePrimary\
-    -position southwest\
+    -me-accept-entry MousePrimary \
+    -position southwest \
     -click-to-exit
 )
 
