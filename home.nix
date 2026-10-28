@@ -1,13 +1,7 @@
 { self, config, lib, pkgs, userSettings, inputs, system, ... }:
 
 {
-  imports = [
-    inputs.ignis.homeManagerModules.default
-    inputs.zen-browser.homeModules.beta
-    # or inputs.zen-browser.homeModules.twilight
-    # or inputs.zen-browser.homeModules.twilight-official
-    inputs.noctalia.homeModules.default
-  ];
+  imports = [ ];
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -23,35 +17,6 @@
   # release notes.
   home.stateVersion = "26.05"; # Please read the comment before changing.
 
-  # ZEN BETA BROWSER
-  programs.zen-browser = {
-    enable = true;
-  };
-  
-
-  # IGNIS
-  programs.ignis = {
-    enable = true; 
-    # addToPythonEnv = true;
-    services = {
-      # bluetooth.enable = true;
-      # recorder.enable = true;
-      audio.enable = true;
-      network.enable = true;
-    };
-    sass = {
-      enable = true;
-      useDartSass = true;
-    };
-  };
-
-  # Noctalia shell
-  # programs.noctalia-shell.enable = true;
-  programs.noctalia = {
-    enable = true;
-  };
-  
-  
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = (with pkgs; [

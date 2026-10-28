@@ -12,23 +12,6 @@
     nix-alien.url = "github:thiagokokada/nix-alien";
     stylix.url = "github:nix-community/stylix/release-26.05";
 
-    ignis = {
-      url = "github:KanishakVaidya/ignis";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    zen-browser = {
-      url = "github:0xc000022070/zen-browser-flake";
-      # IMPORTANT: we're using "libgbm" and is only available in unstable so ensure
-      # to have it up-to-date or simply don't specify the nixpkgs input
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
   };
 
   outputs = inputs@{self, ...}:
