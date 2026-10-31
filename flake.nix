@@ -31,12 +31,16 @@
         useremail = "keshav@knix.home";
       };
     in {
+
+      # Exposing packages under packages/default.nix
+      packages.${system} = import ./packages { inherit pkgs; };
+
       nixosConfigurations = {
         ${systemSettings.hostname} = inputs.nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [./configuration.nix];
           specialArgs = {
-            inherit systemSettings userSettings inputs;
+            inherit systemSettings userSettings inputs self;
           };
         };
       };
