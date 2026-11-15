@@ -37,7 +37,7 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
     hyprland
-    bat htop eza direnv stow neovim
+    bat htop eza direnv stow neovim ripgrep
     eww tofi rofi waybar networkmanager_dmenu 
     foot brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin celestia
     onlyoffice-desktopeditors libreoffice-fresh nomacs gimp emacs-pgtk signal-desktop xournalpp transmission_4-qt mpv
