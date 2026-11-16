@@ -37,9 +37,9 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
     hyprland
-    bat htop eza direnv stow neovim ripgrep
+    bat htop btop eza direnv stow neovim ripgrep
     eww tofi rofi waybar networkmanager_dmenu 
-    foot brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin celestia
+    foot brave lxqt.pcmanfm-qt geany-with-vte thunderbird-bin celestia zathura
     onlyoffice-desktopeditors libreoffice-fresh nomacs gimp emacs-pgtk signal-desktop xournalpp transmission_4-qt mpv
     lxqt.lxqt-archiver unzip unrar p7zip pwvucontrol jq 
     python312Packages.python
@@ -108,163 +108,11 @@
     targets.btop.enable = false;
   };
 
-  programs.btop = {
-    enable = true;
-    settings = {
-      color_theme = "TTY";
-      theme_background = false;
-      truecolor = true;
-      force_tty = false;
-      proc_sorting = "memory";
-      vim_keys = true;
-    };
-  };
-
   programs.direnv = {
     enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
     nix-direnv.enable = true;
-  };
-
-  programs.fastfetch = {
-    enable = true;
-    settings = {
-      logo = {
-        source = "$HOME/.config/fastfetch/nix.txt";
-        padding = {right = 1;};
-      };
-      modules = [
-        "break" "title" "separator"
-        # "os"
-        "host" "kernel" "uptime"
-        # "packages"
-        "shell" "display"
-        # "de" "wm" "wmtheme" "theme" "icons" "font" "cursor"
-        "terminal" "terminalfont" "cpu" "gpu"
-        # "memory" "swap" "disk"
-        "localip"
-        # "battery" "poweradapter" "locale"
-        "break" "colors"
-      ];
-    };
-  };
-
-  programs.foot = {
-    enable = true;
-    settings = {
-      main = {font = "JetBrainsMono Nerd Font :size=13";};
-      colors-dark = {
-        alpha = "0.9";
-        background = "1e1e1e";
-        foreground = "d4d4d4";
-        regular0 = "505050";  # black
-        regular1 = "f44747";  # red
-        regular2 = "608b4e";  # green
-        regular3 = "d7ba7d";  # yellow
-        regular4 = "569cd6";  # blue
-        regular5 = "c586c0";  # magenta
-        regular6 = "9cdcfe";  # cyan
-        regular7 = "e9e9e9";  # white
-        dim0 = "505050";   # bright black
-        dim1 = "d16969";   # bright red
-        dim2 = "b5c3a8";   # bright green
-        dim3 = "c39178";   # bright yellow
-        dim4 = "4ec9b0";   # bright blue
-        dim5 = "646695";   # bright magenta
-        dim6 = "9cdcfe";   # bright cyan
-        dim7 = "ffffff";   # bright white
-      };
-    };
-  };
-
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "JetBrainsMono Nerd Font";
-      size = 13;
-    };
-    settings = {
-      background_opacity = 0.95;
-      narrow_symbol = "U+0900-U+097F 2";
-      symbol_map = "U+0900-U+097F Yatra One";
-      enable_audio_bell = false;
-    };
-  };
-
-  home.file."doomEmacs" = {
-    enable = false;
-    source = ./dotfiles/doom;
-    target = ".config/doom";
-    recursive = true;
-  };
-
-  home.file."waybar" = {
-    enable = false;
-    source = ./dotfiles/waybar;
-    target = ".config/waybar";
-    recursive = true;
-  };
-
-  home.file."rofi" = {
-    enable = false;
-    source = ./dotfiles/rofi;
-    target = ".config/rofi";
-    recursive = true;
-  };
-
-  home.file."swappy" = {
-    enable = false;
-    source = ./dotfiles/swappy;
-    target = ".config/swappy";
-    recursive = true;
-  };
-
-  programs.mpv = {
-    enable = false;
-    bindings = {
-      WHEEL_UP = "add volume 5";
-      WHEEL_DOWN = "add volume -5";
-      WHEEL_LEFT = "seek -10";
-      WHEEL_RIGHT = "seek 10";
-      RIGHT = "seek  10";
-      LEFT = "seek -10";
-      "Shift+RIGHT" =  "seek  3";
-      "Shift+LEFT" = "seek -3";
-      "Ctrl+RIGHT" = "seek  60";
-      "Ctrl+LEFT" = "seek -60";
-      UP = "add volume 5";
-      DOWN = "add volume -5";
-      "Ctrl+Shift+LEFT" = "sub-step -1";
-      "Ctrl+Shift+RIGHT" = "sub-step 1";
-      PGUP = "add chapter 1";
-      PGDWN = "add chapter -1";
-      "Shift+PGUP" = "seek 600";
-      "Shift+PGDWN" = "seek -600";
-      SPACE = "cycle pause";
-      "[" = "add speed -0.1";
-      "]" = "add speed 0.1";
-      "{" = "multiply speed 0.5";
-      "}" = "multiply speed 2.0";
-      "q" = "quit";
-      "Q" = "quit-watch-later";
-      "p" = "cycle pause";
-      "." = "frame-step";
-      "," = "frame-back-step";
-      ">" = "playlist-next";
-      "<" = "playlist-prev";
-      "o" = "show-progress";
-      "P" = "show-progress";
-      "m" = "cycle mute";
-      "v" = "cycle sub-visibility";
-      "j" = "cycle sub";
-      "J" = "cycle sub down";
-      "b" = "cycle audio";
-      "f" = "cycle fullscreen";
-      "s" = "screenshot";
-      "S" = "screenshot video";
-    };
-    config = {keep-open = "yes";};
   };
 
   fonts.fontconfig.enable = true;
@@ -327,25 +175,6 @@
         };
       };
     };
-  };
-
-  xdg.configFile."hyprScripts" = {
-    enable = false;
-    source = ./dotfiles/hypr/scripts;
-    target = "hypr/scripts";
-    recursive = true;
-  };
-
-  home.file."hyprlock" = {
-    enable = false;
-    source = ./dotfiles/hypr/hyprlock.conf;
-    target = ".config/hypr/hyprlock.conf";
-  };
-
-  home.file."hyprmonitors" = {
-    enable = false;
-    source = ./dotfiles/hypr/default-monitors.conf;
-    target = ".config/hypr/default-monitors.conf";
   };
 
   # wayland.windowManager.hyprland.enable = true;
@@ -518,46 +347,6 @@
       };
     };
   };
-
-  programs.zathura = {
-    enable = true;
-  #   options = {
-  #     font = "JetBrainsMono Nerd Font 14";
-  #     first-page-column = 1;
-  #     notification-error-bg =   "#1e1e1e"; # bg
-  #     notification-error-fg =   "#f44747"; # bright:red
-  #     notification-warning-bg = "#1e1e1e"; # bg
-  #     notification-warning-fg = "#d7ba7d"; # bright:yellow
-  #     notification-bg =         "#1e1e1e"; # bg
-  #     notification-fg =         "#608b4e"; # bright:green
-  #     completion-bg =           "#0f1011"; # bg2
-  #     completion-fg =           "#e1e1e1"; # fg
-  #     completion-group-bg =     "#3c3836"; # bg1
-  #     completion-group-fg =     "#928374"; # gray
-  #     completion-highlight-bg = "#569cd6"; # bright:blue
-  #     completion-highlight-fg = "#0f1011"; # bg2
-  #     # Define the color in index mode
-  #     index-bg =                    "#0f1011"; # bg2
-  #     index-fg =                    "#e1e1e1"; # fg
-  #     index-active-bg =             "#569cd6"; # bright:blue
-  #     index-active-fg =             "#0f1011"; # bg2
-  #     inputbar-bg =                 "#282828"; # bg
-  #     inputbar-fg =                 "#e1e1e1"; # fg
-  #     statusbar-bg =                "#0f1011"; # bg2
-  #     statusbar-fg =                "#e1e1e1"; # fg
-  #     highlight-color =             "#00ff00"; # bright:yellow
-  #     highlight-active-color =      "#00fa9a"; # bright:orange
-  #     highlight-transparency =      "0.4";
-  #     default-bg =                  "#1e1e1e"; # bg
-  #     default-fg =                  "#e1e1e1"; # fg
-  #     render-loading =              true;
-  #     render-loading-bg =           "#1e1e1e"; # bg
-  #     render-loading-fg =           "#e1e1e1"; # fg
-  #     recolor-lightcolor =          "#1e1e1e"; # bg
-  #     recolor-darkcolor =           "#e1e1e1"; # fg
-  #   };
-  };
-
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. If you don't want to manage your shell through Home

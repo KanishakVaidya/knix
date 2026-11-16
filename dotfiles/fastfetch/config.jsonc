@@ -1,0 +1,25 @@
+{
+  "logo": {
+    "padding": {
+      "right": 1
+    },
+    "source": "$HOME/.config/fastfetch/nix.txt"
+  },
+  "modules": [
+    "break",
+    "title",
+    "separator",
+    "host",
+    "kernel",
+    "uptime",
+    "shell",
+    "display",
+    "terminal",
+    "terminalfont",
+    "cpu",
+    "gpu",
+    "localip",
+    "break",
+    "colors"
+  ]
+}
