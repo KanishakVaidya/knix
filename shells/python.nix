@@ -11,6 +11,7 @@ pkgs.mkShell {
 
     # Python tooling
     uv
+    tree-sitter
     pypkgs.pip
     pypkgs.virtualenv
     pypkgs.ipython
