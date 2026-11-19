@@ -5,9 +5,29 @@
       "src": "https://github.com/saghen/blink.cmp",
       "version": "1.0.0 - 2.0.0"
     },
+    "cyberdream.nvim": {
+      "rev": "eafadf5712e447bb813f8f7eab8012d1391fdba2",
+      "src": "https://github.com/scottmckendry/cyberdream.nvim"
+    },
+    "indentmini.nvim": {
+      "rev": "38572ce5a7a064a5deb89d6d861b7c40fc929ab1",
+      "src": "https://github.com/nvimdev/indentmini.nvim"
+    },
+    "lackluster.nvim": {
+      "rev": "70dd682e564784893b984deb51dd5ddd263c8cc7",
+      "src": "https://github.com/slugbyte/lackluster.nvim"
+    },
     "lightline.vim": {
       "rev": "6c283f8df85aa7219fa4096a6ed4ff45d48aa9e1",
       "src": "https://github.com/itchyny/lightline.vim"
+    },
+    "lspsaga.nvim": {
+      "rev": "cf6fc9473bba1d332eda9887855ea29ed9b37701",
+      "src": "https://github.com/nvimdev/lspsaga.nvim"
+    },
+    "mini.pairs": {
+      "rev": "eea81afc1b4de898de9bb310c2225f9225fd42b9",
+      "src": "https://github.com/nvim-mini/mini.pairs"
     },
     "nvim-lspconfig": {
       "rev": "43ed3797b266e1ee8d222e491379ad471c9d3146",

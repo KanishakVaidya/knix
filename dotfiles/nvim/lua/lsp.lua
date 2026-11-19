@@ -26,7 +26,7 @@ vim.diagnostic.config {
   },
 }
 
--- vim.opt.completeopt = { 'menuone', 'noselect', 'fuzzy', 'popup' }
+-- vim.opt.completeopt = { 'menu', 'menuone', 'noselect', 'fuzzy', 'popup' }
 -- vim.opt.autocomplete = true
 -- vim.opt.complete:append('o,.')
 -- vim.opt.pumheight = 5
@@ -41,8 +41,8 @@ vim.diagnostic.config {
 --     end
 --   end,
 -- })
--- 
--- 
+
+
 vim.keymap.set('i', '<C-j>', function()
   if vim.fn.pumvisible() == 1 then
     return '<C-n>'

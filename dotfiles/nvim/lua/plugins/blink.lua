@@ -8,7 +8,7 @@ require('blink.cmp').setup({
     preset = 'default' ,
     ['<C-k>'] = { 'select_prev', 'fallback' },
     ['<C-j>'] = { 'select_next', 'fallback' },
-    ['<CR>'] = { 'select_and_accept', 'fallback' },
+    -- ['<CR>'] = { 'select_and_accept', 'fallback' },
     ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
     ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
   },
@@ -18,12 +18,16 @@ require('blink.cmp').setup({
   },
 
   completion = {
-    menu = { border = 'single' },
+    menu = { border = 'rounded' },
     documentation = { 
       auto_show = false,
       -- window = { border = 'single' }
     },
     trigger = { show_on_trigger_character = true },
+    list = { selection = {
+      preselect = false,
+      auto_insert = true
+    }}
   },
 
   signature = {

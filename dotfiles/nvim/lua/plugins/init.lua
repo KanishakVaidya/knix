@@ -1,3 +1,5 @@
 require("plugins.telescope")
 require("plugins.blink")
 require("plugins.treesitter")
+require("plugins.lspsaga")
+require("plugins.autopairs")
