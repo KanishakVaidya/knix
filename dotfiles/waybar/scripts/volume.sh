@@ -4,11 +4,12 @@ if [ -z ${BLOCK_BUTTON+x} ]; then
     BLOCK_BUTTON=$1
 fi
 case $BLOCK_BUTTON in
-    1) changeto='mute' ;;
+    1 | "mute") changeto='mute' ;;
     3) changeto='nothing' ; pwvucontrol ;;
     4 | "up") changeto='increase' ;;
     5 | "down") changeto='decrease' ;;
 esac
+
 case $changeto in
     'increase')
         wpctl set-volume @DEFAULT_SINK@ 1%+ ;;
@@ -18,7 +19,7 @@ case $changeto in
 esac
 
 vol=$(wpctl get-volume @DEFAULT_SINK@ | awk '{print $2*100}')
-if [[ $(wpctl get-volume @DEFAULT_SINK@) == "[MUTED]" ]]; then
+if [[ $(wpctl get-volume @DEFAULT_SINK@) =~ "[MUTED]" ]]; then
 	text="  Mute "
 	icon=""
 	notify-send -t 1000 -a 'wp-vol' "Volume" "󰝟 Mute%"
