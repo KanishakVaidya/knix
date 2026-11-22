@@ -4,49 +4,13 @@ local telescope_plugins = {
   "https://github.com/nvim-telescope/telescope.nvim",
   "https://github.com/nvim-telescope/telescope-ui-select.nvim",
   "https://github.com/nvim-telescope/telescope-fzf-native.nvim",
+  "https://github.com/nvim-telescope/telescope-file-browser.nvim"
 }
 
 vim.pack.add(telescope_plugins)
 
 local builtin = require('telescope.builtin')
 local actions = require("telescope.actions")
-
--- Telescope Keymaps
-vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-vim.keymap.set('n', '<leader>bb', builtin.buffers, { desc = '[ ] Find existing buffers' })
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-
-vim.keymap.set('n', '<leader>hh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>hk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
--- vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-vim.keymap.set({ 'n', 'v' }, '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-vim.keymap.set('n', '<leader><leader>', builtin.commands, { desc = '[S]earch [C]ommands' })
-
--- Add Telescope-based LSP pickers when an LSP attaches to a buffer.
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('telescope-lsp-attach', { clear = true }),
-  callback = function(event)
-    local buf = event.buf
-    vim.keymap.set('n', 'grr', builtin.lsp_references, { buffer = buf, desc = '[G]oto [R]eferences' })
-    vim.keymap.set('n', 'gri', builtin.lsp_implementations, { buffer = buf, desc = '[G]oto [I]mplementation' })
-    vim.keymap.set('n', 'grd', builtin.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
-
-    -- Fuzzy find all the symbols (variables, functions, types) in your current document.
-    vim.keymap.set('n', 'gO', builtin.lsp_document_symbols, { buffer = buf, desc = 'Open Document Symbols' })
-    -- Same but for entire project.
-    vim.keymap.set('n', 'gW', builtin.lsp_dynamic_workspace_symbols, { buffer = buf, desc = 'Open Workspace Symbols' })
-
-    -- Jump to the type of the word under your cursor.
-    -- Useful when you're not sure what type a variable is and you want to see
-    -- the definition of its *type*, not where it was *defined*.
-    vim.keymap.set('n', 'grt', builtin.lsp_type_definitions, { buffer = buf, desc = '[G]oto [T]ype Definition' })
-  end,
-})
 
 -- Customization
 require('telescope').setup{
@@ -75,5 +39,100 @@ require('telescope').setup{
     }
   },
   pickers = { },
-  extensions = { }
+  extensions = { 
+    file_browser = {
+      theme = "ivy",
+      -- disables netrw and use telescope-file-browser in its place
+      hijack_netrw = true,
+      mappings = {
+        ["i"] = {
+          -- your custom insert mode mappings
+        },
+        ["n"] = {
+          -- your custom normal mode mappings
+        },
+      },
+    },
+  }
 }
+
+-- Loading extensions
+require("telescope").load_extension "file_browser"
+
+
+-- Telescope Keymaps
+
+-- Top-level Doom shortcuts
+vim.keymap.set('n', '<leader><leader>', builtin.commands, { desc = '[S]earch [C]ommands' })
+vim.keymap.set("n", "<leader>.", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", { desc = "Browse files from here" })
+vim.keymap.set("n", "<leader>,", builtin.buffers, { desc = "Switch buffer" })
+vim.keymap.set("n", "<leader>/", builtin.live_grep, { desc = "Search project (ripgrep)" })
+-- vim.keymap.add("n", "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Undo tree")
+
+-- [f] File
+vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = 'Telescope recent files' })
+vim.keymap.set( 'n', '<leader>fp', function() builtin.find_files({ cwd = vim.fn.expand("~/.config/nvim")}) end, { desc = "Open private config" })
+vim.keymap.set('n', '<leader>fR', ":saveas ", { desc = "Rename/copy file" })
+vim.keymap.set('n', '<leader>fD', function() 
+  os.remove(vim.fn.expand("%")); vim.cmd("bdelete!") 
+end, { desc = "Delete this file" })
+
+
+-- [g] Git (Magit style)
+-- vim.keymap.set('n', "<leader>gg", ":Neogit<cr>", desc = "Neogit status (Magit)" },
+vim.keymap.set('n', "<leader>gb", builtin.git_branches, { desc = "Switch branch" })
+vim.keymap.set('n', "<leader>gc", builtin.git_commits, { desc = "Git log/commits" })
+vim.keymap.set('n', "<leader>gs", builtin.git_status, { desc = "Git status files" })
+-- vim.keymap.set('n', "<leader>gB", "<cmd>Gitsigns blame_line<cr>", { desc = "Blame line" })
+-- vim.keymap.set('n', "<leader>gd", "<cmd>Gitsigns diffthis<cr>", { desc = "Diff buffer" })
+-- vim.keymap.set('n', "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Revert hunk" })
+
+
+-- [s] Search
+vim.keymap.set("n", "<leader>ss", builtin.current_buffer_fuzzy_find, { desc = "Search buffer (Swiper)" })
+vim.keymap.set("n", "<leader>sp", builtin.live_grep, { desc = "Search project" })
+vim.keymap.set("n", "<leader>si", builtin.lsp_document_symbols, { desc = "Jump to symbol" })
+vim.keymap.set("n", "<leader>sm", builtin.marks, { desc = "Jump to mark" })
+vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "Resume last search" })
+
+
+-- [h] Help
+vim.keymap.set("n", "<leader>hf", builtin.help_tags, { desc = "Describe function/help" })
+vim.keymap.set("n", "<leader>hk", builtin.keymaps, { desc = "Describe keybindings" })
+vim.keymap.set("n", "<leader>hm", builtin.man_pages, { desc = "Man pages" })
+vim.keymap.set("n", "<leader>ht", builtin.colorscheme, { desc = "Load theme" })
+
+
+-- [p] Project
+vim.keymap.set("n", "<leader>pf", builtin.git_files, { desc = "Find file in project" })
+-- vim.keymap.set("n", "<leader>pp", builtin.projects, { desc = "Switch project" })
+vim.keymap.set("n", "<leader>ps", builtin.live_grep, { desc = "Search in project" })
+vim.keymap.set("n", "<leader>pb", builtin.buffers, { desc = "Switch project buffer" })
+
+
+-- [c] Code / LSP
+-- Add Telescope-based LSP pickers when an LSP attaches to a buffer.
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('telescope-lsp-attach', { clear = true }),
+  callback = function(event)
+    local buf = event.buf
+
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = buf, desc = "Code action" })
+    vim.keymap.set("n", "<leader>cd", builtin.lsp_definitions, { buffer = buf, desc = "Jump to definition" })
+    vim.keymap.set("n", "<leader>cD", builtin.lsp_references, { buffer = buf, desc = "Jump to references" })
+    vim.keymap.set("n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, { buffer = buf, desc = "Format buffer/region" })
+    vim.keymap.set("n", "<leader>ci", builtin.lsp_implementations, { buffer = buf, desc = "Find implementations" })
+    -- Fuzzy find all the symbols (variables, functions, types) in your current document.
+    vim.keymap.set("n", "<leader>cj", builtin.lsp_document_symbols, { buffer = buf, desc = "Jump to symbol (imenu)" })
+    -- Same but for entire project.
+    vim.keymap.set("n", "<leader>cJ", builtin.lsp_dynamic_workspace_symbols, { buffer = buf, desc = "Jump to workspace symbol" })
+    vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = buf, desc = "Rename symbol" })
+    vim.keymap.set("n", "<leader>cx", builtin.diagnostics, { buffer = buf, desc = "List errors/diagnostics" })
+    -- Jump to the type of the word under your cursor.
+    -- Useful when you're not sure what type a variable is and you want to see
+    -- the definition of its *type*, not where it was *defined*.
+    vim.keymap.set("n", "<leader>ct", builtin.lsp_type_definitions, { buffer = buf, desc = '[G]oto [T]ype Definition' })
+  end,
+})
+

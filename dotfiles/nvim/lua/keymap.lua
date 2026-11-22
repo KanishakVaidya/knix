@@ -1,3 +1,22 @@
+vim.pack.add({
+  "https://github.com/folke/which-key.nvim"
+})
+
+local wk = require("which-key")
+
+-- Keymap groups
+wk.add({
+  { "<leader>f", group = "file" },
+  { "<leader>b", group = "buffer" },
+  { "<leader>w", proxy="<c-w>", group = "window" },
+  { "<leader>s", group = "search" },
+  { "<leader>c", group = "code/LSP" },
+  { "<leader>g", group = "git" },
+  { "<leader>h", group = "help" },
+  { "<leader>o", group = "open" },
+})
+
+
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>') 
 vim.keymap.set("n", "<leader>", "<Nop>", { noremap = true, silent = true })
 
@@ -9,9 +28,34 @@ vim.keymap.set('n', '<C-right>', '<C-W>>', { desc = 'Resize window right' })
 vim.keymap.set('n', '<C-down>', '<C-W>-', { desc = 'Resize window down' })
 vim.keymap.set('n', '<C-up>', '<C-W>+', { desc = 'Resize window up' })
 
+-- [b] Buffers
 vim.keymap.set('n', '<leader>bn', ':bnext<cr>', { desc = 'Move to next buffer' })
 vim.keymap.set('n', '<leader>bp', ':bprev<cr>', { desc = 'Move to previous buffer' })
 vim.keymap.set('n', '<leader>bk', ':bdelete<cr>', { desc = 'Kill this buffer' })
+vim.keymap.set("n", "<leader>`", ":b#<cr>", { desc = "Switch to last buffer" })
+
+
+-- [w] Window
+vim.keymap.set("n",  "<leader>wv", ":vsplit<cr>", { desc = "Split vertical" })
+vim.keymap.set("n",  "<leader>ws", ":split<cr>", { desc = "Split horizontal" })
+vim.keymap.set("n",  "<leader>wc", ":close<cr>", { desc = "Close window" })
+vim.keymap.set("n",  "<leader>wd", ":close<cr>", { desc = "Delete window" })
+vim.keymap.set("n",  "<leader>wo", ":only<cr>", { desc = "Maximize window (delete others)" })
+vim.keymap.set("n",  "<leader>wh", "<C-w>h", { desc = "Focus left window" })
+vim.keymap.set("n",  "<leader>wj", "<C-w>j", { desc = "Focus down window" })
+vim.keymap.set("n",  "<leader>wk", "<C-w>k", { desc = "Focus up window" })
+vim.keymap.set("n",  "<leader>wl", "<C-w>l", { desc = "Focus right window" })
+vim.keymap.set("n",  "<leader>ww", "<C-w>w", { desc = "Cycle windows" })
+vim.keymap.set("n",  "<leader>w=", "<C-w>=", { desc = "Balance windows" })
+
+
+-- [o] Open
+-- vim.keymap.add("n", "<leader>o", group = "open")
+-- vim.keymap.add("n", "<leader>op", "<cmd>Neotree toggle<cr>", desc = "Project sidebar (Treemacs)")
+-- vim.keymap.add("n", "<leader>o-", "<cmd>Oil<cr>", desc = "Open dired (Oil)")
+-- vim.keymap.add("n", "<leader>ot", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Open terminal popup")
+-- vim.keymap.add("n", "<leader>oT", "<cmd>ToggleTerm direction=float<cr>", desc = "Open fullscreen terminal")
+
 
 -- Center cursor when scrolling half-pages
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
