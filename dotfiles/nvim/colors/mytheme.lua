@@ -28,15 +28,16 @@ local colors = {
   blue     = "#569cd6",
   purple   = "#c586c0",
   cyan     = "#9cdcfe",
+  orange   = "#de935f",
 
   dimred      = "#f44747",
   dimgreen    = "#608b4e",
-  dimyellow   = "#d7ba7d",
+  dimyellow   = "#c6a96c",
   dimblue     = "#264f78",
   dimpurple   = "#c586c0",
   dimcyan     = "#9cdcfe",
 
-  comment  = "#608b4e",
+  comment  = "#de935f",
 }
 
 -- Highlight helper
@@ -51,14 +52,14 @@ hi("CursorLine",   { bg = colors.bg1 })
 hi("LineNr",       { fg = colors.fg2 })
 hi("CursorLineNr", { fg = colors.fg1, bold = false })
 hi("Visual",       { bg = colors.dimblue })
-hi("Search",       { fg = colors.bg, bg = colors.yellow })
-hi("Comment",      { fg = colors.comment, italic = true })
+hi("Search",       { fg = colors.bg, bg = colors.dimyellow })
+hi("Comment",      { fg = colors.yellow, bg = colors.bg1, italic = true, bold = true })
 
 -- Syntax
-hi("String",       { fg = colors.yellow })
-hi("Number",       { fg = colors.peach or colors.yellow })
-hi("Boolean",      { fg = colors.yellow })  -- boolean is a number
-hi("Function",     { fg = colors.blue, bold = true })
+hi("String",       { fg = colors.green })
+hi("Number",       { fg = colors.peach or colors.orange })
+hi("Boolean",      { fg = colors.orange })  -- boolean is a number
+hi("Function",     { fg = colors.blue, bold = false })
 hi("Keyword",      { fg = colors.fg1, bold = false })
 hi("Type",         { fg = colors.blue })
 hi("Constant",     { fg = colors.orange or colors.purple })
