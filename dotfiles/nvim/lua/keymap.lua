@@ -50,11 +50,19 @@ vim.keymap.set("n",  "<leader>w=", "<C-w>=", { desc = "Balance windows" })
 
 
 -- [o] Open
--- vim.keymap.add("n", "<leader>o", group = "open")
--- vim.keymap.add("n", "<leader>op", "<cmd>Neotree toggle<cr>", desc = "Project sidebar (Treemacs)")
--- vim.keymap.add("n", "<leader>o-", "<cmd>Oil<cr>", desc = "Open dired (Oil)")
--- vim.keymap.add("n", "<leader>ot", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Open terminal popup")
--- vim.keymap.add("n", "<leader>oT", "<cmd>ToggleTerm direction=float<cr>", desc = "Open fullscreen terminal")
+-- vim.keymap.set("n", "<leader>o", group = "open")
+-- vim.keymap.set("n", "<leader>op", "<cmd>Neotree toggle<cr>", desc = "Project sidebar (Treemacs)")
+-- vim.keymap.set("n", "<leader>o-", "<cmd>Oil<cr>", desc = "Open dired (Oil)")
+-- vim.keymap.set("n", "<leader>ot", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Open terminal popup")
+-- vim.keymap.set("n", "<leader>oT", "<cmd>ToggleTerm direction=float<cr>", desc = "Open fullscreen terminal")
+vim.keymap.set("n", "<leader>od", function()
+  local current = vim.diagnostic.config().virtual_lines
+
+  vim.diagnostic.config({
+    virtual_lines = not current,
+  })
+end, { desc = "Toggle showing diagnostics on virtual lines" }
+)
 
 
 -- Center cursor when scrolling half-pages
